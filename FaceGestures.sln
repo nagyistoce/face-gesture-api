@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientFaceGestures", "ClientFaceGestures\ClientFaceGestures.csproj", "{7E8CD6FB-920A-47B2-9755-9AC1BFC99B3B}"
 	ProjectSection(ProjectDependencies) = postProject
-		{9DC43B7C-945E-41C3-921E-FFADCE82D588} = {9DC43B7C-945E-41C3-921E-FFADCE82D588}
-		{3E8B35A6-A56D-49F3-B501-70826E7819F3} = {3E8B35A6-A56D-49F3-B501-70826E7819F3}
 		{30621EE7-299E-4CC5-B099-9C5CA0372EA9} = {30621EE7-299E-4CC5-B099-9C5CA0372EA9}
 	EndProjectSection
 EndProject

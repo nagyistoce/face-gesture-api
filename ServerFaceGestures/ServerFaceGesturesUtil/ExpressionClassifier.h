@@ -11,6 +11,7 @@
 #define BLINKING_OPTICAL_FLOW		2
 #define ESTIMATE_GAZE_DIRECTION		4
 #define MOUTH_OPEN_CLOSE			8
+#define ESTIMATE_HEAD_POSE	        16
 
 #define LEFT_EYE 0
 #define RIGHT_EYE 1

@@ -51,16 +51,19 @@ namespace ClientFaceGestures
 
 
             if( BlinkingDetectionSkinColorCheckBox.IsChecked == true )
-                PTracking = PTracking | 1;
+                PExpression = PExpression | 1;
 
             if( BlinkingDetectionOpticalFlowCheckBox.IsChecked == true )
-                PTracking = PTracking | 2;
+                PExpression = PExpression | 2;
 
             if( EstimateGazeDirectionCheckBox.IsChecked == true )
-                PTracking = PTracking | 4;
+                PExpression = PExpression | 4;
 
-            if( EstimateMouthStateCheckBox.IsChecked == true )
+            if (EstimateMouthStateCheckBox.IsChecked == true)
                 PTracking = PTracking | 8;
+
+            if (EstimateHeadPoseCheckBox.IsChecked == true)
+                PExpression = PExpression | 16;
 
             Hide();
         }

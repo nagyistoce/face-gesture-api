@@ -16,7 +16,7 @@ Distributor::Distributor()
 Distributor::Distributor(streamServer* server, int &res) : m_server(server)
 {
 	iface = new IFaceTracker( 
-		0 | DETECT_FACE | DETECT_LEFT_EYE | DETECT_RIGHT_EYE | DETECT_NOSE | DETECT_MOUTH | AAM_FIT_FACE | AAM_FIT_MOUTH /*| SAVE_OUTPUT | SAVE_FEATURES*/, 
+		0 | DETECT_FACE | DETECT_LEFT_EYE | DETECT_RIGHT_EYE | DETECT_NOSE | DETECT_MOUTH | AAM_FIT_FACE | AAM_FIT_MOUTH | ESTIMATE_HEAD_POSE /*| SAVE_OUTPUT | SAVE_FEATURES*/, 
 		"01.face.2011.12.11.aam_basic", 
 		"04.mouth.color.2012.01.10.aam_basic",
 		"../../_data/" );

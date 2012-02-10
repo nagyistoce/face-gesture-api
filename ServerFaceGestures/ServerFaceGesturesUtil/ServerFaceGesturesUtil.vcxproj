@@ -85,8 +85,8 @@
     </ClCompile>
     <Link>
       <AdditionalOptions> /STACK:10000000 /machine:X86 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>opencv_highgui231.lib;opencv_core231.lib;opencv_imgproc231.lib;opencv_objdetect231.lib;opencv_video231.lib;..\..\_bin\Release\ServerAAMLibrary.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\opencv\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_calib3d231d.lib;opencv_highgui231d.lib;opencv_core231d.lib;opencv_imgproc231d.lib;opencv_objdetect231d.lib;opencv_video231d.lib;..\..\_bin\Debug\ServerAAMLibrary.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\opencv\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>

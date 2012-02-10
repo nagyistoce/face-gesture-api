@@ -19,14 +19,15 @@ public:
     // http://planning.cs.uiuc.edu/node103.html
     // https://code.ros.org/trac/opencv/browser/trunk/opencv/tests/cv/src/aposit.cpp?rev=3913
     // http://www.morethantechnical.com/2010/03/19/quick-and-easy-head-pose-estimation-with-opencv-w-code/
-    int         Distance            (void) const;
-    CvMatr32f   RotationMatrix      (void) const;
-    float*      Angles              (void);      // a[0]: yaw, a[1]: pitch, a[2]: roll
-    CvVect32f   TranslationVector   (void) const;
-    void        ImagePoints         (vector<CvPoint2D32f> pVal);
+    int             Distance            (void) const;
+    CvMatr32f       RotationMatrix      (void) const;
+    CvPoint3D64f    Angles              (void);      // a[0]: yaw, a[1]: pitch, a[2]: roll
+    CvVect32f       TranslationVector   (void) const;
+    void            ImagePoints         (vector<CvPoint2D32f> pVal);
 
 private:
     void CreateModelPoints  ( void );
+    void EstimateEulerAngles( void );
     void DrawXYPlane        ( IplImage* pFrame, CvRect* pFaceRect );
 	void DrawXZPlane        ( IplImage* pFrame, CvRect* pFaceRect );
     void DisplayLine        ( IplImage* pFrame, CvPoint2D32f pPt1, CvPoint2D32f pPt2, CvScalar pRgb );
@@ -34,7 +35,7 @@ private:
     vector<CvPoint2D32f>    _imagePoints;
     vector<CvPoint3D32f>    _modelPoints;        // Must be populated before calling POSIT
     int                     _distance;
-    float                   _angles[3];
+    CvPoint3D64f            _angles;
 
     CvPOSITObject*          _positObject;
     CvMatr32f               _rotationMatrix;     // POSIT-returned rotation matrix

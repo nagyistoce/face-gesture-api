@@ -22,7 +22,6 @@ HeadPose::HeadPose( void )
         _translationVector[i] = 0.0;
 
     _distance = 0;
-    _angles[0] = _angles[1] = _angles[2] = 0.0;
 }
 
 HeadPose::~HeadPose( void )
@@ -61,6 +60,23 @@ void HeadPose::EstimateHeadPose( void )
 			point2D.y = (float)( FOCAL_LENGTH * point3D.y / point3D.z ); 	
 		}
     }
+
+    EstimateEulerAngles();
+}
+
+void HeadPose::EstimateEulerAngles(void)
+{
+    cv::Mat tmp, tmp1, tmp2, tmp3, tmp4, tmp5;
+    cv::Vec3d eav;
+    double pm[12] = { _rotationMatrix[0], _rotationMatrix[1], _rotationMatrix[2], 0,
+        _rotationMatrix[3], _rotationMatrix[4], _rotationMatrix[5], 0,
+        _rotationMatrix[6], _rotationMatrix[7], _rotationMatrix[8], 0 };
+
+    cv::decomposeProjectionMatrix(cv::Mat(3, 4, CV_64FC1, pm), tmp, tmp1, tmp2, tmp3, tmp4, tmp5, eav);
+
+    _angles.x = eav[0];
+    _angles.y = eav[1];
+    _angles.z = eav[2];
 }
 
 void HeadPose::Dump( void )
@@ -295,9 +311,7 @@ void HeadPose::CreateStat( IplImage *pFrame, CvRect* pFaceRect )
 
 	_distance = cvRound( _translationVector[2] / 200.0 );
 
-    float *a = Angles();
-
-    sprintf( text, "Distance: %d, (%.2lf), (%.2lf), (%.2lf)", _distance, a[0], a[1], a[2] );
+    sprintf( text, "Distance: %d, (%.2lf), (%.2lf), (%.2lf)", _distance, _angles.x, _angles.y, _angles.z );
 	cvPutText( pFrame, text, 
         cvPoint( 10, pFrame->height - 7 ), &myFont, CV_RGB( 0, 0, 0 ) );
 }
@@ -374,7 +388,7 @@ CvMatr32f HeadPose::RotationMatrix(void) const
     return _rotationMatrix; 
 }
 
-float* HeadPose::Angles(void)
+CvPoint3D64f HeadPose::Angles(void)
 {
     //_angles[0] = (float)atan2( _rotationMatrix[2], _rotationMatrix[8] ) * 180.0 / M_PI;
     //_angles[1] = (float)asin( -1.0 * _rotationMatrix[5] ) * 180.0 / M_PI;

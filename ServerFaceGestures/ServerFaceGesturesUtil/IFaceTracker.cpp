@@ -7,11 +7,13 @@ IFaceTracker::IFaceTracker( void )
 IFaceTracker::IFaceTracker( int pOptions, string pFaceAAM, string pMouthAAM, string pResourcePath )
 {
 	_iFaceOpt =		pOptions;
-	_expClassOpt =	0 | BLINKING_SKIN_COLOR | BLINKING_OPTICAL_FLOW | ESTIMATE_GAZE_DIRECTION | MOUTH_OPEN_CLOSE;
+	_expClassOpt =	0 | BLINKING_SKIN_COLOR | BLINKING_OPTICAL_FLOW | ESTIMATE_GAZE_DIRECTION | MOUTH_OPEN_CLOSE | ESTIMATE_HEAD_POSE;
 
 	_ff =			new FacialFeatures( pOptions, pResourcePath );
-    _headPose =     new HeadPose();
 	_expClass =		new ExpressionClassifier( _expClassOpt );
+
+    if(( _expClassOpt & ESTIMATE_HEAD_POSE ))
+        _headPose = new HeadPose();
 
 	_outputImage =	NULL;
 	_frameCounter = 0;
@@ -57,7 +59,8 @@ IFaceTracker::~IFaceTracker( void )
 void IFaceTracker::TrackFeatures( IplImage *pFrame, int pTracking, int pExpression )
 {
 	// Face detection.
-	_ff->DetectFace( pFrame, pTracking );
+    if(( _iFaceOpt & DETECT_FACE ) && ( pTracking & DETECT_FACE ))
+	    _ff->DetectFace( pFrame, pTracking );
 
 	// Detects the 4 distinctive facial feature (eyes, nose, mouth) with Haar-like features.
 	if(_ff->FaceRect())
@@ -75,8 +78,11 @@ void IFaceTracker::TrackFeatures( IplImage *pFrame, int pTracking, int pExpressi
 		_faceAAM->Fit( pFrame, _ff->FaceRect(), AAM_FIT_FACE );
 		_faceAAM->SmoothImagePoints();
 
-        _headPose->ImagePoints(_faceAAM->ImagePoints());
-        _headPose->EstimateHeadPose();
+        if(( _iFaceOpt & ESTIMATE_HEAD_POSE ) && ( pExpression & ESTIMATE_HEAD_POSE ))
+        {
+            _headPose->ImagePoints(_faceAAM->ImagePoints());
+            _headPose->EstimateHeadPose();
+        }
 	}
 
 	// Fits the mouth with AAM
@@ -138,7 +144,9 @@ void IFaceTracker::CreateStat(IplImage *pFrame, int pTracking, int pExpression)
 	if( ( _iFaceOpt & AAM_FIT_FACE ) && ( pTracking & AAM_FIT_FACE ) && _ff->FaceRect() )
     {
 		_faceAAM->CreateStat( _outputImage, 1, false, CV_RGB(0,0,255) );
-        _headPose->CreateStat(_outputImage, _ff->FaceRect());
+
+        if(( _iFaceOpt & ESTIMATE_HEAD_POSE ) && ( pExpression & ESTIMATE_HEAD_POSE ))
+            _headPose->CreateStat(_outputImage, _ff->FaceRect());
     }
 
 	// Mouth AAM stat
