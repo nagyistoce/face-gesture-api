@@ -30,6 +30,7 @@ public:
 	void	BlinkingClassifierOF	( IplImage* pFrame, CvRect* pEyeRect, int pFrameNo, int pType = LEFT_EYE );
 
 	void	GazeDirection			( IplImage *pFrame, CvRect* pLER, CvRect* pRER, CvRect* pNR, CvRect* pMR );
+    void    GazeDirection           ( IplImage *pFrame, vector<CvPoint2D32f> pFaceAamPoints );
 
 	double	MouthAxisRate			( void ) const;
 	double	LeftEyeBlinkRateSC		( void ) const;

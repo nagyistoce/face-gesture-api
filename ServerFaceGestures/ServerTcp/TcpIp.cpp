@@ -8,6 +8,8 @@
 #include "TcpIp.h"
 #include "Distributor.h"
 
+#define TCP_DEBUG_MODE
+
 using namespace std;
 
 char				msg[256];
@@ -364,8 +366,8 @@ int streamServer::run_process()
 			printf("WSAWaitForMultipleEvents() failed %d\n", WSAGetLastError());
 			return 0;
 		}
-		else
-			printf("WSAWaitForMultipleEvents() is OK:%d!\n", Index);
+		//else
+		//	printf("WSAWaitForMultipleEvents() is OK:%d!\n", Index);
 
 		if ((Index - WSA_WAIT_EVENT_0) == 0)	
 		{
@@ -420,15 +422,15 @@ int streamServer::run_process()
                continue;
             }
         }
-        else
-			printf("WSARecv() is OK!\n");		
+//        else
+//			printf("WSARecv() is OK!\n");		
 		
 		//printf("BytesTransferred-len:%d,  0x%x\n",BytesTransferred,SI->Buffer[0]);
 		
 		if (SI->BytesRECV)
 		{
 			//completed        
-			printf("WSARecv()-len:%d\n",SI->BytesRECV);		
+//			printf("WSARecv()-len:%d\n",SI->BytesRECV);		
 			//dump("tcp_rec_header:",(void*)SI->Buffer,SI->BytesRECV);
 			//printf("TCPIP_IMAGE_INFORMATION-len:%d, 0x%x\n",sizeof(TCPIP_IMAGE_INFORMATION),SI->Buffer[0]);
 			if ((SI->BytesRECV == sizeof(TCPIP_IMAGE_INFORMATION)) && (SI->Buffer[0] == (char)0xaa))
@@ -468,8 +470,8 @@ int streamServer::run_process()
 						continue;
 					}
 				}
-				else
-					printf("WSASend()-ACK1 is OK!\n");		
+/*				else
+					printf("WSASend()-ACK1 is OK!\n");	*/	
 
 				continue;
 			}
@@ -495,11 +497,11 @@ int streamServer::run_process()
 								printf("WSASend() failed with error %d\n", WSAGetLastError());
 								continue;						
 							}
-							else
-								printf("WSASend()-%s!\n",result.c_str());
+							//else
+							//	printf("WSASend()-%s!\n",result.c_str());
 						}
-						else
-							printf("WSASend()-%s!\n",result.c_str());
+						//else
+						//	printf("WSASend()-%s!\n",result.c_str());
 
 						m_image_data.len = 0;						
 					}

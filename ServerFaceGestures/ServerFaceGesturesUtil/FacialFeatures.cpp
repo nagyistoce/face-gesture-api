@@ -244,19 +244,21 @@ void FacialFeatures::SaveFeatures( IplImage* pFrame )
 void FacialFeatures::CreateStat( IplImage* pFrame, CvScalar pRGB )
 {	
 	if( _faceRect )
+    {
 		cvRectangle( pFrame, cvPoint( _faceRect->x, _faceRect->y ), cvPoint( _faceRect->x + _faceRect->width, _faceRect->y + _faceRect->height ), pRGB );
 
-	if( _faceRect && _noseRect )
-		cvRectangle( pFrame, cvPoint( _noseRect->x, _noseRect->y ), cvPoint( _noseRect->x + _noseRect->width, _noseRect->y + _noseRect->height ), pRGB );
+	    if( _noseRect )
+		    cvRectangle( pFrame, cvPoint( _noseRect->x, _noseRect->y ), cvPoint( _noseRect->x + _noseRect->width, _noseRect->y + _noseRect->height ), pRGB );
 
-	if( _faceRect && _leftEyeRect )
-		cvRectangle( pFrame, cvPoint( _leftEyeRect->x, _leftEyeRect->y ), cvPoint( _leftEyeRect->x + _leftEyeRect->width, _leftEyeRect->y + _leftEyeRect->height ), pRGB );
+	    if( _leftEyeRect )
+		    cvRectangle( pFrame, cvPoint( _leftEyeRect->x, _leftEyeRect->y ), cvPoint( _leftEyeRect->x + _leftEyeRect->width, _leftEyeRect->y + _leftEyeRect->height ), pRGB );
 
-	if( _faceRect && _rightEyeRect )
-		cvRectangle( pFrame, cvPoint( _rightEyeRect->x, _rightEyeRect->y ), cvPoint( _rightEyeRect->x + _rightEyeRect->width, _rightEyeRect->y + _rightEyeRect->height ), pRGB );
+	    if( _rightEyeRect )
+		    cvRectangle( pFrame, cvPoint( _rightEyeRect->x, _rightEyeRect->y ), cvPoint( _rightEyeRect->x + _rightEyeRect->width, _rightEyeRect->y + _rightEyeRect->height ), pRGB );
 
-	if( _faceRect && _mouthRect )
-		cvRectangle( pFrame, cvPoint( _mouthRect->x, _mouthRect->y ), cvPoint( _mouthRect->x + _mouthRect->width, _mouthRect->y + _mouthRect->height ), pRGB );
+	    if( _mouthRect )
+		    cvRectangle( pFrame, cvPoint( _mouthRect->x, _mouthRect->y ), cvPoint( _mouthRect->x + _mouthRect->width, _mouthRect->y + _mouthRect->height ), pRGB );
+    }
 }
 
 CvRect* FacialFeatures::FaceRect( void ) const 

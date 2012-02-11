@@ -21,7 +21,13 @@ HeadPose::HeadPose( void )
     for( int i = 0; i < 3; i++ )
         _translationVector[i] = 0.0;
 
-    _distance = 0;
+    _distance = 0.0;
+
+    _w1 = 0.5;
+    _w2 = 0.5;
+
+    _prevDistance = -1.0;
+    _smoothedDistance = -1.0;
 }
 
 HeadPose::~HeadPose( void )
@@ -62,6 +68,19 @@ void HeadPose::EstimateHeadPose( void )
     }
 
     EstimateEulerAngles();
+
+    // Estimating the distance
+    _distance = ( _translationVector[2] - 50.0 ) / 150.0;
+
+    if(_distance > 1.0)
+        _distance = 1.0;
+    else if(_distance < 0.0)
+        _distance = 0.0;
+
+    if( fabs(_prevDistance + 1.0) > DBL_EPSILON )
+        _smoothedDistance = _w1 * _prevDistance + _w2 * _distance;
+
+    _prevDistance = _distance;
 }
 
 void HeadPose::EstimateEulerAngles(void)
@@ -294,7 +313,6 @@ void HeadPose::DisplayLine( IplImage *pFrame, CvPoint2D32f pPt1, CvPoint2D32f pP
 
 void HeadPose::CreateStat( IplImage *pFrame, CvRect* pFaceRect )
 {
-    double rate = _translationVector[2] / 200.0;
     char text[1000] = {0};
     CvFont myFont;
 
@@ -307,11 +325,9 @@ void HeadPose::CreateStat( IplImage *pFrame, CvRect* pFaceRect )
         cvPoint( pFrame->width, pFrame->height ), CV_RGB(200,200,200), -1 );
 
     cvRectangle( pFrame, cvPoint( 0, pFrame->height - 30 ), 
-        cvPoint( (int)( rate * pFrame->width ), pFrame->height ), CV_RGB(255,0,0), -1 );
+        cvPoint( (int)( Distance() * pFrame->width ), pFrame->height ), CV_RGB(255,0,0), -1 );
 
-	_distance = cvRound( _translationVector[2] / 200.0 );
-
-    sprintf( text, "Distance: %d, (%.2lf), (%.2lf), (%.2lf)", _distance, _angles.x, _angles.y, _angles.z );
+    sprintf( text, "Distance: %.0lf%%", Distance() * 100.0 );
 	cvPutText( pFrame, text, 
         cvPoint( 10, pFrame->height - 7 ), &myFont, CV_RGB( 0, 0, 0 ) );
 }
@@ -378,9 +394,9 @@ void HeadPose::CreateModelPoints( void )
 	_modelPoints.push_back(cvPoint3D32f( 10.000, 8.500, 6.250 )); // 57
 }
 
-int HeadPose::Distance(void) const 
+double HeadPose::Distance(void) const 
 { 
-    return _distance; 
+    return fabs( _smoothedDistance + 1.0 ) < DBL_EPSILON ? _distance : _smoothedDistance; 
 }
 
 CvMatr32f HeadPose::RotationMatrix(void) const 
@@ -390,12 +406,6 @@ CvMatr32f HeadPose::RotationMatrix(void) const
 
 CvPoint3D64f HeadPose::Angles(void)
 {
-    //_angles[0] = (float)atan2( _rotationMatrix[2], _rotationMatrix[8] ) * 180.0 / M_PI;
-    //_angles[1] = (float)asin( -1.0 * _rotationMatrix[5] ) * 180.0 / M_PI;
-    //_angles[2] = (float)atan2( _rotationMatrix[3], _rotationMatrix[4] ) * 180.0 / M_PI;
-
-    // TODO: decomposeProjectionMatrix
-
     return _angles;
 }
 

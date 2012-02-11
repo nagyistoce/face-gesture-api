@@ -254,6 +254,49 @@ void ExpressionClassifier::GazeDirection( IplImage *pFrame, CvRect* pLER, CvRect
 	_gazePrev = _gaze;
 }
 
+void ExpressionClassifier::GazeDirection( IplImage *pFrame, vector<CvPoint2D32f> pFaceAamPoints )
+{
+    _gaze = cvPoint(0, 0);
+    _featureCenter = cvPoint(0, 0);
+
+    for(int i = 0; i < (int)pFaceAamPoints.size(); i++)
+    {
+        _gaze.x += cvRound( pFaceAamPoints[i].x );
+        _featureCenter.x += cvRound( pFaceAamPoints[i].x );
+        _gaze.y += cvRound( pFaceAamPoints[i].y );
+        _featureCenter.y += cvRound( pFaceAamPoints[i].y );
+    }
+
+    _gaze.x = _gaze.x / pFaceAamPoints.size();
+    _featureCenter.x = _featureCenter.x / pFaceAamPoints.size();
+    _gaze.y = _gaze.y / pFaceAamPoints.size();
+    _featureCenter.y = _featureCenter.y / pFaceAamPoints.size();
+
+    if( _gazeCenter.x == -1 && _gazeCenter.y == -1 )
+        _gazeCenter = _gaze;
+
+    _gaze.x -= _gazeCenter.x;
+    _gaze.y -= _gazeCenter.y;
+
+    _gaze.x *= pFrame->width / _sensitivity.x;
+    _gaze.y *= pFrame->height / _sensitivity.y;
+
+    _gaze.x += _gazeCenter.x;
+    _gaze.y += _gazeCenter.y;
+
+    /* smoothing */
+    if( _gazePrev.x != -1 && _gazePrev.y != -1 )
+    {
+        _gaze.x = cvRound( _w1 * _gazePrev.x + _w2 * _gaze.x );
+        _gaze.y = cvRound( _w1 * _gazePrev.y + _w2 * _gaze.y );
+
+        _hMoving = abs( _gaze.x - _gazePrev.x ) > _sensitivity.x / 4 ? _gaze.x - _gazePrev.x : 0;
+        _vMoving = abs( _gaze.y - _gazePrev.y ) > _sensitivity.y / 4 ? _gaze.y - _gazePrev.y : 0;
+    }
+
+    _gazePrev = _gaze;
+}
+
 double	ExpressionClassifier::MouthAxisRate			( void ) const { return _mouthAxisRate; }
 double	ExpressionClassifier::LeftEyeBlinkRateSC	( void ) const { return _leftEyeBlinkRateSC; }
 double	ExpressionClassifier::RightEyeBlinkRateSC	( void ) const { return _rightEyeBlinkRateSC; }

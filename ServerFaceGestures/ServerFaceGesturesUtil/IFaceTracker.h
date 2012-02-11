@@ -18,8 +18,11 @@ public:
 	void		TrackFeatures	( IplImage *pFrame, int pTracking, int pExpression );
 	void		CreateStat		( IplImage *pFrame, int pTracking, int pExpression );
 	IplImage*	OutputImage		( void ) const;
+    string      Message         ( void ) const;
 
 private:
+    void        CreateMessage   ( int pTracking, int pExpression );
+
 	FacialFeatures*			_ff;
 
     HeadPose*               _headPose;
@@ -35,6 +38,7 @@ private:
 	CvVideoWriter*			_videoWriter;
 
 	CvFont					_font;
+    string                  _message;
 
 	int						_frameCounter;
 };

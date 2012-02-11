@@ -67,5 +67,96 @@ namespace ClientFaceGestures
 
             Hide();
         }
+
+        private void EstimateHeadPoseCheckBoxClick(object sender, RoutedEventArgs e)
+        {
+            if (EstimateHeadPoseCheckBox.IsChecked == true)
+                DetectFaceCheckBox.IsChecked = AamFitFaceCheckBox.IsChecked = true;
+        }
+
+        private void EstimateMouthStateCheckBoxClick(object sender, RoutedEventArgs e)
+        {
+            if (EstimateMouthStateCheckBox.IsChecked == true)
+                DetectFaceCheckBox.IsChecked = AamFitMouthCheckBox.IsChecked = DetectMouthCheckBox.IsChecked = true;
+        }
+
+        private void EstimateGazeDirectionCheckBoxClick(object sender, RoutedEventArgs e)
+        {
+            if (EstimateGazeDirectionCheckBox.IsChecked == true)
+                DetectFaceCheckBox.IsChecked = AamFitFaceCheckBox.IsChecked = true;
+        }
+
+        private void BlinkingDetectionOpticalFlowCheckBoxClick(object sender, RoutedEventArgs e)
+        {
+            if (BlinkingDetectionOpticalFlowCheckBox.IsChecked == true)
+                DetectFaceCheckBox.IsChecked = DetectLeftEyeCheckBox.IsChecked = DetectRightEyeCheckBox.IsChecked = true;
+        }
+
+        private void BlinkingDetectionSkinColorCheckBoxClick(object sender, RoutedEventArgs e)
+        {
+            if (BlinkingDetectionSkinColorCheckBox.IsChecked == true)
+                DetectFaceCheckBox.IsChecked = DetectLeftEyeCheckBox.IsChecked = DetectRightEyeCheckBox.IsChecked = true;
+        }
+
+        private void AamFitMouthCheckBoxClick(object sender, RoutedEventArgs e)
+        {
+            if (AamFitMouthCheckBox.IsChecked == true)
+                DetectFaceCheckBox.IsChecked = DetectMouthCheckBox.IsChecked = true;
+            else
+                EstimateMouthStateCheckBox.IsChecked = false;
+        }
+
+        private void AamFitFaceCheckBoxClick(object sender, RoutedEventArgs e)
+        {
+            if (AamFitFaceCheckBox.IsChecked == true)
+                DetectFaceCheckBox.IsChecked = true;
+            else
+                EstimateHeadPoseCheckBox.IsChecked = EstimateGazeDirectionCheckBox.IsChecked = false;
+        }
+
+        private void DetectNoseCheckBoxClick(object sender, RoutedEventArgs e)
+        {
+            if(DetectNoseCheckBox.IsChecked == true)
+                DetectFaceCheckBox.IsChecked = true;
+        }
+
+        private void DetectMouthCheckBoxClick(object sender, RoutedEventArgs e)
+        {
+            if (DetectMouthCheckBox.IsChecked == true)
+                DetectFaceCheckBox.IsChecked = true;
+            else
+                EstimateMouthStateCheckBox.IsChecked = AamFitMouthCheckBox.IsChecked = false;
+        }
+
+        private void DetectRightEyeCheckBoxClick(object sender, RoutedEventArgs e)
+        {
+            if (DetectRightEyeCheckBox.IsChecked == true)
+                DetectFaceCheckBox.IsChecked = true;
+            else
+                BlinkingDetectionOpticalFlowCheckBox.IsChecked = BlinkingDetectionSkinColorCheckBox.IsChecked = false;
+        }
+
+        private void DetectLeftEyeCheckBoxClick(object sender, RoutedEventArgs e)
+        {
+            if (DetectLeftEyeCheckBox.IsChecked == true)
+                DetectFaceCheckBox.IsChecked = true;
+            else
+                BlinkingDetectionOpticalFlowCheckBox.IsChecked = BlinkingDetectionSkinColorCheckBox.IsChecked = false;
+        }
+
+        private void DetectFaceCheckBoxClick(object sender, RoutedEventArgs e)
+        {
+            if (DetectFaceCheckBox.IsChecked == false)
+                DetectLeftEyeCheckBox.IsChecked =
+                    DetectRightEyeCheckBox.IsChecked =
+                    DetectMouthCheckBox.IsChecked = DetectNoseCheckBox.IsChecked = AamFitFaceCheckBox.IsChecked = AamFitMouthCheckBox.IsChecked = false;
+
+            DetectLeftEyeCheckBoxClick(null, null);
+            DetectRightEyeCheckBoxClick(null, null);
+            DetectMouthCheckBoxClick(null, null);
+            DetectNoseCheckBoxClick(null, null);
+            AamFitFaceCheckBoxClick(null, null);
+            AamFitMouthCheckBoxClick(null, null);
+        }
     }
 }

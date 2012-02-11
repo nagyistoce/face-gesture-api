@@ -71,7 +71,7 @@ string Distributor::executor()
 		cvShowImage("tcp_images",iface->OutputImage());
 		string messg = "barmi uzenet.....!";
 		_itoa(m_server->m_image_data_information.frame_count,cTemp,10);
-		res = "frame(" + string(cTemp) + "): " +  messg;
+		res = "frame(" + string(cTemp) + "): " +  iface->Message();
 	}
 	else
 	{		

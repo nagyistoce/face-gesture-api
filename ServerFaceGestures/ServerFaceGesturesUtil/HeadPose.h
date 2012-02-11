@@ -16,10 +16,7 @@ public:
     void Dump               ( void );
     void CreateStat         ( IplImage* pFrame, CvRect* pFaceRect );
 
-    // http://planning.cs.uiuc.edu/node103.html
-    // https://code.ros.org/trac/opencv/browser/trunk/opencv/tests/cv/src/aposit.cpp?rev=3913
-    // http://www.morethantechnical.com/2010/03/19/quick-and-easy-head-pose-estimation-with-opencv-w-code/
-    int             Distance            (void) const;
+    double          Distance            (void) const;
     CvMatr32f       RotationMatrix      (void) const;
     CvPoint3D64f    Angles              (void);      // a[0]: yaw, a[1]: pitch, a[2]: roll
     CvVect32f       TranslationVector   (void) const;
@@ -34,13 +31,18 @@ private:
 
     vector<CvPoint2D32f>    _imagePoints;
     vector<CvPoint3D32f>    _modelPoints;        // Must be populated before calling POSIT
-    int                     _distance;
+    double                  _distance;
     CvPoint3D64f            _angles;
 
     CvPOSITObject*          _positObject;
     CvMatr32f               _rotationMatrix;     // POSIT-returned rotation matrix
     CvVect32f               _translationVector;  // t[0]: left/right, t[1]: up/down, t[2]: forward/backward
     CvTermCriteria          _criteria;           // Set POSIT termination criteria: 100 max iterations, convergence epsilon 1.0e-4f
+
+    double  _w1;
+    double  _w2;
+    double  _prevDistance;
+    double  _smoothedDistance;
 };
 
 #endif //_HEADPOSE_H_
