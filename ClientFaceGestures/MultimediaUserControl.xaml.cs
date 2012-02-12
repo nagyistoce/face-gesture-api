@@ -46,14 +46,19 @@ namespace ClientFaceGestures
             try
             {
                 if (_mainWindow.Connection.IsOpen())
+                {
                     _mainWindow.Connection.Close();
+                    _mainWindow.ResultUC.AppendServerMsg("Successfully disconnected from the server [tcp://127.0.0.1:6000].");
+                }
 
                 IPAddress ip = IPAddress.Parse("127.0.0.1");
                 _mainWindow.Connection.Open(new IPEndPoint(ip, 6000));
+                _mainWindow.ResultUC.AppendServerMsg("A connection was successfully established with the server [tcp://127.0.0.1:6000]");
             }
             catch (Exception e2)
             {
-                _mainWindow.ResultUC.TextBoxServerMsg.Text = e2.Message + "\n" + _mainWindow.ResultUC.TextBoxServerMsg.Text;
+                _mainWindow.ResultUC.TextBoxServerMsg.Text = "[" + DateTime.Now.Hour + ":" + DateTime.Now.Minute + "] - " + 
+                    e2.Message + "\n" + _mainWindow.ResultUC.TextBoxServerMsg.Text;
             }
 
             VideoLengthSlider.Value = 0;

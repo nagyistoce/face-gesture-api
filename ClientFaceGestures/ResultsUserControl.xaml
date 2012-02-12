@@ -7,8 +7,18 @@
     <GroupBox Header="Results" Name="GroupBoxResults" MinWidth="380" MinHeight="320">
         <ScrollViewer>
             <Grid>
-                <Label Content="Server Messages:" HorizontalAlignment="Left" Margin="6,6,0,0" Name="LabelServerMsg" VerticalAlignment="Top" FontSize="13" />
-                <TextBox Margin="6,30,6,0" Name="TextBoxServerMsg" VerticalAlignment="Top" IsReadOnly="True" FontSize="11" Height="100" />
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="152*" />
+                    <RowDefinition Height="137*" />
+                </Grid.RowDefinitions>
+                <Label Content="Server Messages:" HorizontalAlignment="Left" Margin="6" Name="LabelServerMsg" VerticalAlignment="Top" FontSize="13" Grid.Row="1" />
+                <TextBox Margin="6,31,6,0" Name="TextBoxServerMsg" IsReadOnly="True" FontSize="11" VerticalScrollBarVisibility="Auto" Background="WhiteSmoke" BorderBrush="White" TextWrapping="Wrap" Grid.Row="1" />
+                <DataGrid Margin="6" Name="ResultsDataGrid">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Width="145*" />
+                        <DataGridTextColumn Header="Value" Width="195*" />
+                    </DataGrid.Columns>
+                </DataGrid>
             </Grid>
         </ScrollViewer>
     </GroupBox>

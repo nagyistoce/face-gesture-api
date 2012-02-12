@@ -105,7 +105,7 @@ namespace ClientFaceGestures
                     if (sRecv == "ACK1")
                     {
                         Connection.Send(ms.GetBuffer());
-                        //ResultUC.TextBoxServerMsg.Text = sRecv + "\n" + ResultUC.TextBoxServerMsg.Text;                 
+                        //ResultUC.AppendServerMsg( sRecv );                 
                     }
                     else if (sRecv == "ERR1")
                     {
@@ -128,7 +128,11 @@ namespace ClientFaceGestures
                     {
                         // Az aktuális frame kifeszítése a WPF Image controlra
                         MultimediaUC.CurFrame.Source = curFrame.Bitmap.ToWpfBitmap();
-                        ResultUC.TextBoxServerMsg.Text = sRecv + "\n" + ResultUC.TextBoxServerMsg.Text;
+
+                        if (String.CompareOrdinal(sRecv.Substring(0, 4), "####") != 0)
+                            ResultUC.AppendServerMsg( sRecv );
+                        else
+                            ResultUC.ProcessResults(sRecv);
                     }
                     else
                     {
@@ -151,7 +155,7 @@ namespace ClientFaceGestures
                     ms.Close();
                 }
 
-                ResultUC.TextBoxServerMsg.Text = e.Message + "\n" + ResultUC.TextBoxServerMsg.Text;
+                ResultUC.AppendServerMsg(e.Message);
             }
 
             double playRate = Math.Abs(MediaHandler.FrameCount - 0) > Double.Epsilon ? MediaHandler.FrameNo/MediaHandler.FrameCount : 0;
@@ -210,15 +214,20 @@ namespace ClientFaceGestures
 
             try
             {
-                if( Connection.IsOpen() )
+                if (Connection.IsOpen())
+                {
                     Connection.Close();
+                    ResultUC.AppendServerMsg( "Successfully disconnected from the server [tcp://127.0.0.1:6000]." );
+                }
 
                 IPAddress ip = IPAddress.Parse("127.0.0.1");
                 Connection.Open(new IPEndPoint(ip, 6000));
+
+                ResultUC.AppendServerMsg( "A connection was successfully established with the server [tcp://127.0.0.1:6000]" );
             }
             catch (Exception e)
             {
-                ResultUC.TextBoxServerMsg.Text = e.Message + "\n" + ResultUC.TextBoxServerMsg.Text;
+                ResultUC.AppendServerMsg( e.Message );
             }
             
 
@@ -253,6 +262,7 @@ namespace ClientFaceGestures
             }
 
             Connection.Close();
+            ResultUC.AppendServerMsg( "Successfully disconnected from the server [tcp://127.0.0.1:6000]." );
 
             CamZeroMenuItem.Header = "_Start capture";
             MultimediaUC.VideoLengthSlider.Value = 0;
