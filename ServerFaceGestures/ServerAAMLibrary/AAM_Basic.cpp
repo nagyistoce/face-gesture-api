@@ -224,10 +224,12 @@ int AAM_Basic::Fit(const IplImage* image, AAM_Shape& Shape,
 			e3 = e2;
 		}
 	}
+
 	__cam.CalcShape(__current_s, __current_c, __current_q); 
-	Shape.Mat2Point(__current_s);
+	Shape.Mat2Point(__current_s); // TODO: miért kell kommentezni?!
 	t = curtime - t;
 	if( AAM_DEBUG_MODE ) printf("AAM-Basic Fitting time cost: %.3f\n", t);
+
 	return iter;
 }
 

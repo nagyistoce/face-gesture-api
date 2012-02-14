@@ -126,13 +126,13 @@ namespace ClientFaceGestures
                     string sRecv = Encoding.ASCII.GetString(recv);
                     if (String.CompareOrdinal(sRecv.Substring(0, 4), "ERR2") != 0)
                     {
-                        // Az aktuális frame kifeszítése a WPF Image controlra
-                        MultimediaUC.CurFrame.Source = curFrame.Bitmap.ToWpfBitmap();
-
                         if (String.CompareOrdinal(sRecv.Substring(0, 4), "####") != 0)
                             ResultUC.AppendServerMsg( sRecv );
                         else
-                            ResultUC.ProcessResults(sRecv);
+                            ResultUC.ProcessResults(sRecv, curFrame);
+
+                        // Az aktuális frame kifeszítése a WPF Image controlra
+                        MultimediaUC.CurFrame.Source = curFrame.Bitmap.ToWpfBitmap();
                     }
                     else
                     {
@@ -156,6 +156,7 @@ namespace ClientFaceGestures
                 }
 
                 ResultUC.AppendServerMsg(e.Message);
+                StopCaptureInit();
             }
 
             double playRate = Math.Abs(MediaHandler.FrameCount - 0) > Double.Epsilon ? MediaHandler.FrameNo/MediaHandler.FrameCount : 0;

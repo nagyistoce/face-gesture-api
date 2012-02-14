@@ -264,7 +264,7 @@ void IFaceTracker::CreateMessage(int pTracking, int pExpression)
             // Mouth AAM stat
             if( ( _iFaceOpt & AAM_FIT_MOUTH ) && ( pTracking & AAM_FIT_MOUTH ) )
             {
-                ss << "#MOUTHAAM|";
+                ss << "#MOUTHAAM";
 
                 vector<CvPoint2D32f> p = _mouthAAM->ImagePoints();
 
@@ -273,14 +273,16 @@ void IFaceTracker::CreateMessage(int pTracking, int pExpression)
 
                 // Mouth opening/closing stat
                 if( ( _expClassOpt & MOUTH_OPEN_CLOSE ) && ( pExpression & MOUTH_OPEN_CLOSE ) )
+				{
                     ss << "#MOUTHSTATE|" << _expClass->MouthAxisRate();
+				}
             }
         }
 
         // Face AAM stat
         if( ( _iFaceOpt & AAM_FIT_FACE ) && ( pTracking & AAM_FIT_FACE ) )
         {
-            ss << "#FACEAAM|";
+            ss << "#FACEAAM";
 
             vector<CvPoint2D32f> p = _faceAAM->ImagePoints();
 
@@ -289,7 +291,9 @@ void IFaceTracker::CreateMessage(int pTracking, int pExpression)
 
             // Gaze direction stat
             if(( _expClassOpt & ESTIMATE_GAZE_DIRECTION ) && ( pExpression & ESTIMATE_GAZE_DIRECTION ))
+			{
                 ss << "#GAZE|" << _expClass->Gaze().x << "|" << _expClass->Gaze().y << "|" << _expClass->HMoving() << "|" << _expClass->VMoving();
+			}
 
             // Head Pose
             if(( _iFaceOpt & ESTIMATE_HEAD_POSE ) && ( pExpression & ESTIMATE_HEAD_POSE ))

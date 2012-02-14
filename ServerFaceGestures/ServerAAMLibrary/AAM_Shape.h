@@ -59,7 +59,7 @@ public:
 	bool		   operator==(double value);
 
     void    clear(){ resize(0); }
-    void    resize(int length){ m_vPoint.resize(length); }
+    void    resize(int length){ m_vPoint.resize(length, cvPoint2D32f(0.0, 0.0)); }
     
 	void print()const
 	{

@@ -60,7 +60,7 @@ namespace ClientFaceGestures
                 PExpression = PExpression | 4;
 
             if (EstimateMouthStateCheckBox.IsChecked == true)
-                PTracking = PTracking | 8;
+                PExpression = PExpression | 8;
 
             if (EstimateHeadPoseCheckBox.IsChecked == true)
                 PExpression = PExpression | 16;

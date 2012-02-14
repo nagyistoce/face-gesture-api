@@ -439,12 +439,26 @@ void AAM_Shape::Mat2Point(const CvMat* res)
 {
     int nPoints = res->cols / 2;
 	double *B = (double*)(res->data.ptr+res->step*0);
+
 	if(m_vPoint.size() != nPoints)		resize(nPoints);
+
+	if( B[0] < -10000 || B[0] > 10000 )	return;
+
 	for (int i = 0; i < nPoints ; i++)
     {
         m_vPoint[i].x = B[2*i];
         m_vPoint[i].y = B[2*i+1];
 	}
+
+	printf("\n");
+	int i, size = NPoints();
+		for(i = 0 ; i < size; i++)
+			printf("%3.1f ", m_vPoint[i].x);
+		printf("\n");
+
+		for(i = 0 ; i < size; i++)
+			printf("%3.1f ", m_vPoint[i].y);
+		printf("\n\n");
 }
 
 void AAM_Shape::Point2Mat(CvMat* res)const

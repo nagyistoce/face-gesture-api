@@ -27,6 +27,7 @@ ExpressionClassifier::ExpressionClassifier( int pOptions )
 	}
 
 	_mouthStatusThreshold = 0.4;
+	_mouthAxisRate = 0.0;
 
 	_gaze =			cvPoint(-1,-1);
 	_gazePrev =		cvPoint(-1,-1);
@@ -149,7 +150,7 @@ void ExpressionClassifier::BlinkingClassifierOF( IplImage* pFrame, CvRect* pEyeR
 	if( pFrameNo > 0 )
 	{
 		cvCalcOpticalFlowFarneback(_leOptFlow["prevgray"], _leOptFlow["gray"], _leOptFlow["flow"], 0.5, 3, 3, 5, 7, 1.5, 0);
-		drawOptFlowMap(_leOptFlow["flow"], 2);
+		//drawOptFlowMap(_leOptFlow["flow"], 2);
 	}
   
 	CV_SWAP(_leOptFlow["prevgray"], _leOptFlow["gray"], temp);
