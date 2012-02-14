@@ -124,7 +124,7 @@ namespace ClientFaceGestures
                 if ((recv = Connection.Receive()) != null)
                 {
                     string sRecv = Encoding.ASCII.GetString(recv);
-                    if (String.CompareOrdinal(sRecv.Substring(0, 4), "ERR2") != 0)
+                    if (String.Compare(sRecv.Substring(0, 4), "ERR2") != 0)
                     {
                         if (String.CompareOrdinal(sRecv.Substring(0, 4), "####") != 0)
                             ResultUC.AppendServerMsg( sRecv );

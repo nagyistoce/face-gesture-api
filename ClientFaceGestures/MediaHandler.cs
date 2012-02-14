@@ -35,7 +35,7 @@ namespace ClientFaceGestures
             try
             {
                 _capture = new Capture(pCamIndex) {FlipHorizontal = true};
-                _capture.SetCaptureProperty(CAP_PROP.CV_CAP_PROP_FRAME_WIDTH, 800.0 );
+                _capture.SetCaptureProperty(CAP_PROP.CV_CAP_PROP_FRAME_WIDTH, 800.0);
                 _capture.SetCaptureProperty(CAP_PROP.CV_CAP_PROP_FRAME_HEIGHT, 600.0);
 
                 CamIndex = pCamIndex;

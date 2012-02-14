@@ -5,9 +5,9 @@
 #include "WS2tcpip.h"
 #include "macros.h"
 
-#define MAX_IMAGE_SIZE		( 1024 * 1024 )
-#define TCP_MAX_REC_LEN		65600
-#define DATA_BUFSIZE		TCP_MAX_REC_LEN
+#define MAX_IMAGE_SIZE	(1600*1600)
+#define TCP_MAX_REC_LEN 131200
+#define DATA_BUFSIZE TCP_MAX_REC_LEN
 
 // image header: TODO elso vetel: 32 byte
 typedef struct _TCPIP_IMAGE_INFORMATION
