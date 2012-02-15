@@ -33,7 +33,7 @@ ExpressionClassifier::ExpressionClassifier( int pOptions )
 	_gazePrev =		cvPoint(-1,-1);
 	_gazeCenter =	cvPoint(-1,-1);
 
-	_sensitivity =	cvPoint(200, 100);
+	_sensitivity =	cvPoint(70, 50);
 
 	_w1 = 0.5;
 	_w2 = 0.5;

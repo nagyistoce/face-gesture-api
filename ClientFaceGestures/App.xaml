@@ -1,14 +1,14 @@
 ﻿<Application x:Class="ClientFaceGestures.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:bing="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
-             StartupUri="MainWindow.xaml">
+             StartupUri="UI\MainWindow.xaml">
   <Application.Resources>
     <ResourceDictionary>
       <bing:ApplicationIdCredentialsProvider x:Key="MyCredentials"
                                              ApplicationId="AutmVp3l0Uj-zpsvILJxJFFRg0_5o4sJ7qfbSGexp-cfppOBzFNSHIvdcpV7ZXnI" />
 
       <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Themes\WhistlerBlue.xaml" />
+                <ResourceDictionary Source="UI\Themes\WhistlerBlue.xaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>

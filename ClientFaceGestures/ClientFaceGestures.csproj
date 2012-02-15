@@ -90,33 +90,34 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ProcessOptionsWindow.xaml.cs">
+    <Compile Include="Features.cs" />
+    <Compile Include="UI\ProcessOptionsWindow.xaml.cs">
       <DependentUpon>ProcessOptionsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="TcpConnection.cs" />
-    <Compile Include="MultimediaUserControl.xaml.cs">
+    <Compile Include="UI\MultimediaUserControl.xaml.cs">
       <DependentUpon>MultimediaUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ResultsUserControl.xaml.cs">
+    <Compile Include="UI\ResultsUserControl.xaml.cs">
       <DependentUpon>ResultsUserControl.xaml</DependentUpon>
     </Compile>
-    <Page Include="ProcessOptionsWindow.xaml">
+    <Page Include="UI\ProcessOptionsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ResultsUserControl.xaml">
+    <Page Include="UI\ResultsUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\BureauBlue.xaml">
+    <Page Include="UI\Themes\BureauBlue.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\ExpressionLight.xaml">
+    <Page Include="UI\Themes\ExpressionLight.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="UI\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -125,27 +126,27 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BitmapSourceConvert.cs" />
-    <Compile Include="MapUserControl.xaml.cs">
+    <Compile Include="UI\MapUserControl.xaml.cs">
       <DependentUpon>MapUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="MediaHandler.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="UI\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="MapUserControl.xaml">
+    <Page Include="UI\MapUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MultimediaUserControl.xaml">
+    <Page Include="UI\MultimediaUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\ShinyBlue.xaml">
+    <Page Include="UI\Themes\ShinyBlue.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\WhistlerBlue.xaml">
+    <Page Include="UI\Themes\WhistlerBlue.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -198,8 +199,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\mf.png" />
+    <None Include="Resources\mf.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
