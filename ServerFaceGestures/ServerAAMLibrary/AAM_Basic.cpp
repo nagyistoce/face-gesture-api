@@ -173,13 +173,13 @@ int AAM_Basic::Fit(const IplImage* image, AAM_Shape& Shape,
 	double k_v[6] = {-1,-1.15,-0.7,-0.5,-0.2,-0.0625};
 	Shape.Point2Mat(__current_s);
 	
-//	InitParams(image, __current_s, __current_c);
+	InitParams(image, __current_s, __current_c);
 	__cam.__shape.CalcParams(__current_s, __p, __current_q);
 	cvZero(__current_c);
 	IplImage* Drawimg = 
 		cvCreateImage(cvGetSize(image), image->depth, image->nChannels);	
 	//mkdir("result");
-	char filename[100];
+	//char filename[100];
 	//calculate error
 	e3 = EstResidual(image, __current_c, __current_s, __delta_t);
 	if(e3 == -1) return 0;
@@ -189,17 +189,9 @@ int AAM_Basic::Fit(const IplImage* image, AAM_Shape& Shape,
 	//do a number of iteration until convergence
 	for( iter = 0; iter <max_iter; iter++)
 	{
-		if(showprocess)
-		{
-			cvCopy(image, Drawimg);
-			__cam.CalcShape(__current_s, __update_c, __current_q);
-			Draw(Drawimg, 2);
-			sprintf(filename, "result/Iter-%02d.jpg", iter);
-			cvSaveImage(filename, Drawimg);
-		}
-
 		// predict pose and parameter update
-		cvGEMM(__delta_t, __Rq, 1, NULL, 0, __delta_q, CV_GEMM_B_T);
+		// __delta_t rosszul számolódik. Kiiratás ld. AAM_Sahpe::Mat2Point()
+		//cvGEMM(__delta_t, __Rq, 1, NULL, 0, __delta_q, CV_GEMM_B_T);
 		cvGEMM(__delta_t, __Rc, 1, NULL, 0, __delta_c, CV_GEMM_B_T);
 
 		// if the prediction above didn't improve th fit,
@@ -210,13 +202,19 @@ int AAM_Basic::Fit(const IplImage* image, AAM_Shape& Shape,
 			cvScaleAdd(__delta_c, cvScalar(k_v[k]), __current_c,  __update_c);
 			__cam.Clamp(__update_c);//constrain parameters				
 			e2 = EstResidual(image, __update_c, __current_s, __delta_t);
+
 			if(k==0) e1 = e2;
 			else if(e2 != -1 && e2 < e1)break;
 		}
-		
 		//check for convergence
-		if((iter>max_iter/3&&fabs(e2-e3)<0.01*e3) || e2<0.001 ) break;
-		else if (cvNorm(__delta_c)<0.001 && cvNorm(__delta_q)<0.001) break;
+		if((iter>max_iter/3&&fabs(e2-e3)<0.01*e3) || e2<0.001 ) 
+		{
+			break;
+		}
+		else if (cvNorm(__delta_c)<0.001 && cvNorm(__delta_q)<0.001) 
+		{
+			break;
+		}
 		else
 		{
 			cvCopy(__update_q, __current_q);
@@ -226,7 +224,7 @@ int AAM_Basic::Fit(const IplImage* image, AAM_Shape& Shape,
 	}
 
 	__cam.CalcShape(__current_s, __current_c, __current_q); 
-	Shape.Mat2Point(__current_s); // TODO: mi�rt kell kommentezni?!
+	Shape.Mat2Point(__current_s);
 	t = curtime - t;
 	if( AAM_DEBUG_MODE ) printf("AAM-Basic Fitting time cost: %.3f\n", t);
 

@@ -489,7 +489,7 @@ int streamServer::run_process()
 						// completed				
 						// Algoritmus vegrehajto, ha jo akkor ACK2, rossz Akkor ERR2 kuld!	
 						string result = m_algo->executor();
-							
+
 						if((send(SI->Socket, result.c_str()/*"ACK2"*/, result.length(),0))==SOCKET_ERROR)					
 						{
 							if (WSAGetLastError() != ERROR_IO_PENDING)

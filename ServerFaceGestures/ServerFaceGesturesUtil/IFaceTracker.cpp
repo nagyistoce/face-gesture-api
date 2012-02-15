@@ -72,63 +72,63 @@ void IFaceTracker::TrackFeatures( IplImage *pFrame, int pTracking, int pExpressi
 		// Estimate the gaze's direction (based on features).
 		//if( ( _expClassOpt & ESTIMATE_GAZE_DIRECTION ) && ( pExpression & ESTIMATE_GAZE_DIRECTION ) && _ff->LeftEyeRect() && _ff->RightEyeRect() && _ff->NoseRect() && _ff->MouthRect())
 		//	_expClass->GazeDirection( pFrame, _ff->LeftEyeRect(), _ff->RightEyeRect(), _ff->NoseRect(), _ff->MouthRect() );
-	}
+	
+		// Fits the face with AAM
+		if( ( _iFaceOpt & AAM_FIT_FACE ) && ( pTracking & AAM_FIT_FACE ) && _faceAAM )
+		{
+			_faceAAM->Fit( pFrame, _ff->FaceRect(), AAM_FIT_FACE );
+			_faceAAM->SmoothImagePoints();
 
-	// Fits the face with AAM
-	if( ( _iFaceOpt & AAM_FIT_FACE ) && ( pTracking & AAM_FIT_FACE ) && _faceAAM && _ff->FaceRect() )
-	{
-		_faceAAM->Fit( pFrame, _ff->FaceRect(), AAM_FIT_FACE );
-		_faceAAM->SmoothImagePoints();
+			if(( _iFaceOpt & ESTIMATE_HEAD_POSE ) && ( pExpression & ESTIMATE_HEAD_POSE ))
+			{
+				_headPose->ImagePoints(_faceAAM->ImagePoints());
+				_headPose->EstimateHeadPose();
+			}
 
-        if(( _iFaceOpt & ESTIMATE_HEAD_POSE ) && ( pExpression & ESTIMATE_HEAD_POSE ))
-        {
-            _headPose->ImagePoints(_faceAAM->ImagePoints());
-            _headPose->EstimateHeadPose();
-        }
+			if( ( _expClassOpt & ESTIMATE_GAZE_DIRECTION ) && ( pExpression & ESTIMATE_GAZE_DIRECTION ))
+			    _expClass->GazeDirection( pFrame, _faceAAM->ImagePoints() );
+		}
 
-        if( ( _expClassOpt & ESTIMATE_GAZE_DIRECTION ) && ( pExpression & ESTIMATE_GAZE_DIRECTION ))
-            _expClass->GazeDirection( pFrame, _faceAAM->ImagePoints() );
-	}
+		// Fits the mouth with AAM
+		if( ( _iFaceOpt & AAM_FIT_MOUTH ) && ( pTracking & AAM_FIT_MOUTH ) && _mouthAAM && _ff->MouthRect() )
+		{
+			_mouthAAM->Fit( pFrame, _ff->MouthRect(), AAM_FIT_MOUTH );
+			_mouthAAM->SmoothImagePoints();
 
-	// Fits the mouth with AAM
-	if( ( _iFaceOpt & AAM_FIT_MOUTH ) && ( pTracking & AAM_FIT_MOUTH ) && _mouthAAM && _ff->MouthRect() )
-	{
-		_mouthAAM->Fit( pFrame, _ff->MouthRect(), AAM_FIT_MOUTH );
-		_mouthAAM->SmoothImagePoints();
+			// Classify the mouth (whether it is open or closed)
+			if( ( _expClassOpt & MOUTH_OPEN_CLOSE ) && ( pExpression & MOUTH_OPEN_CLOSE ) )
+				_expClass->MouthClassifierAAM( _mouthAAM->ImagePoints() );
+		}
 
-		// Classify the mouth (whether it is open or closed)
-		if( ( _expClassOpt & MOUTH_OPEN_CLOSE ) && ( pExpression & MOUTH_OPEN_CLOSE ) )
-			_expClass->MouthClassifierAAM( _mouthAAM->ImagePoints() );
-	}
+		// Blink detection on the left eye
+		if( _ff->LeftEyeRect() )
+		{
+			// Based on skin color
+			if( ( _expClassOpt & BLINKING_SKIN_COLOR ) && ( pExpression & BLINKING_SKIN_COLOR ) )
+				_expClass->BlinkingClassifierSC( pFrame, _ff->LeftEyeRect(), _frameCounter, LEFT_EYE );
 
-	// Blink detection on the left eye
-	if( _ff->LeftEyeRect() )
-	{
-		// Based on skin color
-		if( ( _expClassOpt & BLINKING_SKIN_COLOR ) && ( pExpression & BLINKING_SKIN_COLOR ) )
-			_expClass->BlinkingClassifierSC( pFrame, _ff->LeftEyeRect(), _frameCounter, LEFT_EYE );
+			// Based on optical flow
+			if( ( _expClassOpt & BLINKING_OPTICAL_FLOW ) && ( pExpression & BLINKING_OPTICAL_FLOW ) )
+				_expClass->BlinkingClassifierOF( pFrame, _ff->LeftEyeRect(), _frameCounter, LEFT_EYE );
+		}
 
-		// Based on optical flow
-		if( ( _expClassOpt & BLINKING_OPTICAL_FLOW ) && ( pExpression & BLINKING_OPTICAL_FLOW ) )
-			_expClass->BlinkingClassifierOF( pFrame, _ff->LeftEyeRect(), _frameCounter, LEFT_EYE );
-	}
+		// Blink detection on the right eye
+		if( _ff->RightEyeRect() )
+		{
+			// Based on skin color
+			if( ( _expClassOpt & BLINKING_SKIN_COLOR ) && ( pExpression & BLINKING_SKIN_COLOR ) )
+				_expClass->BlinkingClassifierSC( pFrame, _ff->RightEyeRect(), _frameCounter, RIGHT_EYE );
+		}
 
-	// Blink detection on the right eye
-	if( _ff->RightEyeRect() )
-	{
-		// Based on skin color
-		if( ( _expClassOpt & BLINKING_SKIN_COLOR ) && ( pExpression & BLINKING_SKIN_COLOR ) )
-			_expClass->BlinkingClassifierSC( pFrame, _ff->RightEyeRect(), _frameCounter, RIGHT_EYE );
-	}
-
-	// Saving facial features
-	if(_iFaceOpt & SAVE_FEATURES)
-	{
-		_ff->SaveFeatures( pFrame );
+		// Saving facial features
+		if(_iFaceOpt & SAVE_FEATURES)
+		{
+			_ff->SaveFeatures( pFrame );
+		}
 	}
 
     CreateMessage(pTracking, pExpression);
-	CreateStat( pFrame, pTracking, pExpression );
+	//CreateStat( pFrame, pTracking, pExpression );
 
 	// Stream the output
 	if( _iFaceOpt & SAVE_OUTPUT )

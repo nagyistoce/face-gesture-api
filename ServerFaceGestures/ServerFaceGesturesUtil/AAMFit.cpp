@@ -149,7 +149,7 @@ void AAMFit::Fit( IplImage* pFrame, CvRect *pR, int pType )
 
 	AAM_Shape currentShape = InitShape( _model->GetMeanShape(), pR, pType );
 
-	_model->Fit(pFrame, currentShape, 30, false); // TODO: Valahol szivárog egy kis memória - nem mindig
+	int iter = _model->Fit(pFrame, currentShape, 20, false); // TODO: Valahol szivárog egy kis memória - nem mindig
 	_imagePoints = currentShape.getPoints();
 }
 
