@@ -128,7 +128,7 @@ void IFaceTracker::TrackFeatures( IplImage *pFrame, int pTracking, int pExpressi
 	}
 
     CreateMessage(pTracking, pExpression);
-	//CreateStat( pFrame, pTracking, pExpression );
+	CreateStat( pFrame, pTracking, pExpression );
 
 	// Stream the output
 	if( _iFaceOpt & SAVE_OUTPUT )

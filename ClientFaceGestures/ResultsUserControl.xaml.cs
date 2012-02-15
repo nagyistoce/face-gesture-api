@@ -51,7 +51,7 @@ namespace ClientFaceGestures
                         Value = fp[1] + ", " + fp[2] + ", " + fp[3] + ", " + fp[4]
                     });
 
-                    DrawRectangle(fp, curFrame);
+                    DrawRectangle(fp, curFrame, Color.Red);
                 }
                 else if (String.CompareOrdinal(fp[0], "NOSERECT") == 0)
                 {
@@ -61,7 +61,7 @@ namespace ClientFaceGestures
                         Value = fp[1] + ", " + fp[2] + ", " + fp[3] + ", " + fp[4]
                     });
 
-                    DrawRectangle(fp, curFrame);
+                    DrawRectangle(fp, curFrame, Color.Red);
                 }
                 else if (String.CompareOrdinal(fp[0], "LEFTEYERECT") == 0)
                 {
@@ -71,7 +71,7 @@ namespace ClientFaceGestures
                         Value = fp[1] + ", " + fp[2] + ", " + fp[3] + ", " + fp[4]
                     });
 
-                    DrawRectangle(fp, curFrame);
+                    DrawRectangle(fp, curFrame, Color.Red);
                 }
                 else if (String.CompareOrdinal(fp[0], "RIGHTEYERECT") == 0)
                 {
@@ -81,7 +81,7 @@ namespace ClientFaceGestures
                         Value = fp[1] + ", " + fp[2] + ", " + fp[3] + ", " + fp[4]
                     });
 
-                    DrawRectangle(fp, curFrame);
+                    DrawRectangle(fp, curFrame, Color.Red);
                 }
                 else if (String.CompareOrdinal(fp[0], "MOUTHRECT") == 0)
                 {
@@ -91,7 +91,7 @@ namespace ClientFaceGestures
                         Value = fp[1] + ", " + fp[2] + ", " + fp[3] + ", " + fp[4]
                     });
 
-                    DrawRectangle(fp, curFrame);
+                    DrawRectangle(fp, curFrame, Color.Red);
                 }
                 else if(String.CompareOrdinal(fp[0], "FACEAAM") == 0)
                 {
@@ -101,7 +101,7 @@ namespace ClientFaceGestures
                         Value = ( ( fp.Length - 1 ) / 2 ).ToString(CultureInfo.InvariantCulture) + " points"
                     });
 
-                    DrawCircle(fp, curFrame);
+                    DrawCircles(fp, curFrame, Color.Blue);
                 }
                 else if (String.CompareOrdinal(fp[0], "MOUTHAAM") == 0)
                 {
@@ -111,7 +111,7 @@ namespace ClientFaceGestures
                         Value = ((fp.Length - 1) / 2).ToString(CultureInfo.InvariantCulture) + " points"
                     });
 
-                    DrawCircle(fp, curFrame);
+                    DrawCircles(fp, curFrame, Color.Blue);
                 }
                 else if (String.CompareOrdinal(fp[0], "MOUTHSTATE") == 0)
                 {
@@ -130,6 +130,8 @@ namespace ClientFaceGestures
                         Name = "Gaze (x, y, dx, dy)",
                         Value = fp[1] + ", " + fp[2] + ", " + fp[3] + ", " + fp[4]
                     });
+
+                    DrawCircle(fp[1], fp[2], curFrame, Color.Green);
                 }
                 else if (String.CompareOrdinal(fp[0], "HEADPOSE") == 0)
                 {
@@ -144,22 +146,30 @@ namespace ClientFaceGestures
             ResultsDataGrid.ItemsSource = elements;
         }
 
-        private void DrawRectangle(string[] p, Image<Bgr, byte> curFrame)
+        private void DrawRectangle(string[] p, Image<Bgr, byte> curFrame, Color rgb)
         {
             Rectangle r = new Rectangle(Convert.ToInt32(p[1]), Convert.ToInt32(p[2]), Convert.ToInt32(p[3]), Convert.ToInt32(p[4]));
 
-            curFrame.Draw(r, new Bgr(Color.Red), 2);
+            curFrame.Draw(r, new Bgr(rgb), 2);
         }
 
-        private void DrawCircle(string[] p, Image<Bgr, byte> curFrame)
+        private void DrawCircles(string[] p, Image<Bgr, byte> curFrame, Color rgb)
         {
             for (int i = 1; i < p.Length - 1; i+=2)
             {
                 PointF center = new PointF(Convert.ToSingle(p[i], new CultureInfo("en-GB")), Convert.ToSingle(p[i + 1], new CultureInfo("en-GB")));
-                CircleF r = new CircleF(center, 2);
+                CircleF c = new CircleF(center, 2);
 
-                curFrame.Draw(r, new Bgr(Color.Red), 2);
+                curFrame.Draw(c, new Bgr(rgb), 2);
             }
+        }
+
+        private void DrawCircle(string x, string y, Image<Bgr, byte> curFrame, Color rgb)
+        {
+            PointF center = new PointF(Convert.ToSingle(x, new CultureInfo("en-GB")), Convert.ToSingle(y, new CultureInfo("en-GB")));
+            CircleF c = new CircleF(center, 2);
+
+            curFrame.Draw(c, new Bgr(rgb), 2);
         }
     }
 

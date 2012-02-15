@@ -27,8 +27,8 @@
         <GroupBox Grid.Column="1" Header="Expression Recognition Settings" Margin="12" Name="ExpressionGroupBox">
             <Grid>
                 <Label Content="Expression Recognition" FontWeight="Bold" Height="28" HorizontalAlignment="Left" Margin="12" Name="ExpRecLabel" VerticalAlignment="Top" />
-                <CheckBox Content="Blinking Detection (Skin Color)" HorizontalAlignment="Left" Margin="12,36,0,0" Name="BlinkingDetectionSkinColorCheckBox" VerticalAlignment="Top" Click="BlinkingDetectionSkinColorCheckBoxClick" />
-                <CheckBox Content="Blinking Detection (Optical Flow)" HorizontalAlignment="Left" Margin="12,59,0,0" Name="BlinkingDetectionOpticalFlowCheckBox" VerticalAlignment="Top" Click="BlinkingDetectionOpticalFlowCheckBoxClick" />
+                <CheckBox Content="Blinking Detection (Skin Color)" HorizontalAlignment="Left" Margin="12,36,0,0" Name="BlinkingDetectionSkinColorCheckBox" VerticalAlignment="Top" Click="BlinkingDetectionSkinColorCheckBoxClick" IsEnabled="False" />
+                <CheckBox Content="Blinking Detection (Optical Flow)" HorizontalAlignment="Left" Margin="12,59,0,0" Name="BlinkingDetectionOpticalFlowCheckBox" VerticalAlignment="Top" Click="BlinkingDetectionOpticalFlowCheckBoxClick" IsEnabled="False" />
                 <CheckBox Content="Estimate Gaze Direction" HorizontalAlignment="Left" Margin="12,82,0,0" Name="EstimateGazeDirectionCheckBox" VerticalAlignment="Top" Click="EstimateGazeDirectionCheckBoxClick" />
                 <CheckBox Content="Estimate Mouth State" HorizontalAlignment="Left" Margin="12,105,0,0" Name="EstimateMouthStateCheckBox" VerticalAlignment="Top" Click="EstimateMouthStateCheckBoxClick" />
                 <CheckBox Content="Estimate Head Pose" HorizontalAlignment="Left" Margin="12,127,0,0" Name="EstimateHeadPoseCheckBox" VerticalAlignment="Top" Click="EstimateHeadPoseCheckBoxClick" />
