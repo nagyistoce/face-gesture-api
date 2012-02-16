@@ -16,10 +16,10 @@
         <ColumnDefinition Width="43" />
       </Grid.ColumnDefinitions>
       <bing:Map Name="MyMap" CredentialsProvider="{StaticResource MyCredentials}" Background="#FFEBEBEB" Margin="6"
-                ViewChangeOnFrame="MapViewChangeOnFrame" Loaded="MapLoaded" AnimationLevel="Full" ZoomLevel="4">
-        <bing:Map.Center>
-          <bing:Location Latitude="47" Longitude="19.5" />
-        </bing:Map.Center>
+                ViewChangeOnFrame="MapViewChangeOnFrame" Loaded="MapLoaded" AnimationLevel="Full" ZoomLevel="4" Center="47,19.5">
+        <!--<bing:Map.Center>
+          <bing:Location Latitude="47" Longitude="19.5" x:Name="MapLocation" />
+        </bing:Map.Center>-->
       </bing:Map>
       <Button Content="+" Grid.Column="1" Height="20" HorizontalAlignment="Center" Margin="0,6" Name="ButtonZoomPlus" Width="20" VerticalAlignment="Top" Padding="0" Click="ButtonZoomPlusClick" />
       <Slider Name="SliderZoom" Orientation="Vertical" SmallChange="1" Maximum="20" Minimum="1"

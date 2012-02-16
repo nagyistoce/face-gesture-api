@@ -128,7 +128,7 @@ void IFaceTracker::TrackFeatures( IplImage *pFrame, int pTracking, int pExpressi
 	}
 
     CreateMessage(pTracking, pExpression);
-	CreateStat( pFrame, pTracking, pExpression );
+	//CreateStat( pFrame, pTracking, pExpression );
 
 	// Stream the output
 	if( _iFaceOpt & SAVE_OUTPUT )
@@ -299,8 +299,20 @@ void IFaceTracker::CreateMessage(int pTracking, int pExpression)
             if(( _iFaceOpt & ESTIMATE_HEAD_POSE ) && ( pExpression & ESTIMATE_HEAD_POSE ))
             {
                 CvPoint3D64f a = _headPose->Angles();
+				CvMatr32f r = _headPose->RotationMatrix();
                 CvVect32f t = _headPose->TranslationVector();
-                ss << "#HEADPOSE|" << a.x << "|" << a.y << "|" << a.z << "|" << t[0] << "|" << t[1] << "|" << t[2];
+
+				ss << "#HEADPOSE|" << a.x << "|" << a.y << "|" << a.z;
+
+				for(int i = 0; i < 9; i++)
+                    ss << "|" << r[i];
+
+				for(int i = 0; i < 3; i++)
+                    ss << "|" << t[i];
+
+				ss << "|" << _headPose->Distance();
+
+                //ss << "#HEADPOSE|" << a.x << "|" << a.y << "|" << a.z << "|" << t[0] << "|" << t[1] << "|" << t[2];
             }
         }
     }

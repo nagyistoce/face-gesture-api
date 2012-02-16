@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Windows;
 using Emgu.CV;
 using Emgu.CV.Structure;
+using Microsoft.Maps.MapControl.WPF;
 using Point = System.Drawing.Point;
 
 namespace ClientFaceGestures.UI
@@ -136,7 +137,6 @@ namespace ClientFaceGestures.UI
                         Value = val[1] + ", " + val[2] + ", " + val[3] + ", " + val[4]
                     });
 
-                    //Features.GazeCenter = ProcessCircle(val[1], val[2], curFrame, Color.Green);
                     ProcessGaze(val, curFrame, Color.LawnGreen);
                 }
                 else if (String.CompareOrdinal(val[0], "HEADPOSE") == 0)
@@ -144,8 +144,10 @@ namespace ClientFaceGestures.UI
                     elements.Add(new ResultElement
                     {
                         Name = "Head Pose (rx, ry, rz, tx, ty, tz)",
-                        Value = val[1] + ", " + val[2] + ", " + val[3] + ", " + val[4] + ", " + val[5] + ", " + val[6]
+                        Value = val[1] + ", " + val[2] + ", " + val[3] + ", " + val[13] + ", " + val[14] + ", " + val[15]
                     });
+
+                    ProcessHeadPose(val, curFrame);
                 }
             }
 
@@ -230,6 +232,93 @@ namespace ClientFaceGestures.UI
                 curFrame.Draw("VERTICAL:    DOWN", ref f, new Point(10, 40), new Bgr(255, 255, 255));
             else
                 curFrame.Draw("VERTICAL:    FORWARD", ref f, new Point(10, 40), new Bgr(255, 255, 255));
+
+            Features.SetRectangles(curFrame.Width, curFrame.Height);
+
+            int direction = 0;
+            for (int i = 0; i < Features.Directions.Length; i++)
+            {
+                curFrame.Draw(Features.Directions[i], new Bgr(rgb), 2);
+
+                if (Features.IsElementRect(Features.Directions[i], Features.GazeCenter.Center))
+                    direction = i;
+                else
+                    curFrame.Draw(Features.Directions[i], new Bgr(Color.CadetBlue), 2);
+            }
+
+            curFrame.Draw(Features.Directions[direction], new Bgr(rgb), 2);
+            const double xFactor = 0.1, yFactor = 0.1;
+            double latitude = MainWindow.MapUC.MyMap.Center.Latitude, longitude = MainWindow.MapUC.MyMap.Center.Longitude;
+
+            switch (direction)
+            {
+                case 0:
+                    MainWindow.MapUC.MyMap.Center = new Location(latitude + xFactor, longitude - yFactor);
+                    break;
+                case 1:
+                    MainWindow.MapUC.MyMap.Center = new Location(latitude + xFactor, longitude);
+                    break;
+                case 2:
+                    MainWindow.MapUC.MyMap.Center = new Location(latitude + xFactor, longitude + yFactor);
+                    break;
+                case 3:
+                    MainWindow.MapUC.MyMap.Center = new Location(latitude, longitude - yFactor);
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    MainWindow.MapUC.MyMap.Center = new Location(latitude, longitude + yFactor);
+                    break;
+                case 6:
+                    MainWindow.MapUC.MyMap.Center = new Location(latitude - xFactor, longitude - yFactor);
+                    break;
+                case 7:
+                    MainWindow.MapUC.MyMap.Center = new Location(latitude - xFactor, longitude);
+                    MainWindow.MapUC.Map.Center.Latitude -= xFactor;
+                    break;
+                case 8:
+                    MainWindow.MapUC.MyMap.Center = new Location(latitude - xFactor, longitude + yFactor);
+                    break;
+            }
+        }
+
+        private void ProcessHeadPose(string[] p, Image<Bgr, byte> curFrame)
+        {
+            Features.RotationMatrix = new float[9];
+            Features.TranslationVector = new float[3];
+
+
+            for (int i = 4; i < 12; i++)
+                Features.RotationMatrix[i-4] = Convert.ToSingle(p[i], new CultureInfo("en-GB"));
+
+            for (int i = 13; i < 16; i++)
+                Features.TranslationVector[i - 13] = Convert.ToSingle(p[i], new CultureInfo("en-GB"));
+
+            Features.SetModelPoints();
+
+            foreach (PointF mp in Features.ModelPoints)
+            {
+                curFrame.Draw(new CircleF(mp, 3), new Bgr(Color.DarkOrange), -1);
+            }
+
+            curFrame.Draw(new LineSegment2DF(Features.ModelPoints[0], Features.ModelPoints[1]), new Bgr(Color.DarkOrange), 2);
+            curFrame.Draw(new LineSegment2DF(Features.ModelPoints[0], Features.ModelPoints[2]), new Bgr(Color.DarkOrange), 2);
+            curFrame.Draw(new LineSegment2DF(Features.ModelPoints[0], Features.ModelPoints[3]), new Bgr(Color.DarkOrange), 2);
+
+            Features.Distance = Convert.ToSingle(p[16], new CultureInfo("en-GB"));
+
+            Rectangle r1 = new Rectangle(0, curFrame.Height - 30, curFrame.Width, curFrame.Height);
+            Rectangle r2 = new Rectangle(0, curFrame.Height - 30, Convert.ToInt32(Features.Distance * curFrame.Width), curFrame.Height);
+
+            curFrame.Draw(r1, new Bgr(Color.LightGray), -1);
+            curFrame.Draw(r2, new Bgr(Color.Red), -1);
+
+            MCvFont f = Font;
+            curFrame.Draw("Distance: " + Convert.ToInt32( Features.Distance * 100.0 ) + "%", ref f, new Point(10, curFrame.Height - 7), new Bgr(0, 0, 0));
+
+            //sprintf(text, "Distance: %.0lf%%", Distance() * 100.0);
+            //cvPutText(pFrame, text,
+            //    cvPoint(10, pFrame->height - 7), &myFont, CV_RGB(0, 0, 0));
         }
     }
 

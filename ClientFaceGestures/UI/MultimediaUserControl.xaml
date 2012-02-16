@@ -7,12 +7,17 @@
              Loaded="MultimediaUserControlLoaded">
         <GroupBox Header="Video stream" Name="GroupBoxVideoStream" MinWidth="380" MinHeight="320">
             <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60" />
+                <ColumnDefinition Width="308*" />
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="250*" />
                 <RowDefinition Height="40" />
             </Grid.RowDefinitions>
-            <Image Name="CurFrame" Margin="6" Initialized="CurFrameInitialized" Stretch="Fill" AllowDrop="True" Drop="CurFrameDrop" />
-            <Slider Margin="6" Name="VideoLengthSlider" TickPlacement="Both" Grid.Row="1" IsEnabled="False" />
-            </Grid>
+            <Image Name="CurFrame" Margin="6" Initialized="CurFrameInitialized" Stretch="Fill" AllowDrop="True" Drop="CurFrameDrop" Grid.ColumnSpan="2" />
+            <Slider Margin="6" Name="VideoLengthSlider" TickPlacement="Both" Grid.Row="1" IsEnabled="False" Grid.Column="1" />
+            <Button Content="Start" Margin="6" Name="StartCaptureButton" Grid.Row="1" Click="StartCaptureButtonClick" />
+        </Grid>
         </GroupBox>
 </UserControl>

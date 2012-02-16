@@ -90,6 +90,8 @@ namespace ClientFaceGestures.UI
                 MyMap.ViewChangeEnd -= MapViewChangeOnFrame;
                 MyMap.ZoomLevel += 1.0;
                 MyMap.ViewChangeEnd += MapViewChangeOnFrame;
+
+                
             }
         }
 

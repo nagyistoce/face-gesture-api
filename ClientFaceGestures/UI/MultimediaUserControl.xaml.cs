@@ -11,12 +11,12 @@ namespace ClientFaceGestures.UI
     /// </summary>
     public partial class MultimediaUserControl
     {
-        private MainWindow _mainWindow;
-
         public MultimediaUserControl()
         {
             InitializeComponent();
         }
+
+        public MainWindow MainWindow { get; set; }
 
         private void CurFrameInitialized(object sender, EventArgs e)
         {
@@ -28,42 +28,50 @@ namespace ClientFaceGestures.UI
 
         private void MultimediaUserControlLoaded(object sender, RoutedEventArgs e)
         {
-            _mainWindow = Window.GetWindow(this) as MainWindow;
+            MainWindow = Window.GetWindow(this) as MainWindow;
         }
 
         private void CurFrameDrop(object sender, DragEventArgs e)
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
-            _mainWindow.Title = Properties.Resources.MainWindowTitle + " - " + files[0];
+            MainWindow.Title = Properties.Resources.MainWindowTitle + " - " + files[0];
 
-            if (_mainWindow.MediaHandler != null)
+            if (MainWindow.MediaHandler != null)
             {
-                _mainWindow.MediaHandler.Dispose();
-                _mainWindow.CamZeroMenuItem.Header = "_Start capture";
+                MainWindow.MediaHandler.Dispose();
+                MainWindow.CamZeroMenuItem.Header = "_Start capture";
             }
 
             try
             {
-                if (_mainWindow.Connection.IsOpen())
+                if (MainWindow.Connection.IsOpen())
                 {
-                    _mainWindow.Connection.Close();
-                    _mainWindow.ResultUC.AppendServerMsg("Successfully disconnected from the server [tcp://127.0.0.1:6000].");
+                    MainWindow.Connection.Close();
+                    MainWindow.ResultUC.AppendServerMsg("Successfully disconnected from the server [tcp://127.0.0.1:6000].");
                 }
 
                 IPAddress ip = IPAddress.Parse("127.0.0.1");
-                _mainWindow.Connection.Open(new IPEndPoint(ip, 6000));
-                _mainWindow.ResultUC.AppendServerMsg("A connection was successfully established with the server [tcp://127.0.0.1:6000]");
+                MainWindow.Connection.Open(new IPEndPoint(ip, 6000));
+                MainWindow.ResultUC.AppendServerMsg("A connection was successfully established with the server [tcp://127.0.0.1:6000]");
             }
             catch (Exception e2)
             {
-                _mainWindow.ResultUC.TextBoxServerMsg.Text = "[" + DateTime.Now.Hour + ":" + DateTime.Now.Minute + "] - " + 
-                    e2.Message + "\n" + _mainWindow.ResultUC.TextBoxServerMsg.Text;
+                MainWindow.ResultUC.TextBoxServerMsg.Text = "[" + DateTime.Now.Hour + ":" + DateTime.Now.Minute + "] - " + 
+                    e2.Message + "\n" + MainWindow.ResultUC.TextBoxServerMsg.Text;
             }
 
             VideoLengthSlider.Value = 0;
-            _mainWindow.MediaHandler = new MediaHandler(files[0]);
-            _mainWindow.Timer.Start();
+            MainWindow.MediaHandler = new MediaHandler(files[0]);
+            MainWindow.Timer.Start();
+        }
+
+        private void StartCaptureButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (StartCaptureButton.Content.Equals("Start"))
+                MainWindow.StartCaptureInit(0, 0, "");
+            else
+                MainWindow.StopCaptureInit();
         }
     }
 }

@@ -207,7 +207,7 @@ namespace ClientFaceGestures
             }
         }
 
-        private void StartCaptureInit(int type, int camIndex, string filename)
+        public void StartCaptureInit(int type, int camIndex, string filename)
         {
             if (MediaHandler != null)
             {
@@ -241,6 +241,7 @@ namespace ClientFaceGestures
                 MultimediaUC.VideoLengthSlider.Value = 0;
 
                 CamZeroMenuItem.Header = "_Stop capture";
+                MultimediaUC.StartCaptureButton.Content = "Stop";
                 WindowMain.Title = Properties.Resources.MainWindowTitle + " - Webcam #" + camIndex;
             }
             else
@@ -250,13 +251,14 @@ namespace ClientFaceGestures
                 MultimediaUC.VideoLengthSlider.Value = 0;
 
                 CamZeroMenuItem.Header = "_Start capture";
+                MultimediaUC.StartCaptureButton.Content = "Stop";
                 WindowMain.Title = Properties.Resources.MainWindowTitle + " - " + filename;
             }
 
             Timer.Start();
         }
 
-        private void StopCaptureInit()
+        public void StopCaptureInit()
         {
             if (MediaHandler != null)
             {
@@ -268,6 +270,7 @@ namespace ClientFaceGestures
             ResultUC.AppendServerMsg( "Successfully disconnected from the server [tcp://127.0.0.1:6000]." );
 
             CamZeroMenuItem.Header = "_Start capture";
+            MultimediaUC.StartCaptureButton.Content = "Start";
             MultimediaUC.VideoLengthSlider.Value = 0;
             WindowMain.Title = Properties.Resources.MainWindowTitle;
 

@@ -242,6 +242,16 @@ void ExpressionClassifier::GazeDirection( IplImage *pFrame, CvRect* pLER, CvRect
 	_gaze.x += _gazeCenter.x;
 	_gaze.y += _gazeCenter.y;
 
+	if(_gaze.x < 0)
+		_gaze.x = 0;
+	else if(_gaze.x > pFrame->width - 1)
+		_gaze.x = pFrame->width - 1;
+
+	if(_gaze.y < 0)
+		_gaze.y = 0;
+	else if(_gaze.y > pFrame->height - 1)
+		_gaze.y = pFrame->height - 1;
+
 	/* smoothing */
 	if( _gazePrev.x != -1 && _gazePrev.y != -1 )
 	{
@@ -284,6 +294,16 @@ void ExpressionClassifier::GazeDirection( IplImage *pFrame, vector<CvPoint2D32f>
 
     _gaze.x += _gazeCenter.x;
     _gaze.y += _gazeCenter.y;
+
+	if(_gaze.x < 0)
+		_gaze.x = 0;
+	else if(_gaze.x > pFrame->width - 1)
+		_gaze.x = pFrame->width - 1;
+
+	if(_gaze.y < 0)
+		_gaze.y = 0;
+	else if(_gaze.y > pFrame->height - 1)
+		_gaze.y = pFrame->height - 1;
 
     /* smoothing */
     if( _gazePrev.x != -1 && _gazePrev.y != -1 )
