@@ -25,8 +25,8 @@
         <MenuItem Header="_Open a video file" Name="MenuItemOpenVideo" Click="MenuItemOpenVideoClick" Padding="5" />
       </MenuItem>
             <MenuItem Header="_Settings" FontSize="13" Name="MenuItemSettings" Padding="0,5">
-                <MenuItem Header="_Network settings" Name="MenuItemNetworkSettings" Padding="5" IsEnabled="False" />
-                <MenuItem Header="_Processing settings" Name="MenuItemProcessingSettings" Padding="5" IsEnabled="true" Click="MenuItemProcessingSettingsClick" />               
+                <MenuItem Header="_Network settings" Name="MenuItemNetworkSettings" Padding="5" Click="MenuItemNetworkSettingsClick" />
+                <MenuItem Header="_Processing settings" Name="MenuItemProcessingSettings" Padding="5" Click="MenuItemProcessingSettingsClick" />               
       </MenuItem>
       <MenuItem Header="_Help" FontSize="13" Name="MenuItemHelp" VerticalContentAlignment="Center" Padding="0,5">
         <MenuItem Header="_View help" Name="MenuItemViewHelp" Padding="5" />

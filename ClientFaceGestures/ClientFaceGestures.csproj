@@ -91,6 +91,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Features.cs" />
+    <Compile Include="UI\NetworkOptionsWindow.xaml.cs">
+      <DependentUpon>NetworkOptionsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\ProcessOptionsWindow.xaml.cs">
       <DependentUpon>ProcessOptionsWindow.xaml</DependentUpon>
     </Compile>
@@ -101,6 +104,10 @@
     <Compile Include="UI\ResultsUserControl.xaml.cs">
       <DependentUpon>ResultsUserControl.xaml</DependentUpon>
     </Compile>
+    <Page Include="UI\NetworkOptionsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\ProcessOptionsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -46,12 +46,14 @@ namespace ClientFaceGestures
             Connection = new TcpConnection();
 
             ProcessOptionsWindow = new ProcessOptionsWindow();
+            NetworkOptionsWindow = new NetworkOptionsWindow();
         }
 
         public MediaHandler MediaHandler { get; set; }
         public DispatcherTimer Timer { get; set; }
         public TcpConnection Connection { get; set; }
         public ProcessOptionsWindow ProcessOptionsWindow { get; set; }
+        public NetworkOptionsWindow NetworkOptionsWindow { get; set; }
         public Features Features { get; set; }
 
         public byte[] RawSerializeEx(object anything)
@@ -220,13 +222,13 @@ namespace ClientFaceGestures
                 if (Connection.IsOpen())
                 {
                     Connection.Close();
-                    ResultUC.AppendServerMsg( "Successfully disconnected from the server [tcp://127.0.0.1:6000]." );
+                    ResultUC.AppendServerMsg("Successfully disconnected from the server [" + NetworkOptionsWindow + "].");
                 }
 
-                IPAddress ip = IPAddress.Parse("127.0.0.1");
-                Connection.Open(new IPEndPoint(ip, 6000));
+                IPAddress ip = IPAddress.Parse(NetworkOptionsWindow.ServerIp);
+                Connection.Open(new IPEndPoint(ip, NetworkOptionsWindow.ServerPort));
 
-                ResultUC.AppendServerMsg( "A connection was successfully established with the server [tcp://127.0.0.1:6000]" );
+                ResultUC.AppendServerMsg("A connection was successfully established with the server [" + NetworkOptionsWindow + "]");
             }
             catch (Exception e)
             {
@@ -267,7 +269,7 @@ namespace ClientFaceGestures
             }
 
             Connection.Close();
-            ResultUC.AppendServerMsg( "Successfully disconnected from the server [tcp://127.0.0.1:6000]." );
+            ResultUC.AppendServerMsg("Successfully disconnected from the server [" + NetworkOptionsWindow + "].");
 
             CamZeroMenuItem.Header = "_Start capture";
             MultimediaUC.StartCaptureButton.Content = "Start";
@@ -283,6 +285,11 @@ namespace ClientFaceGestures
         private void MenuItemProcessingSettingsClick(object sender, RoutedEventArgs e)
         {
             ProcessOptionsWindow.ShowDialog();
+        }
+
+        private void MenuItemNetworkSettingsClick(object sender, RoutedEventArgs e)
+        {
+            NetworkOptionsWindow.ShowDialog();
         }
     }
 }
