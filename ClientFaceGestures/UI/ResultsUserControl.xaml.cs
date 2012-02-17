@@ -243,7 +243,7 @@ namespace ClientFaceGestures.UI
                 if (Features.IsElementRect(Features.Directions[i], Features.GazeCenter.Center))
                     direction = i;
                 else
-                    curFrame.Draw(Features.Directions[i], new Bgr(Color.CadetBlue), 2);
+                    curFrame.Draw(Features.Directions[i], new Bgr(Color.DodgerBlue), 2);
             }
 
             curFrame.Draw(Features.Directions[direction], new Bgr(rgb), 2);
@@ -284,9 +284,9 @@ namespace ClientFaceGestures.UI
 
         private void ProcessHeadPose(string[] p, Image<Bgr, byte> curFrame)
         {
+            MCvFont f = Font;
             Features.RotationMatrix = new float[9];
             Features.TranslationVector = new float[3];
-
 
             for (int i = 4; i < 12; i++)
                 Features.RotationMatrix[i-4] = Convert.ToSingle(p[i], new CultureInfo("en-GB"));
@@ -295,15 +295,23 @@ namespace ClientFaceGestures.UI
                 Features.TranslationVector[i - 13] = Convert.ToSingle(p[i], new CultureInfo("en-GB"));
 
             Features.SetModelPoints();
+            Bgr headPoseColor = new Bgr(Color.DodgerBlue);
+
+            curFrame.Draw("O(" + Convert.ToInt32(Features.ModelPoints[0].X) + ", " + Convert.ToInt32(Features.ModelPoints[0].Y) + ")",
+                ref f, PointFToPoint(Features.ModelPoints[0]), headPoseColor);
+            curFrame.Draw("X(" + Convert.ToInt32(Features.ModelPoints[1].X) + ", " + Convert.ToInt32(Features.ModelPoints[1].Y) + ")",
+                ref f, PointFToPoint(Features.ModelPoints[1]), headPoseColor);
+            curFrame.Draw("Y(" + Convert.ToInt32(Features.ModelPoints[2].X) + ", " + Convert.ToInt32(Features.ModelPoints[2].Y) + ")",
+                ref f, PointFToPoint(Features.ModelPoints[2]), headPoseColor);
+            curFrame.Draw("Z(" + Convert.ToInt32(Features.ModelPoints[3].X) + ", " + Convert.ToInt32(Features.ModelPoints[3].Y) + ")",
+                ref f, PointFToPoint(Features.ModelPoints[3]), headPoseColor);
 
             foreach (PointF mp in Features.ModelPoints)
-            {
-                curFrame.Draw(new CircleF(mp, 3), new Bgr(Color.DarkOrange), -1);
-            }
+                curFrame.Draw(new CircleF(mp, 3), headPoseColor, -1);
 
-            curFrame.Draw(new LineSegment2DF(Features.ModelPoints[0], Features.ModelPoints[1]), new Bgr(Color.DarkOrange), 2);
-            curFrame.Draw(new LineSegment2DF(Features.ModelPoints[0], Features.ModelPoints[2]), new Bgr(Color.DarkOrange), 2);
-            curFrame.Draw(new LineSegment2DF(Features.ModelPoints[0], Features.ModelPoints[3]), new Bgr(Color.DarkOrange), 2);
+            curFrame.Draw(new LineSegment2DF(Features.ModelPoints[0], Features.ModelPoints[1]), headPoseColor, 2);
+            curFrame.Draw(new LineSegment2DF(Features.ModelPoints[0], Features.ModelPoints[2]), headPoseColor, 2);
+            curFrame.Draw(new LineSegment2DF(Features.ModelPoints[0], Features.ModelPoints[3]), headPoseColor, 2);
 
             Features.Distance = Convert.ToSingle(p[16], new CultureInfo("en-GB"));
 
@@ -313,12 +321,14 @@ namespace ClientFaceGestures.UI
             curFrame.Draw(r1, new Bgr(Color.LightGray), -1);
             curFrame.Draw(r2, new Bgr(Color.Red), -1);
 
-            MCvFont f = Font;
             curFrame.Draw("Distance: " + Convert.ToInt32( Features.Distance * 100.0 ) + "%", ref f, new Point(10, curFrame.Height - 7), new Bgr(0, 0, 0));
 
-            //sprintf(text, "Distance: %.0lf%%", Distance() * 100.0);
-            //cvPutText(pFrame, text,
-            //    cvPoint(10, pFrame->height - 7), &myFont, CV_RGB(0, 0, 0));
+            MainWindow.MapUC.MyMap.ZoomLevel = Math.Round( ( (1.0 - Features.Distance) * MainWindow.MapUC.SliderZoom.Maximum ) / 2.0, 0 ) * 2;
+        }
+
+        private Point PointFToPoint(PointF pf)
+        {
+            return new Point(Convert.ToInt32(pf.X), Convert.ToInt32(pf.Y));
         }
     }
 

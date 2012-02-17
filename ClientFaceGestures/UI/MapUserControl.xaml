@@ -16,7 +16,7 @@
         <ColumnDefinition Width="43" />
       </Grid.ColumnDefinitions>
       <bing:Map Name="MyMap" CredentialsProvider="{StaticResource MyCredentials}" Background="#FFEBEBEB" Margin="6"
-                ViewChangeOnFrame="MapViewChangeOnFrame" Loaded="MapLoaded" AnimationLevel="Full" ZoomLevel="4" Center="47,19.5">
+                ViewChangeOnFrame="MapViewChangeOnFrame" Loaded="MapLoaded" AnimationLevel="Full" ZoomLevel="5" Center="47,19.5">
         <!--<bing:Map.Center>
           <bing:Location Latitude="47" Longitude="19.5" x:Name="MapLocation" />
         </bing:Map.Center>-->
