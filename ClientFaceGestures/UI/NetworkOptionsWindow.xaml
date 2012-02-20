@@ -3,11 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Network Options" Height="158" Width="300">
     <Grid>
-        <Label Content="Server IP Address:" HorizontalAlignment="Left" Margin="12,12,0,0" Name="ServerAddressLabel" Height="28" VerticalAlignment="Top" />
+        <Label Content="Server IP Address:" HorizontalAlignment="Left" Margin="12,12,0,0" Name="ServerIpLabel" Height="28" VerticalAlignment="Top" />
         <Label Content="Server Port:" Height="28" HorizontalAlignment="Left" Margin="12,46,0,0" Name="ServerPortLabel" VerticalAlignment="Top" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="113,8,0,0" Name="ServerAddressTextBox" VerticalAlignment="Top" Width="153" Text="127.0.0.1" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="113,42,0,0" Name="ServerPortTextBox" Text="6000" VerticalAlignment="Top" Width="153" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="113,8,0,0" Name="ServerIpTextBox" VerticalAlignment="Top" Width="153" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="113,42,0,0" Name="ServerPortTextBox" VerticalAlignment="Top" Width="153" />
         <Button Content="OK" Height="23" HorizontalAlignment="Left" Margin="54,84,0,0" Name="OkButton" VerticalAlignment="Top" Width="75" Click="OkButtonClick" />
-        <Button Content="Cancel" Height="23" HorizontalAlignment="Left" Margin="143,84,0,0" Name="CancelButton" VerticalAlignment="Top" Width="75" Click="CancelButtonClick" />
+        <Button Content="Cancel" Height="23" HorizontalAlignment="Right" Margin="0,84,60,0" Name="CancelButton" VerticalAlignment="Top" Width="75" Click="CancelButtonClick" />
     </Grid>
 </Window>
