@@ -45,18 +45,17 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\resources\opencv242\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\resources\opencv242\include;$(SolutionDir)\ImageProcessing</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\resources\opencv242\lib\debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_calib3d242d.lib;opencv_contrib242d.lib;opencv_core242d.lib;opencv_features2d242d.lib;opencv_flann242d.lib;opencv_gpu242d.lib;opencv_haartraining_engined.lib;opencv_highgui242d.lib;opencv_imgproc242d.lib;opencv_legacy242d.lib;opencv_ml242d.lib;opencv_nonfree242d.lib;opencv_objdetect242d.lib;opencv_photo242d.lib;opencv_stitching242d.lib;opencv_ts242d.lib;opencv_video242d.lib;opencv_videostab242d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(OutDir)\ImageProcessing.lib;opencv_calib3d242d.lib;opencv_contrib242d.lib;opencv_core242d.lib;opencv_features2d242d.lib;opencv_flann242d.lib;opencv_gpu242d.lib;opencv_haartraining_engined.lib;opencv_highgui242d.lib;opencv_imgproc242d.lib;opencv_legacy242d.lib;opencv_ml242d.lib;opencv_nonfree242d.lib;opencv_objdetect242d.lib;opencv_photo242d.lib;opencv_stitching242d.lib;opencv_ts242d.lib;opencv_video242d.lib;opencv_videostab242d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy "..\resources\opencv242\bin\debug" "$(OutDir)" /E /Y
@@ -67,13 +66,12 @@ xcopy "..\resources\tbb\tbb_debug.dll" "$(OutDir)" /E /Y
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\resources\opencv242\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\resources\opencv242\include;$(SolutionDir)\ImageProcessing</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -81,7 +79,7 @@ xcopy "..\resources\tbb\tbb_debug.dll" "$(OutDir)" /E /Y
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)\resources\opencv242\lib\release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_calib3d242.lib;opencv_contrib242.lib;opencv_core242.lib;opencv_features2d242.lib;opencv_flann242.lib;opencv_gpu242.lib;opencv_haartraining_engine.lib;opencv_highgui242.lib;opencv_imgproc242.lib;opencv_legacy242.lib;opencv_ml242.lib;opencv_nonfree242.lib;opencv_objdetect242.lib;opencv_photo242.lib;opencv_stitching242.lib;opencv_ts242.lib;opencv_video242.lib;opencv_videostab242.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(OutDir)\ImageProcessing.lib;opencv_calib3d242.lib;opencv_contrib242.lib;opencv_core242.lib;opencv_features2d242.lib;opencv_flann242.lib;opencv_gpu242.lib;opencv_haartraining_engine.lib;opencv_highgui242.lib;opencv_imgproc242.lib;opencv_legacy242.lib;opencv_ml242.lib;opencv_nonfree242.lib;opencv_objdetect242.lib;opencv_photo242.lib;opencv_stitching242.lib;opencv_ts242.lib;opencv_video242.lib;opencv_videostab242.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy "..\resources\opencv242\bin\release" "$(OutDir)" /E /Y

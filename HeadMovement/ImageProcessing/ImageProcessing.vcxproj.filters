@@ -15,6 +15,7 @@
     <ClInclude Include="LKTracker.h">
       <Filter>Tracker</Filter>
     </ClInclude>
+    <ClInclude Include="Definitions.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Detector">
