@@ -247,7 +247,7 @@ namespace ClientFaceGestures.UI
             }
 
             curFrame.Draw(Features.Directions[direction], new Bgr(rgb), 2);
-            const double xFactor = 0.1, yFactor = 0.1;
+            const double xFactor = 0.001, yFactor = 0.001;
             double latitude = MainWindow.MapUC.MyMap.Center.Latitude, longitude = MainWindow.MapUC.MyMap.Center.Longitude;
 
             switch (direction)
