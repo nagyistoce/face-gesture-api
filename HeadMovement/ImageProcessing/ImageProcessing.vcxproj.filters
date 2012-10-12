@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="HaarDetector.cpp">
+      <Filter>Detector</Filter>
+    </ClCompile>
+    <ClCompile Include="LKTracker.cpp">
+      <Filter>Tracker</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="HaarDetector.h">
+      <Filter>Detector</Filter>
+    </ClInclude>
+    <ClInclude Include="LKTracker.h">
+      <Filter>Tracker</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Detector">
+      <UniqueIdentifier>{76d660d1-df74-4232-80cd-05a29a504933}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tracker">
+      <UniqueIdentifier>{f8860d88-b60a-4009-8297-b38e8b9046ab}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
