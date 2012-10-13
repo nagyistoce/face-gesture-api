@@ -1,10 +1,13 @@
 #include "HeadMovementAlgorithm.h"
+#include "Definitions.h"
 #include "HaarDetector.h"
+#include "MotionHistory.h"
 
 using namespace std;
 using namespace cv;
 
 HeadMovementAlgorithm::HeadMovementAlgorithm(void)
+:   motionHistory_(NULL)
 {
 	videoCapture_.open(0);
 
@@ -18,6 +21,7 @@ HeadMovementAlgorithm::HeadMovementAlgorithm(void)
 HeadMovementAlgorithm::~HeadMovementAlgorithm(void)
 {
 	delete faceDetector_;
+    delete motionHistory_;
 }
 
 void HeadMovementAlgorithm::ProcessAlgorithm(void)
@@ -26,6 +30,10 @@ void HeadMovementAlgorithm::ProcessAlgorithm(void)
 
 	while(true)
 	{
+#ifdef DEBUG_MODE
+        double t = (double)cvGetTickCount();
+#endif
+
 		// get a new frame from camera
 		videoCapture_ >> frame_;
 
@@ -33,21 +41,35 @@ void HeadMovementAlgorithm::ProcessAlgorithm(void)
 		faces_ = faceDetector_->Detect(frame_);
 
 		if(prevFrame_.empty() == false)
-		{
-			Mat subFrame;
+        {
+			absdiff(frame_, prevFrame_, subFrame_);
+            imshow("HeadMovementAlgorithm - SubFrame", subFrame_);
+        }
 
-			absdiff(frame_, prevFrame_, subFrame);
-			DrawObjects(frame_, faces_);
+        if(motionHistory_ == NULL)
+            motionHistory_ = new MotionHistory(frame_.size());
 
-			// displays the new frame
-			imshow("HeadMovementAlgorithm", subFrame);
-		}
-		
-		prevFrame_ = frame_.clone();
+        motionHistory_->UpdateMotionHistory(frame_, 30);
+        prevFrame_ = frame_.clone();
 
+        DrawObjects(frame_, faces_);
+
+        Mat maskCopy(frame_.rows, frame_.cols, CV_8UC3);
+        cvtColor(motionHistory_->GetMask(), maskCopy, CV_GRAY2BGR);
+        addWeighted(maskCopy, 0.5, frame_, 1.0, 0.0, frame_);
+
+        imshow("HeadMovementAlgorithm - Frame", frame_);
+        imshow("UpdateMotionHistory - MHI", motionHistory_->GetMhi());
+        imshow("UpdateMotionHistory - Mask", motionHistory_->GetMask());
+        
 		// press ESC to exit
 		if(waitKey(30) >= 0) 
 			break;
+
+#ifdef DEBUG_MODE
+        t = (double)cvGetTickCount() - t;
+        printf("Processing time: %g ms.\n", t / ((double)cvGetTickFrequency() * 1000.0));
+#endif
 	}
 }
 

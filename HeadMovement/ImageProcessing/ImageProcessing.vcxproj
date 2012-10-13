@@ -81,10 +81,12 @@
     <ClInclude Include="Definitions.h" />
     <ClInclude Include="HaarDetector.h" />
     <ClInclude Include="LKTracker.h" />
+    <ClInclude Include="MotionHistory.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HaarDetector.cpp" />
     <ClCompile Include="LKTracker.cpp" />
+    <ClCompile Include="MotionHistory.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -4,6 +4,7 @@
 #include "opencv2/opencv.hpp"
 
 class HaarDetector;
+class MotionHistory;
 
 class HeadMovementAlgorithm
 {
@@ -19,7 +20,9 @@ private:
 	std::vector<cv::Rect> faces_;
 
 	HaarDetector* faceDetector_;
+    MotionHistory* motionHistory_;
 	cv::VideoCapture videoCapture_;
 	cv::Mat frame_;
 	cv::Mat prevFrame_;
+    cv::Mat subFrame_;
 };

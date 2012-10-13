@@ -1,4 +1,5 @@
 #pragma once
+#pragma warning(disable: 4251)
 
 #include "opencv2/opencv.hpp"
 
@@ -8,4 +9,3 @@ public:
 	LKTracker(void);
 	~LKTracker(void);
 };
-
