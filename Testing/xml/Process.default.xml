@@ -16,21 +16,23 @@
 			<type>"local"</type>
 		</_>
 		<_>
-			<name>"SURF"</name>
-			<type>"local"</type>
-		</_>
-		<_>
 			<name>"ORB"</name>
-			<type>"local"</type>
-		</_>
-		<_>
-			<name>"STAR"</name>
 			<type>"local"</type>
 		</_>
 		<_>
 			<name>"MSER"</name>
 			<type>"local"</type>
 		</_>
+		<!--_>
+			<name>"SURF"</name>
+			<type>"local"</type>
+		</_>
+		
+		<_>
+			<name>"STAR"</name>
+			<type>"local"</type>
+		</_>
+		
 		<_>
 			<name>"FAST"</name>
 			<type>"local"</type>
@@ -38,6 +40,6 @@
 		<_>
 			<name>"LBP"</name>
 			<type>"global"</type>
-		</_>
+		</_-->
 	</featureExtractors>
 </opencv_storage>

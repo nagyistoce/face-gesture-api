@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <opencv_storage>
-	<nFeatures>500</nFeatures>
+	<nFeatures>10</nFeatures>
 	<scaleFactor>1.2</scaleFactor>
 	<nlevels>8</nlevels>
 	<edgeThreshold>31</edgeThreshold>

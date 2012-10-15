@@ -26,7 +26,7 @@ public:
 		\param image Image to be shown.
 		\param waitForKey Waits for a pressed key.
 	*/
-    void ShowImage(const std::string& name, const cv::Mat& image, bool waitForKey = true);
+    void ShowImage(const std::string& name, const cv::Mat& image, bool waitForKey = false);
 
 	//! Renders the specified text string in the image.
 	/*!

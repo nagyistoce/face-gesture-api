@@ -10,6 +10,7 @@ public:
     ~MotionHistory(void);
 
     void UpdateMotionHistory(const cv::Mat& image, int diffThreshold);
+	void Visualize(void);
 
     const cv::Mat& GetMhi(void);
     const cv::Mat& GetMask(void);

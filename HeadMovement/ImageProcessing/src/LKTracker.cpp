@@ -1,3 +1,4 @@
+#include "Definitions.h"
 #include "LKTracker.h"
 
 using namespace std;

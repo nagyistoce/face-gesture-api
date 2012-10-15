@@ -1,3 +1,4 @@
+#include "Definitions.h"
 #include "Thread.h"
 
 using namespace std;

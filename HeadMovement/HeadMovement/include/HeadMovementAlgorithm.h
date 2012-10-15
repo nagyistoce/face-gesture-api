@@ -28,9 +28,7 @@ private:
 	*/
 	void LoadSettingsFromFileStorage(void);
 
-	void DrawObjects(cv::Mat& image, const std::vector<cv::Rect>& objects);
-
-	std::vector<cv::Rect> faces_;
+	//std::vector<cv::Rect> faces_;
 
     GlobalFeaturePool   globalFeaturePool_;	    //!< Stores all global feature extractor.   
     LocalFeaturePool    localFeaturePool_;      //!< Stores all local feature extractor.
@@ -41,6 +39,4 @@ private:
     MotionHistory* motionHistory_;
 	cv::VideoCapture videoCapture_;
 	cv::Mat frame_;
-	cv::Mat prevFrame_;
-    cv::Mat subFrame_;
 };

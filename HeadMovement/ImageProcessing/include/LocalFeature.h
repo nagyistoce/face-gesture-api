@@ -27,6 +27,12 @@ public:
 	//! Destructor.
 	~LocalFeature(void);
 
+	//! Visualizing the output of feature extractor.
+    /*!
+		\param keyPointsCount Number of the detected keypoints.
+	*/
+    void Visualize(void);
+
 	//! Connects a frame to the feature extractor.
 	/*!
 		\param frame Output parameter for the current frame.
@@ -78,10 +84,4 @@ private:
 		\sa Thread::Run()
 	*/
 	void* Run(void);
-
-    //! Visualizing the output of feature extractor.
-    /*!
-		\param keyPointsCount Number of the detected keypoints.
-	*/
-    void Visualize(void);
 };

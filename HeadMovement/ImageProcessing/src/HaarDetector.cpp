@@ -1,26 +1,57 @@
-#include "HaarDetector.h"
 #include "Definitions.h"
+
+#include "HaarDetector.h"
+#include "LocalSettings.h"
+#include "Visualizer.h"
 
 using namespace std;
 using namespace cv;
 
 HaarDetector::HaarDetector(const string& name)
 :	name_(name),
-	cascadeName_(FACE_CASCADE),
+	cascadeName_("haarcascade_frontalface_alt.xml"),
 	scaleFactor_(1.2),
 	minNeighbors_(2),
-	flags_(0 | CV_HAAR_FIND_BIGGEST_OBJECT | CV_HAAR_SCALE_IMAGE | CV_HAAR_DO_ROUGH_SEARCH),
-	minSize_(Size(100, 100)),
+	flags_(0),
+	minSize_(Size()),
 	maxSize_(Size()) 
 {
-	cout << "Loading cascade: " << cascadeName_ << endl;
-
-	if(!cascade_.load(cascadeName_))
-		CV_Error(1, "Could not load cascade classifier: " + cascadeName_ + ".");
+	LoadSettingsFromFileStorage();
 }
 
 HaarDetector::~HaarDetector(void)
 {
+}
+
+void HaarDetector::LoadSettingsFromFileStorage(void)
+{
+	string fileName = LocalSettingsPtr->GetDetectorDirectory() + "Settings." + name_ + ".xml";
+	FileStorage fileStorage(fileName, FileStorage::READ, "UTF-8");
+
+	if(!fileStorage.isOpened())
+		CV_Error(1, "Setting XML does not exist for " + name_ + "!");
+
+	fileStorage["cascadeName"] >> cascadeName_;
+
+	cout << "Loading cascade: " << cascadeName_ << endl;
+	if(!cascade_.load(LocalSettingsPtr->GetDetectorDirectory() + cascadeName_))
+		CV_Error(1, "Could not load cascade classifier: " + cascadeName_ + ".");
+
+	fileStorage["scaleFactor"] >> scaleFactor_;
+	fileStorage["minNeighbors"] >> minNeighbors_;
+	fileStorage["flags"] >> flags_;
+
+	if(fileStorage["minWidth"].isNone() == false && fileStorage["minHeight"].isNone() == false)
+	{
+		fileStorage["minWidth"] >> minSize_.width;
+		fileStorage["minHeight"] >> minSize_.height;
+	}
+	
+	if(fileStorage["maxWidth"].isNone() == false && fileStorage["maxHeight"].isNone() == false)
+	{
+		fileStorage["maxWidth"] >> maxSize_.width;
+		fileStorage["maxHeight"] >> maxSize_.height;
+	}
 }
 
 void HaarDetector::SetFrame(const Mat& frame)
@@ -31,7 +62,10 @@ void HaarDetector::SetFrame(const Mat& frame)
 void* HaarDetector::Run(void)
 {
     if(!frame_.empty())
+	{
         Process();
+		//Visualize();
+	}
 
     return reinterpret_cast<void*>(0);
 }
@@ -48,8 +82,6 @@ void HaarDetector::Process(void)
 	equalizeHist(normalizedImage, normalizedImage);
 
 	cascade_.detectMultiScale(normalizedImage, objects_, scaleFactor_, minNeighbors_, flags_, minSize_, maxSize_);
-
-	//return objects_;
 }
 
 const vector<Rect>& HaarDetector::GetObjects(void)
@@ -60,4 +92,28 @@ const vector<Rect>& HaarDetector::GetObjects(void)
 const string& HaarDetector::GetName(void)
 {
 	return name_;
+}
+
+void HaarDetector::Visualize(void)
+{
+	int i = 0;
+	const static Scalar colors[8] =  { 
+		CV_RGB(0 ,0, 255),
+		CV_RGB(0, 128, 255),
+		CV_RGB(0, 255, 255),
+		CV_RGB(0, 255, 0),
+		CV_RGB(255, 128, 0),
+		CV_RGB(255, 255, 0),
+		CV_RGB(255, 0, 0),
+		CV_RGB(255, 0, 255)
+	};
+
+	for(vector<Rect>::const_iterator r = objects_.begin(); r != objects_.end(); r++, i++)
+	{
+		Point center(cvRound(r->x + r->width * 0.5), cvRound(r->y + r->height * 0.5));
+		int radius = cvRound((r->width + r->height) * 0.25);
+		circle(frame_, center, radius, colors[i % 8], 3);
+	}
+
+	VisualizerPtr->ShowImage("HeadMovementAlgorithm - " + name_, frame_);
 }

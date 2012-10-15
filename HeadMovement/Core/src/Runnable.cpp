@@ -1,3 +1,4 @@
+#include "Definitions.h"
 #include "Runnable.h"
 
 // Pure virtual destructor: function body required

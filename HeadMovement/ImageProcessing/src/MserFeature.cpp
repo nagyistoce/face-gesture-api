@@ -1,7 +1,7 @@
-#include "MserFeature.h"
-
 #include <iostream>
 
+#include "Definitions.h"
+#include "MserFeature.h"
 #include "LocalSettings.h"
 
 using namespace std;
@@ -23,7 +23,7 @@ MserFeature::~MserFeature(void)
 
 void MserFeature::LoadSettingsFromFileStorage(void)
 {
-	string fileName = LocalSettingsPtr->GetSettingsDirectory() + "Settings." + name_ + ".xml";
+	string fileName = LocalSettingsPtr->GetFeatureExtractorDirectory() + "Settings." + name_ + ".xml";
 	FileStorage fileStorage(fileName, FileStorage::READ, "UTF-8");
 
 	if(!fileStorage.isOpened())

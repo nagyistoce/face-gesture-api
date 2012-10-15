@@ -1,7 +1,8 @@
+#include <ctime>
+
 #include "MotionHistory.h"
 #include "Definitions.h"
-
-#include <ctime>
+#include "Visualizer.h"
 
 using namespace std;
 using namespace cv;
@@ -60,4 +61,14 @@ const Mat& MotionHistory::GetMhi(void)
 const Mat& MotionHistory::GetMask(void)
 {
     return mask_;
+}
+
+void MotionHistory::Visualize(void)
+{
+	//Mat maskCopy(frame_.rows, frame_.cols, CV_8UC3);
+	//cvtColor(motionHistory_->GetMask(), maskCopy, CV_GRAY2BGR);
+	//addWeighted(maskCopy, 0.5, frame_, 1.0, 0.0, frame_);
+
+	VisualizerPtr->ShowImage("UpdateMotionHistory - MHI", mhi_);
+	VisualizerPtr->ShowImage("UpdateMotionHistory - Mask", mask_);
 }

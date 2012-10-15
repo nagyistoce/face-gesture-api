@@ -1,7 +1,7 @@
-#include "LbpFeature.h"
-
 #include <iostream>
 
+#include "Definitions.h"
+#include "LbpFeature.h"
 #include "LocalSettings.h"
 
 using namespace std;
@@ -19,7 +19,7 @@ LbpFeature::~LbpFeature(void)
 
 void LbpFeature::LoadSettingsFromFileStorage(void)
 {
-    string fileName = LocalSettingsPtr->GetSettingsDirectory() + "Settings." + name_ + ".xml";
+    string fileName = LocalSettingsPtr->GetFeatureExtractorDirectory() + "Settings." + name_ + ".xml";
     FileStorage fileStorage(fileName, FileStorage::READ, "UTF-8");
 
     if(!fileStorage.isOpened())

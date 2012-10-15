@@ -1,7 +1,7 @@
-#include "SurfFeature.h"
-
 #include <iostream>
 
+#include "Definitions.h"
+#include "SurfFeature.h"
 #include "LocalSettings.h"
 
 using namespace std;
@@ -22,7 +22,7 @@ SurfFeature::~SurfFeature(void)
 
 void SurfFeature::LoadSettingsFromFileStorage(void)
 {
-	string fileName = LocalSettingsPtr->GetSettingsDirectory() + "Settings." + name_ + ".xml";
+	string fileName = LocalSettingsPtr->GetFeatureExtractorDirectory() + "Settings." + name_ + ".xml";
 	FileStorage fileStorage(fileName, FileStorage::READ, "UTF-8");
 
 	if(!fileStorage.isOpened())

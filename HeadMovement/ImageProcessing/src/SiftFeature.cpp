@@ -1,7 +1,7 @@
-#include "SiftFeature.h"
-
 #include <iostream>
 
+#include "Definitions.h"
+#include "SiftFeature.h"
 #include "LocalSettings.h"
 
 using namespace std;
@@ -22,7 +22,7 @@ SiftFeature::~SiftFeature(void)
 
 void SiftFeature::LoadSettingsFromFileStorage(void)
 {
-    string fileName = LocalSettingsPtr->GetSettingsDirectory() + "Settings." + name_ + ".xml";
+    string fileName = LocalSettingsPtr->GetFeatureExtractorDirectory() + "Settings." + name_ + ".xml";
     FileStorage fileStorage(fileName, FileStorage::READ, "UTF-8");
 
 	if(!fileStorage.isOpened())

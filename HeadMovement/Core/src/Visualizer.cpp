@@ -1,3 +1,4 @@
+#include "Definitions.h"
 #include "Visualizer.h"
 
 using namespace std;

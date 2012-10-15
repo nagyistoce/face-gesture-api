@@ -1,6 +1,9 @@
-#include "HeadMovementAlgorithm.h"
-
 #include "Definitions.h"
+
+#include "HeadMovementAlgorithm.h"
+#include "LocalSettings.h"
+#include "Visualizer.h"
+
 #include "HaarDetector.h"
 #include "MotionHistory.h"
 
@@ -12,8 +15,6 @@
 #include "FastFeature.h"
 
 #include "LbpFeature.h"
-
-#include "LocalSettings.h"
 
 using namespace std;
 using namespace cv;
@@ -54,20 +55,19 @@ void HeadMovementAlgorithm::LoadSettingsFromFileStorage(void)
     FileNode node = fileStorage["settings"];
     node[0]["cameraId"] >> cameraId_;
 
-    // Loading feature extractors
+    // Loading HAAR detectors
     node = fileStorage["haarDetectors"];
     for(size_t i = 0; i < node.size(); ++i)
     {
         string name, type;
         node[i]["name"] >> name;
 
-        // Global feature extractors
+        // HAAR detector
         if(name.compare("FACE") == 0)
             haarDetectorPool_[name] = new HaarDetector(name);
         else
             CV_Error(1, "Unkonwn HAAR detector (" + name + ")!");
     }
-
 
     // Loading feature extractors
     node = fileStorage["featureExtractors"];
@@ -108,7 +108,6 @@ void HeadMovementAlgorithm::Process(void)
 #ifdef DEBUG_MODE
         double t = (double)cvGetTickCount();
 #endif
-
 		// get a new frame from camera
 		videoCapture_ >> frame_;
 
@@ -117,33 +116,24 @@ void HeadMovementAlgorithm::Process(void)
             hdElem->second->SetFrame(frame_);
             hdElem->second->Start();
             hdElem->second->Join();
-        }
-
-		// detects faces on the incoming frames
-		faces_ = haarDetectorPool_["FACE"]->GetObjects();
-
-		if(prevFrame_.empty() == false)
-        {
-			absdiff(frame_, prevFrame_, subFrame_);
-            imshow("HeadMovementAlgorithm - SubFrame", subFrame_);
+			hdElem->second->Visualize();
         }
 
         if(motionHistory_ == NULL)
             motionHistory_ = new MotionHistory(frame_.size());
 
         motionHistory_->UpdateMotionHistory(frame_, 30);
-        prevFrame_ = frame_.clone();
+		Mat maskCopy(frame_.rows, frame_.cols, CV_8UC3);
+		cvtColor(motionHistory_->GetMask(), maskCopy, CV_GRAY2BGR);
 
-        DrawObjects(frame_, faces_);
+		for(GlobalFeaturePool::iterator lfElem = globalFeaturePool_.begin(); lfElem != globalFeaturePool_.end(); lfElem++)
+		{
+			lfElem->second->SetFrame(maskCopy);
+			lfElem->second->Start();
+			lfElem->second->Join();
+			lfElem->second->Visualize();
+		}
 
-        Mat maskCopy(frame_.rows, frame_.cols, CV_8UC3);
-        cvtColor(motionHistory_->GetMask(), maskCopy, CV_GRAY2BGR);
-        addWeighted(maskCopy, 0.5, frame_, 1.0, 0.0, frame_);
-
-        imshow("HeadMovementAlgorithm - Frame", frame_);
-        imshow("UpdateMotionHistory - MHI", motionHistory_->GetMhi());
-        imshow("UpdateMotionHistory - Mask", motionHistory_->GetMask());
-        
 		// press ESC to exit
 		if(waitKey(30) >= 0) 
 			break;
@@ -152,27 +142,5 @@ void HeadMovementAlgorithm::Process(void)
         t = (double)cvGetTickCount() - t;
         printf("Processing time: %g ms.\n", t / ((double)cvGetTickFrequency() * 1000.0));
 #endif
-	}
-}
-
-void HeadMovementAlgorithm::DrawObjects(Mat& image, const vector<Rect>& objects)
-{
-	int i = 0;
-	const static Scalar colors[8] =  { 
-		CV_RGB(0 ,0, 255),
-		CV_RGB(0, 128, 255),
-		CV_RGB(0, 255, 255),
-		CV_RGB(0, 255, 0),
-		CV_RGB(255, 128, 0),
-		CV_RGB(255, 255, 0),
-		CV_RGB(255, 0, 0),
-		CV_RGB(255, 0, 255)
-	};
-
-	for(vector<Rect>::const_iterator r = objects.begin(); r != objects.end(); r++, i++)
-	{
-		Point center(cvRound(r->x + r->width * 0.5), cvRound(r->y + r->height * 0.5));
-		int radius = cvRound((r->width + r->height) * 0.25);
-		circle(image, center, radius, colors[i % 8], 3);
 	}
 }

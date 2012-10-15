@@ -1,7 +1,8 @@
-#include "LocalSettings.h"
-
 #include <fstream>
 #include "opencv2/opencv.hpp"
+
+#include "Definitions.h"
+#include "LocalSettings.h"
 
 using namespace std;
 using namespace cv;
@@ -17,8 +18,8 @@ LocalSettings::LocalSettings(void)
 	getline(fileStream, dataDirectory_);
 
 	processXmlFileName_ = dataDirectory_ + "xml/Process.default.xml";
-    settingsDirectory_  = dataDirectory_ + "xml/DetectorSettings/";
-    imageDirectory_  = dataDirectory_ + "image/";
+    featureExtractorDirectory_  = dataDirectory_ + "xml/FeatureExtractor/";
+	detectorDirectory_ = dataDirectory_ + "xml/Detector/";
 
 	fileStream.close();
 }
@@ -38,14 +39,14 @@ string LocalSettings::GetDataDirectory(void) const
 	return dataDirectory_;
 }
 
-string LocalSettings::GetSettingsDirectory(void) const
+string LocalSettings::GetFeatureExtractorDirectory(void) const
 {
-    return settingsDirectory_;
+	return featureExtractorDirectory_;
 }
 
-string LocalSettings::GetImageDirectory(void) const
+string LocalSettings::GetDetectorDirectory(void) const
 {
-    return imageDirectory_;
+	return detectorDirectory_;
 }
 
 string LocalSettings::GetProcessXmlFileName(void) const

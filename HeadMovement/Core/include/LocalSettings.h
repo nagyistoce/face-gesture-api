@@ -34,13 +34,13 @@ public:
 	/*!
 		\return Settings directory root.
 	*/
-	std::string GetSettingsDirectory(void) const;
+	std::string GetFeatureExtractorDirectory(void) const;
 
-    //! Image directory getter.
+	//! Settings directory getter.
 	/*!
 		\return Settings directory root.
 	*/
-	std::string GetImageDirectory(void) const;
+	std::string GetDetectorDirectory(void) const;
 
     //! Process xml filename getter.
 	/*!
@@ -55,8 +55,8 @@ private:
 	//! Destructor.
 	~LocalSettings(void);
 
-	std::string	dataDirectory_;			//!< Data directory root.
-    std::string	settingsDirectory_;	    //!< Settings directory root.
-    std::string	imageDirectory_;	    //!< Image directory root.
-	std::string	processXmlFileName_;	//!< The configuration file.
+	std::string	dataDirectory_;				//!< Data directory root.
+    std::string	featureExtractorDirectory_;	//!< Settings directory root.
+	std::string	detectorDirectory_;			//!< Settings directory root.
+	std::string	processXmlFileName_;		//!< The configuration file.
 };

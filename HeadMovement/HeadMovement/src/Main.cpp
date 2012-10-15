@@ -1,6 +1,7 @@
 #include <iostream>
-
 #include "opencv2/opencv.hpp"
+
+#include "Definitions.h"
 #include "HeadMovementAlgorithm.h"
 
 using namespace std;

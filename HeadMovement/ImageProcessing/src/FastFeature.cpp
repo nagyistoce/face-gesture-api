@@ -1,5 +1,7 @@
-#include "FastFeature.h"
 #include <iostream>
+
+#include "Definitions.h"
+#include "FastFeature.h"
 #include "LocalSettings.h"
 
 using namespace std;
@@ -20,7 +22,7 @@ FastFeature::~FastFeature(void)
 
 void FastFeature::LoadSettingsFromFileStorage(void)
 {
-    string fileName = LocalSettingsPtr->GetSettingsDirectory() + "Settings." + name_ + ".xml";
+    string fileName = LocalSettingsPtr->GetFeatureExtractorDirectory() + "Settings." + name_ + ".xml";
     FileStorage fileStorage(fileName, FileStorage::READ, "UTF-8");
 
     if(!fileStorage.isOpened())

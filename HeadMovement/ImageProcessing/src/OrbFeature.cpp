@@ -1,6 +1,7 @@
-#include "OrbFeature.h"
-
 #include <iostream>
+
+#include "Definitions.h"
+#include "OrbFeature.h"
 #include "LocalSettings.h"
 
 using namespace std;
@@ -22,7 +23,7 @@ OrbFeature::~OrbFeature(void)
 
 void OrbFeature::LoadSettingsFromFileStorage(void)
 {
-	string fileName = LocalSettingsPtr->GetSettingsDirectory() + "Settings." + name_ + ".xml";
+	string fileName = LocalSettingsPtr->GetFeatureExtractorDirectory() + "Settings." + name_ + ".xml";
 	FileStorage fileStorage(fileName, FileStorage::READ, "UTF-8");
 
 	if(!fileStorage.isOpened())

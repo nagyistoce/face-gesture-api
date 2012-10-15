@@ -21,8 +21,15 @@ public:
 	const std::vector<cv::Rect>& GetObjects(void);
 	const std::string& GetName(void);
 
+	void Visualize(void);
+
 private:
-    private:
+	//! Implemented virtual method for loading algorithm specific settings from the given storage.
+	/*!
+		\sa Feature::LoadSettingsFromFileStorage()
+	*/
+	void LoadSettingsFromFileStorage(void);
+
 	//! Implemented virtual method for the algorithm.
 	/*!
 		\sa Thread::Run()
@@ -32,7 +39,7 @@ private:
     cv::Mat frame_;		//!< The current frame.
 
 	cv::CascadeClassifier cascade_;
-	const std::string cascadeName_;
+	std::string cascadeName_;
 	const std::string name_;
 	std::vector<cv::Rect> objects_;
 

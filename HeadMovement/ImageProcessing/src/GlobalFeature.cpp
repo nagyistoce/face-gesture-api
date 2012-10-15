@@ -1,3 +1,4 @@
+#include "Definitions.h"
 #include "GlobalFeature.h"
 #include "Visualizer.h"
 
@@ -29,7 +30,7 @@ void* GlobalFeature::Run(void)
 		procTime_ = (double)cvGetTickCount() - procTime_;
 
 		DrawFeatures();
-        Visualize();
+        //Visualize();
 	}
 
 	return reinterpret_cast<void*>(0);
