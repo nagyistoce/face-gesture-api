@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<opencv_storage>
+	<settings>
+		<_>
+			<cameraId>0</cameraId>
+		</_>
+	</settings>
+	
+	<haarDetectors>
+		<_><name>"FACE"</name></_>
+	</haarDetectors>
+		
+	<featureExtractors>
+		<_>
+			<name>"SIFT"</name>
+			<type>"local"</type>
+		</_>
+		<_>
+			<name>"SURF"</name>
+			<type>"local"</type>
+		</_>
+		<_>
+			<name>"ORB"</name>
+			<type>"local"</type>
+		</_>
+		<_>
+			<name>"STAR"</name>
+			<type>"local"</type>
+		</_>
+		<_>
+			<name>"MSER"</name>
+			<type>"local"</type>
+		</_>
+		<_>
+			<name>"FAST"</name>
+			<type>"local"</type>
+		</_>
+		<_>
+			<name>"LBP"</name>
+			<type>"global"</type>
+		</_>
+	</featureExtractors>
+</opencv_storage>

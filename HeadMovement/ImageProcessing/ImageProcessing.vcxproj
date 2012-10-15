@@ -49,13 +49,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\resources\opencv242\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;$(SolutionDir)\Core\include;$(SolutionDir)\resources\opencv242\include;$(SolutionDir)\resources\pthreads-win32\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\resources\opencv242\lib\debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_calib3d242d.lib;opencv_contrib242d.lib;opencv_core242d.lib;opencv_features2d242d.lib;opencv_flann242d.lib;opencv_gpu242d.lib;opencv_haartraining_engined.lib;opencv_highgui242d.lib;opencv_imgproc242d.lib;opencv_legacy242d.lib;opencv_ml242d.lib;opencv_nonfree242d.lib;opencv_objdetect242d.lib;opencv_photo242d.lib;opencv_stitching242d.lib;opencv_ts242d.lib;opencv_video242d.lib;opencv_videostab242d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration)\;$(SolutionDir)\resources\opencv242\lib\debug;$(SolutionDir)\resources\pthreads-win32\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Core.lib;opencv_calib3d242d.lib;opencv_contrib242d.lib;opencv_core242d.lib;opencv_features2d242d.lib;opencv_flann242d.lib;opencv_gpu242d.lib;opencv_haartraining_engined.lib;opencv_highgui242d.lib;opencv_imgproc242d.lib;opencv_legacy242d.lib;opencv_ml242d.lib;opencv_nonfree242d.lib;opencv_objdetect242d.lib;opencv_photo242d.lib;opencv_stitching242d.lib;opencv_ts242d.lib;opencv_video242d.lib;opencv_videostab242d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -66,27 +66,44 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\resources\opencv242\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;$(SolutionDir)\Core\include;$(SolutionDir)\resources\opencv242\include;$(SolutionDir)\resources\pthreads-win32\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)\resources\opencv242\lib\release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_calib3d242.lib;opencv_contrib242.lib;opencv_core242.lib;opencv_features2d242.lib;opencv_flann242.lib;opencv_gpu242.lib;opencv_haartraining_engine.lib;opencv_highgui242.lib;opencv_imgproc242.lib;opencv_legacy242.lib;opencv_ml242.lib;opencv_nonfree242.lib;opencv_objdetect242.lib;opencv_photo242.lib;opencv_stitching242.lib;opencv_ts242.lib;opencv_video242.lib;opencv_videostab242.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration)\;$(SolutionDir)\resources\opencv242\lib\release;$(SolutionDir)\resources\pthreads-win32\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Core.lib;opencv_calib3d242.lib;opencv_contrib242.lib;opencv_core242.lib;opencv_features2d242.lib;opencv_flann242.lib;opencv_gpu242.lib;opencv_haartraining_engine.lib;opencv_highgui242.lib;opencv_imgproc242.lib;opencv_legacy242.lib;opencv_ml242.lib;opencv_nonfree242.lib;opencv_objdetect242.lib;opencv_photo242.lib;opencv_stitching242.lib;opencv_ts242.lib;opencv_video242.lib;opencv_videostab242.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Definitions.h" />
-    <ClInclude Include="HaarDetector.h" />
-    <ClInclude Include="LKTracker.h" />
-    <ClInclude Include="MotionHistory.h" />
+    <ClInclude Include="include\FastFeature.h" />
+    <ClInclude Include="include\GlobalFeature.h" />
+    <ClInclude Include="include\LbpFeature.h" />
+    <ClInclude Include="include\LocalFeature.h" />
+    <ClInclude Include="include\MserFeature.h" />
+    <ClInclude Include="include\OrbFeature.h" />
+    <ClInclude Include="include\SiftFeature.h" />
+    <ClInclude Include="include\StarFeature.h" />
+    <ClInclude Include="include\SurfFeature.h" />
+    <ClInclude Include="include\HaarDetector.h" />
+    <ClInclude Include="include\LKTracker.h" />
+    <ClInclude Include="include\MotionHistory.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="HaarDetector.cpp" />
-    <ClCompile Include="LKTracker.cpp" />
-    <ClCompile Include="MotionHistory.cpp" />
+    <ClCompile Include="src\FastFeature.cpp" />
+    <ClCompile Include="src\GlobalFeature.cpp" />
+    <ClCompile Include="src\LbpFeature.cpp" />
+    <ClCompile Include="src\LocalFeature.cpp" />
+    <ClCompile Include="src\MserFeature.cpp" />
+    <ClCompile Include="src\OrbFeature.cpp" />
+    <ClCompile Include="src\SiftFeature.cpp" />
+    <ClCompile Include="src\StarFeature.cpp" />
+    <ClCompile Include="src\SurfFeature.cpp" />
+    <ClCompile Include="src\HaarDetector.cpp" />
+    <ClCompile Include="src\LKTracker.cpp" />
+    <ClCompile Include="src\MotionHistory.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
