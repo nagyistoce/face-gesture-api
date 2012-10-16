@@ -77,6 +77,7 @@ protected:
 	cv::Mat frame_;		    //!< The current frame.
     cv::Mat outputFrame_;	//!< The current frame.
 	double procTime_;	    //!< Processing time of the current feature extraction method.
+    double avgAngle_;
 
 private:
 	//! Implemented virtual method for the algorithm.

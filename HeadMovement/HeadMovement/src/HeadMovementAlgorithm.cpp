@@ -123,16 +123,16 @@ void HeadMovementAlgorithm::Process(void)
             motionHistory_ = new MotionHistory(frame_.size());
 
         motionHistory_->UpdateMotionHistory(frame_, 30);
-		Mat maskCopy(frame_.rows, frame_.cols, CV_8UC3);
-		cvtColor(motionHistory_->GetMask(), maskCopy, CV_GRAY2BGR);
+		//Mat maskCopy(frame_.rows, frame_.cols, CV_8UC3);
+		//cvtColor(motionHistory_->GetMask(), maskCopy, CV_GRAY2BGR);
 
-		for(GlobalFeaturePool::iterator lfElem = globalFeaturePool_.begin(); lfElem != globalFeaturePool_.end(); lfElem++)
-		{
-			lfElem->second->SetFrame(maskCopy);
-			lfElem->second->Start();
-			lfElem->second->Join();
-			lfElem->second->Visualize();
-		}
+		//for(GlobalFeaturePool::iterator lfElem = globalFeaturePool_.begin(); lfElem != globalFeaturePool_.end(); lfElem++)
+		//{
+		//	lfElem->second->SetFrame(maskCopy);
+		//	lfElem->second->Start();
+		//	lfElem->second->Join();
+		//	lfElem->second->Visualize();
+		//}
 
 		// press ESC to exit
 		if(waitKey(30) >= 0) 

@@ -8,7 +8,8 @@ using namespace cv;
 GlobalFeature::GlobalFeature(const string& name, const string& type)
 :	name_(name),
     type_(type),
-	procTime_(0.0)
+	procTime_(0.0),
+    avgAngle_(0.0)
 {
 }
 
@@ -46,6 +47,16 @@ void GlobalFeature::Visualize(void)
 
     sprintf_s(buffer, 500, "Number of detected keypoints: %d.", keyPoints.size());
     VisualizerPtr->PutText(frame_, buffer, Point(10, 40));
+
+    avgAngle_ = 0.0;
+    for (size_t i = 0; i < keyPoints.size(); i++)
+        avgAngle_ += keyPoints[i].angle;
+    
+    avgAngle_ /= keyPoints.size();
+
+    stringstream ss;
+    ss << "AVG Angle: " << avgAngle_;
+    VisualizerPtr->PutText(frame_, ss.str(), Point(10, 60));
 
     VisualizerPtr->ShowImage(name_, frame_);
 }
