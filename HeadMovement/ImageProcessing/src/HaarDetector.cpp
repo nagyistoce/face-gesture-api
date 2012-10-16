@@ -14,9 +14,12 @@ HaarDetector::HaarDetector(const string& name)
 	minNeighbors_(2),
 	flags_(0),
 	minSize_(Size()),
-	maxSize_(Size()) 
+	maxSize_(Size()),
+	procTime_(0.0)
 {
 	LoadSettingsFromFileStorage();
+
+	//namedWindow("HeadMovementAlgorithm - " + name_, WINDOW_AUTOSIZE);
 }
 
 HaarDetector::~HaarDetector(void)
@@ -61,11 +64,13 @@ void HaarDetector::SetFrame(const Mat& frame)
 
 void* HaarDetector::Run(void)
 {
+	procTime_ = (double)cvGetTickCount();
     if(!frame_.empty())
 	{
         Process();
-		//Visualize();
+		Visualize();
 	}
+	procTime_ = (double)cvGetTickCount() - procTime_;
 
     return reinterpret_cast<void*>(0);
 }
@@ -96,6 +101,11 @@ const string& HaarDetector::GetName(void)
 
 void HaarDetector::Visualize(void)
 {
+	char buffer[500];
+
+	sprintf_s(buffer, 500, "Processing time of %s: %.2lf ms.", name_.c_str(), procTime_ / (cvGetTickFrequency() * 1000.0));
+	VisualizerPtr->PutText(frame_, buffer, Point(10, 20));
+
 	int i = 0;
 	const static Scalar colors[8] =  { 
 		CV_RGB(0 ,0, 255),

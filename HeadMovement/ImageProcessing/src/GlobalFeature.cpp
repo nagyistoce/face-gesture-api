@@ -19,20 +19,22 @@ GlobalFeature::~GlobalFeature(void)
 
 void GlobalFeature::SetFrame(const Mat& frame)
 {
-	frame_ = frame.clone();
+	if(frame.channels() != 3)
+		cvtColor(frame, frame_, CV_GRAY2BGR);
+	else
+		frame_ = frame.clone();
 }
 
 void* GlobalFeature::Run(void)
 {
+	procTime_ = (double)cvGetTickCount();
 	if(!frame_.empty())
 	{
-		procTime_ = (double)cvGetTickCount();
 		Process();
-		procTime_ = (double)cvGetTickCount() - procTime_;
-
 		DrawFeatures();
         //Visualize();
 	}
+	procTime_ = (double)cvGetTickCount() - procTime_;
 
 	return reinterpret_cast<void*>(0);
 }

@@ -25,9 +25,9 @@ Visualizer* Visualizer::GetInstance(void)
 void Visualizer::ShowImage(const string& name, const Mat& image, bool waitForKey)
 {
     imshow(name, image);
-
+	Sleep(1);
     if(waitForKey)
-        waitKey(0);
+        waitKey(1);
 }
 
 void Visualizer::PutText(Mat& image, const string& text, Point& org)

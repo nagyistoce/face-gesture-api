@@ -8,10 +8,12 @@ class MotionHistory;
 class GlobalFeature;
 class LocalFeature;
 class ImageFrame;
+class Thread;
 
 typedef std::map<std::string, GlobalFeature*> GlobalFeaturePool;
 typedef std::map<std::string, LocalFeature*> LocalFeaturePool;
 typedef std::map<std::string, HaarDetector*> HaarDetectorPool;
+typedef std::map<std::string, Thread*> ThreadPool;
 
 class HeadMovementAlgorithm
 {
@@ -30,6 +32,7 @@ private:
 
 	//std::vector<cv::Rect> faces_;
 
+	ThreadPool			threadPool_;
     GlobalFeaturePool   globalFeaturePool_;	    //!< Stores all global feature extractor.   
     LocalFeaturePool    localFeaturePool_;      //!< Stores all local feature extractor.
     HaarDetectorPool    haarDetectorPool_;

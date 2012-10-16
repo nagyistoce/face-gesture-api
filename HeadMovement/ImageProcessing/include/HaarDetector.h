@@ -48,4 +48,5 @@ private:
 	int flags_;
 	cv::Size minSize_;
 	cv::Size maxSize_;
+	double procTime_;
 };
