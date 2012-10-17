@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GlobalFeature.h"
+#include "LocalFeature.h"
 
 //! Class for extracting FAST features.
 /*!
@@ -11,7 +11,7 @@
     See paper:
     E. Rosten. Machine Learning for High-speed Corner Detection, 2006.
 */
-extern "C++" class __declspec(dllexport) FastFeature : public GlobalFeature
+extern "C++" class __declspec(dllexport) FastFeature : public LocalFeature
 {
 public:
 	//! Constructor.

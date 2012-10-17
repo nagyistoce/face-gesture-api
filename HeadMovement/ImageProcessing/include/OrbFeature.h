@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GlobalFeature.h"
+#include "LocalFeature.h"
 
 //! Class for extracting ORB features.
 /*!
@@ -11,7 +11,7 @@
 	See paper:
 	Ethan Rublee, Vincent Rabaud, Kurt Konolige, Gary R. Bradski: ORB: An efficient alternative to SIFT or SURF. ICCV 2011: 2564-2571.
 */
-extern "C++" class __declspec(dllexport) OrbFeature : public GlobalFeature
+extern "C++" class __declspec(dllexport) OrbFeature : public LocalFeature
 {
 public:
 	//! Constructor.

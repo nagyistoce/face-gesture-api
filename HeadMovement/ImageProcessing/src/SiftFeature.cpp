@@ -8,7 +8,7 @@ using namespace std;
 using namespace cv;
 
 SiftFeature::SiftFeature(const string& name, const string& type)
-:	GlobalFeature(name, type)
+:	LocalFeature(name, type)
 {
 	LoadSettingsFromFileStorage();
 
@@ -43,5 +43,5 @@ void SiftFeature::Process(void)
 
 void SiftFeature::DrawFeatures(void)
 {
-	drawKeypoints(frame_, keyPoints, frame_, Scalar::all(-1), DrawMatchesFlags::DEFAULT | DrawMatchesFlags::DRAW_RICH_KEYPOINTS); 
+	drawKeypoints(frame_, keyPoints, frame_, Scalar::all(-1), DrawMatchesFlags::DEFAULT /*| DrawMatchesFlags::DRAW_RICH_KEYPOINTS*/); 
 }

@@ -8,7 +8,8 @@ using namespace cv;
 LocalFeature::LocalFeature(const string& name, const string& type)
 :	name_(name),
     type_(type),
-    procTime_(0.0)
+    procTime_(0.0),
+    centerOfPts_(Point2f(0.0f, 0.0f))
 {
 }
 
@@ -19,21 +20,35 @@ LocalFeature::~LocalFeature(void)
 void LocalFeature::SetFrame(const Mat& frame)
 {
     frame_ = frame.clone();
+    if(frame_.channels() != 3)
+        cvtColor(frame_, frame_, CV_GRAY2BGR);
+
+    keyPoints.clear();
 }
 
 void* LocalFeature::Run(void)
 {
+    procTime_ = (double)cvGetTickCount();
+    centerOfPts_ = Point2f(0.0f, 0.0f);
+
     if(!frame_.empty())
     {
-        ProcessInit();
-
-        procTime_ = (double)cvGetTickCount();
         Process();
-        procTime_ = (double)cvGetTickCount() - procTime_;
-
         DrawFeatures();
-        //Visualize();
+
+        if(!keyPoints.empty())
+        {
+            for (size_t i = 0; i < keyPoints.size(); i++)
+            {
+                centerOfPts_.x += keyPoints[i].pt.x;
+                centerOfPts_.y += keyPoints[i].pt.y;
+            }
+
+            centerOfPts_.x /= keyPoints.size();
+            centerOfPts_.y /= keyPoints.size();
+        }
     }
+    procTime_ = (double)cvGetTickCount() - procTime_;
 
     return reinterpret_cast<void*>(0);
 }
@@ -41,15 +56,22 @@ void* LocalFeature::Run(void)
 
 void LocalFeature::Visualize(void)
 {
-    char buffer[500];
+    stringstream ss;
 
-    sprintf_s(buffer, 500, "Processing time of %s: %.2lf ms.", name_.c_str(), procTime_ / (cvGetTickFrequency() * 1000.0));
-    VisualizerPtr->PutText(outputFrame_, buffer, Point(10, 20));
+    ss << "Processing time of " << name_ << ": " << procTime_ / (cvGetTickFrequency() * 1000.0);
+    VisualizerPtr->PutText(frame_, ss.str(), Point(10, 20));
+    ss.str("");
 
-    sprintf_s(buffer, 500, "Number of features: %d.", features.size());
-    VisualizerPtr->PutText(outputFrame_, buffer, Point(10, 40));
+    ss << "Number of detected keypoints: " << keyPoints.size();
+    VisualizerPtr->PutText(frame_, ss.str(), Point(10, 40));
+    ss.str("");
 
-    VisualizerPtr->ShowImage(name_, outputFrame_);
+    circle(frame_, Point(centerOfPts_), 5, Scalar(0, 0, 255), -1);
+    ss << "Center of points: (" << centerOfPts_.x << ", " << centerOfPts_.y << ")";
+    VisualizerPtr->PutText(frame_, ss.str(), Point(10, 60));
+    ss.str("");
+
+    VisualizerPtr->ShowImage(name_, frame_);
 }
 
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GlobalFeature.h"
+#include "LocalFeature.h"
 
 //! Class for extracting SURF features.
 /*!
@@ -11,7 +11,7 @@
 	See paper:
 	Bay, H. and Tuytelaars, T. and Van Gool, L. “SURF: Speeded Up Robust Features”, 9th European Conference on Computer Vision, 2006.
 */
-extern "C++" class __declspec(dllexport) SurfFeature : public GlobalFeature
+extern "C++" class __declspec(dllexport) SurfFeature : public LocalFeature
 {
 public:
 	//! Constructor.

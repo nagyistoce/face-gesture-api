@@ -68,7 +68,7 @@ void* HaarDetector::Run(void)
     if(!frame_.empty())
 	{
         Process();
-		Visualize();
+		//Visualize();
 	}
 	procTime_ = (double)cvGetTickCount() - procTime_;
 
@@ -122,7 +122,9 @@ void HaarDetector::Visualize(void)
 	{
 		Point center(cvRound(r->x + r->width * 0.5), cvRound(r->y + r->height * 0.5));
 		int radius = cvRound((r->width + r->height) * 0.25);
-		circle(frame_, center, radius, colors[i % 8], 3);
+
+		circle(frame_, center, radius, colors[i % 8], 2);
+        rectangle(frame_, Point(r->x, r->y), Point(r->x + r->width, r->y + r->height), colors[i % 8], 2);
 	}
 
 	VisualizerPtr->ShowImage("HeadMovementAlgorithm - " + name_, frame_);

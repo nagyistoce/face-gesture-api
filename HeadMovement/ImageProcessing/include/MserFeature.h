@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GlobalFeature.h"
+#include "LocalFeature.h"
 
 //! Class for extracting MSER features.
 /*!
@@ -9,7 +9,7 @@
 	The class implements Maximally-Stable Extremal Region Extractor algorithm.
     The class encapsulates all the parameters of MSER (see http://en.wikipedia.org/wiki/Maximally_stable_extremal_regions ) extraction algorithm.
 */
-extern "C++" class __declspec(dllexport) MserFeature : public GlobalFeature
+extern "C++" class __declspec(dllexport) MserFeature : public LocalFeature
 {
 public:
 	//! Constructor.

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "LocalFeature.h"
+#include "GlobalFeature.h"
 
 //! Class for extracting LBP features.
 /*!
@@ -11,7 +11,7 @@
     See paper:
     T. Ojala, M. Pietikäinen, and D. Harwood (1994), "Performance evaluation of texture measures with classification based on Kullback discrimination of distributions", Proceedings of the 12th IAPR International Conference on Pattern Recognition (ICPR 1994), vol. 1, pp. 582 - 585.
 */
-extern "C++" class __declspec(dllexport) LbpFeature : public LocalFeature
+extern "C++" class __declspec(dllexport) LbpFeature : public GlobalFeature
 {
 public:
 	//! Constructor.

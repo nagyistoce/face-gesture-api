@@ -8,7 +8,7 @@ using namespace std;
 using namespace cv;
 
 FastFeature::FastFeature(const string& name, const string& type)
-:	GlobalFeature(name, type)
+:	LocalFeature(name, type)
 {
     LoadSettingsFromFileStorage();
 
@@ -42,5 +42,5 @@ void FastFeature::Process(void)
 
 void FastFeature::DrawFeatures(void)
 {
-    drawKeypoints(frame_, keyPoints, frame_, Scalar::all(-1), DrawMatchesFlags::DEFAULT | DrawMatchesFlags::DRAW_RICH_KEYPOINTS); 
+    drawKeypoints(frame_, keyPoints, frame_, Scalar::all(-1), DrawMatchesFlags::DEFAULT /*| DrawMatchesFlags::DRAW_RICH_KEYPOINTS*/); 
 }

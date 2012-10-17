@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GlobalFeature.h"
+#include "LocalFeature.h"
 
 //! Class for extracting SIFT features.
 /*!
@@ -11,7 +11,7 @@
 	See paper:
 	Lowe, D. G., “Distinctive Image Features from Scale-Invariant Keypoints”, International Journal of Computer Vision, 60, 2, pp. 91-110, 2004.
 */
-extern "C++" class __declspec(dllexport) SiftFeature : public GlobalFeature
+extern "C++" class __declspec(dllexport) SiftFeature : public LocalFeature
 {
 public:
 	//! Constructor.

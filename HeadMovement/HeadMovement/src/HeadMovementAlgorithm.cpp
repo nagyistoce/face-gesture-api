@@ -37,15 +37,6 @@ HeadMovementAlgorithm::~HeadMovementAlgorithm(void)
 	for(ThreadPool::iterator elem = threadPool_.begin(); elem != threadPool_.end(); elem++)
 		delete elem->second;
 
-    //for(GlobalFeaturePool::iterator gfElem = globalFeaturePool_.begin(); gfElem != globalFeaturePool_.end(); gfElem++)
-    //    delete gfElem->second;
-
-    //for(LocalFeaturePool::iterator lfElem = localFeaturePool_.begin(); lfElem != localFeaturePool_.end(); lfElem++)
-    //    delete lfElem->second;
-
-    //for(HaarDetectorPool::iterator hdElem = haarDetectorPool_.begin(); hdElem != haarDetectorPool_.end(); hdElem++)
-    //    delete hdElem->second;
-
     delete motionHistory_;
 }
 
@@ -82,21 +73,19 @@ void HeadMovementAlgorithm::LoadSettingsFromFileStorage(void)
 
         // Global feature extractors
         if(name.compare("SIFT") == 0)
-            threadPool_[name] = globalFeaturePool_[name] = new SiftFeature(name, type);
+            threadPool_[name] = localFeaturePool_[name] = new SiftFeature(name, type);
         else if(name.compare("SURF") == 0)
-            threadPool_[name] = globalFeaturePool_[name] = new SurfFeature(name, type);
+            threadPool_[name] = localFeaturePool_[name] = new SurfFeature(name, type);
         else if(name.compare("ORB") == 0)
-            threadPool_[name] = globalFeaturePool_[name] = new OrbFeature(name, type);
+            threadPool_[name] = localFeaturePool_[name] = new OrbFeature(name, type);
         else if(name.compare("STAR") == 0)
-            threadPool_[name] = globalFeaturePool_[name] = new StarFeature(name, type);
+            threadPool_[name] = localFeaturePool_[name] = new StarFeature(name, type);
         else if(name.compare("MSER") == 0)
-            threadPool_[name] = globalFeaturePool_[name] = new MserFeature(name, type);
+            threadPool_[name] = localFeaturePool_[name] = new MserFeature(name, type);
         else if(name.compare("FAST") == 0)
-            threadPool_[name] = globalFeaturePool_[name] = new FastFeature(name, type);
+            threadPool_[name] = localFeaturePool_[name] = new FastFeature(name, type);
         else if(name.compare("LBP") == 0)
-            threadPool_[name] = localFeaturePool_[name] = new LbpFeature(name, type);
-        // TODO: Local feature extractors here:
-        // else if(...)
+            threadPool_[name] = globalFeaturePool_[name] = new LbpFeature(name, type);
         else
             CV_Error(1, "Unkonwn feature extractor (" + name + ")!");
     }
@@ -119,48 +108,17 @@ void HeadMovementAlgorithm::Process(void)
 #endif
 		// get a new frame from camera
 		videoCapture_ >> frame_;
+        StartDetectors();
 
 		if(motionHistory_ == NULL)
 			motionHistory_ = new MotionHistory(frame_.size());
 
 		motionHistory_->UpdateMotionHistory(frame_, 30);
 
-		for(ThreadPool::iterator elem = threadPool_.begin(); elem != threadPool_.end(); elem++)
-		{
-			elem->second->SetFrame(frame_);
-			elem->second->Start();
-		}
+        StartFeatureExtractors();
 
-   //     for(HaarDetectorPool::iterator hdElem = haarDetectorPool_.begin(); hdElem != haarDetectorPool_.end(); hdElem++)
-   //     {
-   //         hdElem->second->SetFrame(frame_);
-			//hdElem->second->Start();
-   //     }
-
-		//for(HaarDetectorPool::iterator hdElem = haarDetectorPool_.begin(); hdElem != haarDetectorPool_.end(); hdElem++)
-		//{
-		//	hdElem->second->Join();
-		//	hdElem->second->Visualize();
-		//}
-
-		//for(GlobalFeaturePool::iterator lfElem = globalFeaturePool_.begin(); lfElem != globalFeaturePool_.end(); lfElem++)
-		//{
-		//	lfElem->second->SetFrame(motionHistory_->GetMask());
-		//	lfElem->second->Start();
-		//}
-
-		//for(GlobalFeaturePool::iterator lfElem = globalFeaturePool_.begin(); lfElem != globalFeaturePool_.end(); lfElem++)
-		//{
-		//	lfElem->second->Join();
-		//	lfElem->second->Visualize();
-		//}
-
-		for(ThreadPool::iterator elem = threadPool_.begin(); elem != threadPool_.end(); elem++)
-		{
-			elem->second->Join();
-			elem->second->Visualize();
-		}
-
+        VisualizeProcesses();
+		
 		// press ESC to exit
 		if(waitKey(30) >= 0) 
 			break;
@@ -170,4 +128,67 @@ void HeadMovementAlgorithm::Process(void)
         printf("Processing time: %g ms.\n", t / ((double)cvGetTickFrequency() * 1000.0));
 #endif
 	}
+}
+
+void HeadMovementAlgorithm::StartFeatureExtractors(void)
+{
+    const Mat& motionMask = motionHistory_->GetMask();
+    CV_Assert(!motionMask.empty());
+
+    for(ThreadPool::iterator elem = threadPool_.begin(); elem != threadPool_.end(); elem++)
+    {
+        GlobalFeature* globalFeature = dynamic_cast<GlobalFeature*>(elem->second);
+        LocalFeature* localFeature = dynamic_cast<LocalFeature*>(elem->second);
+
+        if(globalFeature)
+        {
+            globalFeature->SetFrame(motionMask);
+            globalFeature->Start();
+        }
+
+        if(localFeature)
+        {
+            localFeature->SetFrame(motionMask);
+            localFeature->Start();
+        }
+    }
+}
+
+void HeadMovementAlgorithm::StartDetectors(void)
+{
+    CV_Assert(!frame_.empty());
+
+    for(HaarDetectorPool::iterator hdElem = haarDetectorPool_.begin(); hdElem != haarDetectorPool_.end(); hdElem++)
+    {
+        hdElem->second->SetFrame(frame_);
+        hdElem->second->Start();
+    }
+}
+
+void HeadMovementAlgorithm::VisualizeProcesses(void)
+{
+    for(ThreadPool::iterator elem = threadPool_.begin(); elem != threadPool_.end(); elem++)
+    {
+        GlobalFeature* globalFeature = dynamic_cast<GlobalFeature*>(elem->second);
+        LocalFeature* localFeature = dynamic_cast<LocalFeature*>(elem->second);
+        HaarDetector* haarDetector = dynamic_cast<HaarDetector*>(elem->second);
+
+        if(haarDetector)
+        {
+            haarDetector->Join();
+            haarDetector->Visualize();
+        }
+
+        if(localFeature)
+        {
+            localFeature->Join();
+            localFeature->Visualize();
+        }
+
+        if(globalFeature)
+        {
+            globalFeature->Join();
+            globalFeature->Visualize();
+        }
+    }
 }

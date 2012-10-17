@@ -8,7 +8,7 @@ using namespace std;
 using namespace cv;
 
 LbpFeature::LbpFeature(const string& name, const string& type)
-:	LocalFeature(name, type)
+:	GlobalFeature(name, type)
 {
     LoadSettingsFromFileStorage();
 }

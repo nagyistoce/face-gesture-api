@@ -8,7 +8,7 @@ using namespace std;
 using namespace cv;
 
 MserFeature::MserFeature(const string& name, const string& type)
-:	GlobalFeature(name, type)
+:	LocalFeature(name, type)
 {
 	LoadSettingsFromFileStorage();
 
@@ -48,5 +48,5 @@ void MserFeature::Process(void)
 
 void MserFeature::DrawFeatures(void)
 {
-    drawKeypoints(frame_, keyPoints, frame_, Scalar::all(-1), DrawMatchesFlags::DEFAULT | DrawMatchesFlags::DRAW_RICH_KEYPOINTS); 
+    drawKeypoints(frame_, keyPoints, frame_, Scalar::all(-1), DrawMatchesFlags::DEFAULT /*| DrawMatchesFlags::DRAW_RICH_KEYPOINTS*/); 
 }

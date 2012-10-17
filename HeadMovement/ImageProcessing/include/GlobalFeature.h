@@ -57,11 +57,14 @@ public:
 	*/
     double GetProcTime(void);
 
-    std::vector<cv::KeyPoint> keyPoints;	//!< Stores keypoints, i.e. a point feature found by one of many available keypoint detectors.
+    std::vector<double> features;	//!< Stores local features.
 
 protected:
     //! Virtual method for loading algorithm specific settings from the given storage.
 	virtual void LoadSettingsFromFileStorage(void) = NULL;
+
+    //! Virtual method for initalizing the variables.
+    virtual void ProcessInit(void) = NULL;
 
 	//! Virtual method for each feature extraction algorithm.
 	virtual void Process(void) = NULL;
@@ -72,8 +75,8 @@ protected:
 	std::string name_;	//!< Name of the current feature extraction procedure.
     std::string type_;	//!< Type of the current feature extraction procedure.
 	cv::Mat frame_;		//!< The current frame.
+    cv::Mat outputFrame_;	//!< The current frame.
 	double procTime_;	//!< Processing time of the current feature extraction method.
-    double avgAngle_;
 
 private:
 	//! Implemented virtual method for the algorithm.
