@@ -1,4 +1,5 @@
 #include <ctime>
+#include <cmath>
 
 #include "MotionHistory.h"
 #include "Definitions.h"
@@ -51,6 +52,69 @@ void MotionHistory::UpdateMotionHistory(const Mat& image, int diffThreshold)
 
     // convert MHI to blue 8u image
     mhi_.convertTo(mask_, mask_.type(), 255.0 / MHI_DURATION, (MHI_DURATION - timestamp) * 255.0 / MHI_DURATION);
+}
+
+void MotionHistory::PredictMotionVectors(const Mat& frame, const Mat& prevFrame, const Rect& rect, const vector<Point2f>& points)
+{
+    Point2f center(rect.x + rect.width * 0.5f, rect.y + rect.height * 0.5f);
+    double radius = (rect.width + rect.height) * 0.25f;
+    vector<Point2f> innerPoints, nextPoints;
+
+    vector<uchar> status;
+    vector<float> err;
+
+    double procTime = (double)cvGetTickCount();
+
+    for(size_t i = 0; i < points.size(); i++)
+    {
+        double dst = sqrt(pow(center.x - points[i].x, 2) + pow(center.y - points[i].y, 2));
+
+        if(dst < radius)
+            innerPoints.push_back(points[i]);
+    }
+
+    Mat grayFrame, grayPrevFrame;
+
+    if(!innerPoints.empty())
+    {      
+        if(!frame.empty() && !prevFrame.empty())
+        {
+            grayFrame = frame.clone();
+            if(grayFrame.channels() != 1)
+                cvtColor(grayFrame, grayFrame, CV_BGR2GRAY);
+
+            grayPrevFrame = prevFrame.clone();
+            if(grayPrevFrame.channels() != 1)
+                cvtColor(grayPrevFrame, grayPrevFrame, CV_BGR2GRAY);
+
+            TermCriteria termcrit(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS,20,0.03);
+            calcOpticalFlowPyrLK(grayPrevFrame, grayFrame, innerPoints, nextPoints, status, err, Size(31,31),
+                                 3, termcrit, 0, 0.001);
+
+            if(innerPoints.size() == nextPoints.size())
+                for(size_t i = 0; i < nextPoints.size(); i++ )
+                {
+                    if( !status[i] )
+                        continue;
+                
+                    line(grayFrame, Point(innerPoints[i]), Point(nextPoints[i]), Scalar(255, 255, 255), 1);
+                    circle(grayFrame, innerPoints[i], 2, Scalar(255, 255, 255), -1);
+                }
+        }
+    }
+
+    procTime = (double)cvGetTickCount() - procTime;
+
+    if(!grayFrame.empty())
+    {
+        stringstream ss;
+
+        ss << "Processing time of MotionHistory: " << procTime / (cvGetTickFrequency() * 1000.0);
+        VisualizerPtr->PutText(grayFrame, ss.str(), Point(10, 20));
+        ss.str("");
+
+        VisualizerPtr->ShowImage("MotionHistory", grayFrame);
+    }
 }
 
 const Mat& MotionHistory::GetMhi(void)

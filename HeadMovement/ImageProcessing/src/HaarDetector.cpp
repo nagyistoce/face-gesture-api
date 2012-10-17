@@ -101,10 +101,11 @@ const string& HaarDetector::GetName(void)
 
 void HaarDetector::Visualize(void)
 {
-	char buffer[500];
+    stringstream ss;
 
-	sprintf_s(buffer, 500, "Processing time of %s: %.2lf ms.", name_.c_str(), procTime_ / (cvGetTickFrequency() * 1000.0));
-	VisualizerPtr->PutText(frame_, buffer, Point(10, 20));
+    ss << "Processing time of " << name_ << ": " << procTime_ / (cvGetTickFrequency() * 1000.0);
+    VisualizerPtr->PutText(frame_, ss.str(), Point(10, 20));
+    ss.str("");
 
 	int i = 0;
 	const static Scalar colors[8] =  { 

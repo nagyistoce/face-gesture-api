@@ -12,6 +12,10 @@
 		
 	<featureExtractors>
 		<_>
+			<name>"MSER"</name>
+			<type>"local"</type>
+		</_>
+		<!--_>
 			<name>"SIFT"</name>
 			<type>"local"</type>
 		</_>
@@ -23,7 +27,7 @@
 			<name>"MSER"</name>
 			<type>"local"</type>
 		</_>
-		<!--_>
+		<_>
 			<name>"SURF"</name>
 			<type>"local"</type>
 		</_>

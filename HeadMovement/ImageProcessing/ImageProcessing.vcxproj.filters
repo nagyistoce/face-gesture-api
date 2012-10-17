@@ -31,10 +31,10 @@
     <ClCompile Include="src\HaarDetector.cpp">
       <Filter>Detector</Filter>
     </ClCompile>
-    <ClCompile Include="src\LKTracker.cpp">
+    <ClCompile Include="src\MotionHistory.cpp">
       <Filter>Tracker</Filter>
     </ClCompile>
-    <ClCompile Include="src\MotionHistory.cpp">
+    <ClCompile Include="src\PointTracker.cpp">
       <Filter>Tracker</Filter>
     </ClCompile>
   </ItemGroup>
@@ -69,10 +69,10 @@
     <ClInclude Include="include\HaarDetector.h">
       <Filter>Detector</Filter>
     </ClInclude>
-    <ClInclude Include="include\LKTracker.h">
+    <ClInclude Include="include\MotionHistory.h">
       <Filter>Tracker</Filter>
     </ClInclude>
-    <ClInclude Include="include\MotionHistory.h">
+    <ClInclude Include="include\PointTracker.h">
       <Filter>Tracker</Filter>
     </ClInclude>
   </ItemGroup>

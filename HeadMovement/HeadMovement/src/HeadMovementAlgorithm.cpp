@@ -108,6 +108,8 @@ void HeadMovementAlgorithm::Process(void)
 #endif
 		// get a new frame from camera
 		videoCapture_ >> frame_;
+        flip(frame_, frame_, 1);
+
         StartDetectors();
 
 		if(motionHistory_ == NULL)
@@ -116,12 +118,26 @@ void HeadMovementAlgorithm::Process(void)
 		motionHistory_->UpdateMotionHistory(frame_, 30);
 
         StartFeatureExtractors();
-
         VisualizeProcesses();
+
+        faces_ = haarDetectorPool_["FACE"]->GetObjects();
+        if(!faces_.empty())
+        {
+            if(localFeaturePool_.find("MSER") != localFeaturePool_.end() && !localFeaturePool_["MSER"]->keyPoints.empty())
+            {
+                vector<Point2f> points;
+                KeyPoint::convert(localFeaturePool_["MSER"]->keyPoints, points);
+
+                if(!prevFrame_.empty())
+                    motionHistory_->PredictMotionVectors(frame_, prevFrame_, faces_[0], points);
+            }
+        }
 		
 		// press ESC to exit
 		if(waitKey(30) >= 0) 
 			break;
+
+        prevFrame_ = frame_.clone();
 
 #ifdef DEBUG_MODE
         t = (double)cvGetTickCount() - t;

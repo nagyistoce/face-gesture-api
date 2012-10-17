@@ -88,7 +88,7 @@
     <ClInclude Include="include\StarFeature.h" />
     <ClInclude Include="include\SurfFeature.h" />
     <ClInclude Include="include\HaarDetector.h" />
-    <ClInclude Include="include\LKTracker.h" />
+    <ClInclude Include="include\PointTracker.h" />
     <ClInclude Include="include\MotionHistory.h" />
   </ItemGroup>
   <ItemGroup>
@@ -102,7 +102,7 @@
     <ClCompile Include="src\StarFeature.cpp" />
     <ClCompile Include="src\SurfFeature.cpp" />
     <ClCompile Include="src\HaarDetector.cpp" />
-    <ClCompile Include="src\LKTracker.cpp" />
+    <ClCompile Include="src\PointTracker.cpp" />
     <ClCompile Include="src\MotionHistory.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -32,7 +32,7 @@ private:
     void StartFeatureExtractors(void);
     void StartDetectors( void );
     void VisualizeProcesses( void );
-    //std::vector<cv::Rect> faces_;
+    std::vector<cv::Rect> faces_;
 
 	ThreadPool			threadPool_;
     GlobalFeaturePool   globalFeaturePool_;	    //!< Stores all global feature extractor.   
@@ -44,4 +44,5 @@ private:
     MotionHistory* motionHistory_;
 	cv::VideoCapture videoCapture_;
 	cv::Mat frame_;
+    cv::Mat prevFrame_;
 };
