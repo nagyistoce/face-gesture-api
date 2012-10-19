@@ -3,6 +3,8 @@
 
 #include "opencv2/opencv.hpp"
 
+class PointTracker;
+
 extern "C++" class __declspec(dllexport) MotionHistory
 {
 public:
@@ -17,6 +19,7 @@ public:
     const cv::Mat& GetMask(void);
 
 private:
+    PointTracker* pointTracker_;
     cv::Mat *buffer_;   // ring image buffer
     cv::Mat mhi_;       // MHI
     cv::Mat orient_;    // orientation

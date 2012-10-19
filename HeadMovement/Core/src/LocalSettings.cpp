@@ -18,6 +18,7 @@ LocalSettings::LocalSettings(void)
 	getline(fileStream, dataDirectory_);
 
 	processXmlFileName_ = dataDirectory_ + "xml/Process.default.xml";
+    trackerDirectory_  = dataDirectory_ + "xml/Trakcer/";
     featureExtractorDirectory_  = dataDirectory_ + "xml/FeatureExtractor/";
 	detectorDirectory_ = dataDirectory_ + "xml/Detector/";
 
@@ -52,4 +53,9 @@ string LocalSettings::GetDetectorDirectory(void) const
 string LocalSettings::GetProcessXmlFileName(void) const
 {
     return processXmlFileName_;
+}
+
+string LocalSettings::GetTrackerDirectory(void) const
+{
+    return trackerDirectory_;
 }

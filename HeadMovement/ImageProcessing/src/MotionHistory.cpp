@@ -4,12 +4,14 @@
 #include "MotionHistory.h"
 #include "Definitions.h"
 #include "Visualizer.h"
+#include "PointTracker.h"
 
 using namespace std;
 using namespace cv;
 
 MotionHistory::MotionHistory(const Size& size)
-:   lastId_(0)
+:   lastId_(0),
+    pointTracker_(NULL)
 {
     buffer_ = new Mat[BUFFER_SIZE];
     for(int i = 0; i < BUFFER_SIZE; i++)
@@ -19,12 +21,15 @@ MotionHistory::MotionHistory(const Size& size)
     orient_ =   Mat::zeros(size, CV_32FC1);
     segmask_ =  Mat::zeros(size, CV_32FC1);
     mask_ =     Mat::zeros(size, CV_8UC1);
+
+    pointTracker_ = new PointTracker("LK");
 }
 
 
 MotionHistory::~MotionHistory(void)
 {
     delete[] buffer_;
+    delete pointTracker_;
 }
 
 void MotionHistory::UpdateMotionHistory(const Mat& image, int diffThreshold)
