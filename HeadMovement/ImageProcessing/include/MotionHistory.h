@@ -3,12 +3,10 @@
 
 #include "opencv2/opencv.hpp"
 
-class PointTracker;
-
 extern "C++" class __declspec(dllexport) MotionHistory
 {
 public:
-    MotionHistory(const cv::Size& size);
+    MotionHistory(const cv::Size& size, const int bufferSize, const int mhiDuration, const double maxTimeDelta, const double minTimeDelta);
     ~MotionHistory(void);
 
     void UpdateMotionHistory(const cv::Mat& image, int diffThreshold);
@@ -19,7 +17,6 @@ public:
     const cv::Mat& GetMask(void);
 
 private:
-    PointTracker* pointTracker_;
     cv::Mat *buffer_;   // ring image buffer
     cv::Mat mhi_;       // MHI
     cv::Mat orient_;    // orientation
@@ -27,4 +24,9 @@ private:
     cv::Mat segmask_;   // motion segmentation map
 
     int lastId_;
+
+    const int bufferSize_;
+    const int mhiDuration_;
+    const double maxTimeDelta_;
+    const double minTimeDelta_;
 };

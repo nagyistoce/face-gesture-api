@@ -9,6 +9,7 @@ class GlobalFeature;
 class LocalFeature;
 class ImageFrame;
 class Thread;
+class PointTracker;
 
 typedef std::map<std::string, GlobalFeature*> GlobalFeaturePool;
 typedef std::map<std::string, LocalFeature*> LocalFeaturePool;
@@ -42,6 +43,7 @@ private:
     int cameraId_;				//!< ID of the camera to be analyzed.
 
     MotionHistory* motionHistory_;
+    PointTracker* pointTracker_;
 	cv::VideoCapture videoCapture_;
 	cv::Mat frame_;
     cv::Mat prevFrame_;

@@ -6,6 +6,7 @@
 
 #include "HaarDetector.h"
 #include "MotionHistory.h"
+#include "PointTracker.h"
 
 #include "SiftFeature.h"
 #include "SurfFeature.h"
@@ -21,15 +22,10 @@ using namespace cv;
 
 HeadMovementAlgorithm::HeadMovementAlgorithm(void)
 :   motionHistory_(NULL),
+    pointTracker_(NULL),
     cameraId_(0)
 {
 	LoadSettingsFromFileStorage();
-
-    videoCapture_.open(cameraId_);
-
-    // check if we succeeded
-    if(!videoCapture_.isOpened())
-        CV_Error(1, "VideoCapture is not opened!");
 }
 
 HeadMovementAlgorithm::~HeadMovementAlgorithm(void)
@@ -38,6 +34,7 @@ HeadMovementAlgorithm::~HeadMovementAlgorithm(void)
 		delete elem->second;
 
     delete motionHistory_;
+    delete pointTracker_;
 }
 
 void HeadMovementAlgorithm::LoadSettingsFromFileStorage(void)
@@ -48,6 +45,31 @@ void HeadMovementAlgorithm::LoadSettingsFromFileStorage(void)
 
     FileNode node = fileStorage["settings"];
     node[0]["cameraId"] >> cameraId_;
+
+    videoCapture_.open(cameraId_);
+    if(!videoCapture_.isOpened())
+        CV_Error(1, "VideoCapture is not opened!");
+
+    // Loading motion settings
+    node = fileStorage["motion"];
+
+    string pointTracker;
+    int frameWidth = cvRound(videoCapture_.get(CV_CAP_PROP_FRAME_WIDTH));
+    int frameHeight = cvRound(videoCapture_.get(CV_CAP_PROP_FRAME_HEIGHT));
+    int bufferSize, mhiDuration;
+    double maxTimeDelta, minTimeDelta;
+
+    node[0]["pointTracker"] >> pointTracker;
+    node[0]["bufferSize"] >> bufferSize;
+    node[0]["mhiDuration"] >> mhiDuration;
+    node[0]["maxTimeDelta"] >> maxTimeDelta;
+    node[0]["minTimeDelta"] >> minTimeDelta;
+    
+    motionHistory_ = new MotionHistory(Size(frameWidth, frameHeight), bufferSize, mhiDuration, maxTimeDelta, minTimeDelta);
+    pointTracker_ = new PointTracker(pointTracker);
+    // Loading motion settings
+
+
 
     // Loading HAAR detectors
     node = fileStorage["haarDetectors"];
@@ -62,6 +84,9 @@ void HeadMovementAlgorithm::LoadSettingsFromFileStorage(void)
         else
             CV_Error(1, "Unkonwn HAAR detector (" + name + ")!");
     }
+    // Loading HAAR detectors
+
+
 
     // Loading feature extractors
     node = fileStorage["featureExtractors"];
@@ -89,17 +114,12 @@ void HeadMovementAlgorithm::LoadSettingsFromFileStorage(void)
         else
             CV_Error(1, "Unkonwn feature extractor (" + name + ")!");
     }
+    // Loading feature extractors
 }
 
 void HeadMovementAlgorithm::Process(void)
 {
 	cout << "HeadMovementAlgorithm: Press ESC to exit." << endl;
-
-	for(HaarDetectorPool::iterator hdElem = haarDetectorPool_.begin(); hdElem != haarDetectorPool_.end(); hdElem++)
-	{
-		hdElem->second->Start();
-		//hdElem->second->Join();
-	}
 
 	while(true)
 	{
@@ -111,9 +131,6 @@ void HeadMovementAlgorithm::Process(void)
         flip(frame_, frame_, 1);
 
         StartDetectors();
-
-		if(motionHistory_ == NULL)
-			motionHistory_ = new MotionHistory(frame_.size());
 
 		motionHistory_->UpdateMotionHistory(frame_, 30);
 

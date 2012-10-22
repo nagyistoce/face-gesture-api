@@ -9,27 +9,28 @@
 using namespace std;
 using namespace cv;
 
-MotionHistory::MotionHistory(const Size& size)
-:   lastId_(0),
-    pointTracker_(NULL)
+MotionHistory::MotionHistory(const Size& size, const int bufferSize, const int mhiDuration, const double maxTimeDelta, const double minTimeDelta)
+:   buffer_(NULL),
+    lastId_(0),
+    bufferSize_(bufferSize),
+    mhiDuration_(mhiDuration),
+    maxTimeDelta_(maxTimeDelta),
+    minTimeDelta_(minTimeDelta)
 {
-    buffer_ = new Mat[BUFFER_SIZE];
-    for(int i = 0; i < BUFFER_SIZE; i++)
+    buffer_ = new Mat[bufferSize_];
+    for(int i = 0; i < bufferSize_; i++)
         buffer_[i] = Mat::zeros(size, CV_8UC1);
 
     mhi_ =      Mat::zeros(size, CV_32FC1);
     orient_ =   Mat::zeros(size, CV_32FC1);
     segmask_ =  Mat::zeros(size, CV_32FC1);
     mask_ =     Mat::zeros(size, CV_8UC1);
-
-    pointTracker_ = new PointTracker("LK");
 }
 
 
 MotionHistory::~MotionHistory(void)
 {
     delete[] buffer_;
-    delete pointTracker_;
 }
 
 void MotionHistory::UpdateMotionHistory(const Mat& image, int diffThreshold)
@@ -42,7 +43,7 @@ void MotionHistory::UpdateMotionHistory(const Mat& image, int diffThreshold)
     cvtColor(image, buffer_[lastId_], CV_BGR2GRAY); 
 
     // index of (last - (BUFFER_SIZE-1))th frame
-    int idx2 = (lastId_ + 1) % BUFFER_SIZE;
+    int idx2 = (lastId_ + 1) % bufferSize_;
     lastId_ = idx2;
 
     // get difference between frames
@@ -53,10 +54,10 @@ void MotionHistory::UpdateMotionHistory(const Mat& image, int diffThreshold)
     threshold(silh, silh, diffThreshold, 1, CV_THRESH_BINARY);
 
     // update MHI
-    updateMotionHistory(silh, mhi_, timestamp, MHI_DURATION);
+    updateMotionHistory(silh, mhi_, timestamp, mhiDuration_);
 
     // convert MHI to blue 8u image
-    mhi_.convertTo(mask_, mask_.type(), 255.0 / MHI_DURATION, (MHI_DURATION - timestamp) * 255.0 / MHI_DURATION);
+    mhi_.convertTo(mask_, mask_.type(), 255.0 / mhiDuration_, (mhiDuration_ - timestamp) * 255.0 / mhiDuration_);
 }
 
 void MotionHistory::PredictMotionVectors(const Mat& frame, const Mat& prevFrame, const Rect& rect, const vector<Point2f>& points)

@@ -25,7 +25,7 @@ private:
     int maxLevel_;
     int criteriaType_;
     int criteriaMaxCount_;
-    int criteriaEpsilon_;
+    double criteriaEpsilon_;
     cv::TermCriteria criteria_;
     int flags_;
     double minEigThreshold_;

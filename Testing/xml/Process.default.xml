@@ -6,6 +6,16 @@
 		</_>
 	</settings>
 	
+	<motion>
+		<_>
+			<pointTracker>"LK"</pointTracker>
+			<bufferSize>4</bufferSize>
+			<mhiDuration>1</mhiDuration>
+			<maxTimeDelta>0.5</maxTimeDelta>
+			<minTimeDelta>0.05</minTimeDelta>
+		</_>
+	</motion>
+	
 	<haarDetectors>
 		<_><name>"FACE"</name></_>
 	</haarDetectors>

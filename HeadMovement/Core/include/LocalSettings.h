@@ -46,7 +46,7 @@ public:
 	/*!
 		\return Settings directory root.
 	*/
-	std::string GetTrackerDirectory(void) const;
+	std::string GetMotionDirectory(void) const;
 
     //! Process xml filename getter.
 	/*!
@@ -64,6 +64,6 @@ private:
 	std::string	dataDirectory_;				//!< Data directory root.
     std::string	featureExtractorDirectory_;	//!< Settings directory root.
 	std::string	detectorDirectory_;			//!< Settings directory root.
-    std::string	trackerDirectory_;			//!< Settings directory root.
+    std::string	motionDirectory_;			//!< Settings directory root.
 	std::string	processXmlFileName_;		//!< The configuration file.
 };
