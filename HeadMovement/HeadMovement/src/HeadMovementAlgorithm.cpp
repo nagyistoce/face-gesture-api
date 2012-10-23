@@ -142,11 +142,8 @@ void HeadMovementAlgorithm::Process(void)
         {
             if(localFeaturePool_.find("MSER") != localFeaturePool_.end() && !localFeaturePool_["MSER"]->keyPoints.empty())
             {
-                vector<Point2f> points;
-                KeyPoint::convert(localFeaturePool_["MSER"]->keyPoints, points);
-
                 if(!prevFrame_.empty())
-                    motionHistory_->PredictMotionVectors(frame_, prevFrame_, faces_[0], points);
+                    pointTracker_->Process(frame_, prevFrame_, faces_[0], localFeaturePool_["MSER"]->keyPoints);
             }
         }
 		

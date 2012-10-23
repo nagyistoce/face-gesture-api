@@ -10,7 +10,6 @@ public:
     ~MotionHistory(void);
 
     void UpdateMotionHistory(const cv::Mat& image, int diffThreshold);
-    void PredictMotionVectors(const cv::Mat& frame, const cv::Mat& prevFrame, const cv::Rect& rect, const std::vector<cv::Point2f>& points);
 	void Visualize(void);
 
     const cv::Mat& GetMhi(void);

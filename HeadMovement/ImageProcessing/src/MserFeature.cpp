@@ -44,6 +44,8 @@ void MserFeature::Process(void)
 {
     // Detect the keypoints
     mserDetector_->detect(frame_, keyPoints);
+
+	// http://code.google.com/p/opencv-feature-tracker/source/browse/MSER.cxx?r=e4bfa468b10c17de22785a464d8636da83b1e35a&spec=svn9427a685b9331180e64adfe1b92916b3b571a96c
 }
 
 void MserFeature::DrawFeatures(void)

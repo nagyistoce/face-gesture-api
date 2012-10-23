@@ -9,24 +9,25 @@ public:
 	PointTracker(std::string name);
 	~PointTracker(void);
 
+	void Process(const cv::Mat& frame, const cv::Mat& prevFrame, const cv::Rect& rect, const std::vector<cv::KeyPoint>& keyPoints);
+	void Visualize(void);
     std::string GetName(void) const;
 
 private:
     //! Virtual method for loading algorithm specific settings from the given storage.
     void LoadSettingsFromFileStorage(void);
 
+	cv::Mat grayFrame_;
+	cv::Mat grayPrevFrame_;
+	cv::Mat flow_;
+
     std::string name_;
-
-    std::vector<cv::Point2f> nextPoints_;
-    std::vector<uchar> status_;
-    std::vector<float> error_;
-
-    cv::Size winSize_;
-    int maxLevel_;
-    int criteriaType_;
-    int criteriaMaxCount_;
-    double criteriaEpsilon_;
-    cv::TermCriteria criteria_;
+	double procTime_;
+    double pyrScale_;
+    int levels_;
+    int winsize_;
+    int iterations_;
+    int polyN_;
+    double polySigma_;
     int flags_;
-    double minEigThreshold_;
 };

@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<opencv_storage>
+	<pyrScale>0.5</pyrScale>
+	<levels>3</levels>
+	<winsize>15</winsize>
+	<iterations>3</iterations>
+	<polyN>5</polyN>
+	<polySigma>1.2</polySigma>
+	<flags>0</flags>
+</opencv_storage>
