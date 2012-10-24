@@ -1,10 +1,16 @@
 <?xml version="1.0" ?>
 <opencv_storage>
 	<pyrScale>0.5</pyrScale>
-	<levels>3</levels>
+	<levels>1</levels>
 	<winsize>15</winsize>
-	<iterations>3</iterations>
+	<iterations>1</iterations>
 	<polyN>5</polyN>
-	<polySigma>1.2</polySigma>
+	<polySigma>1.1</polySigma>
+	
+<!-- cv::calcOpticalFlowFarneback() flags:
+	OPTFLOW_USE_INITIAL_FLOW: 4
+	OPTFLOW_LK_GET_MIN_EIGENVALS: 8
+	OPTFLOW_FARNEBACK_GAUSSIAN: 256
+-->
 	<flags>0</flags>
 </opencv_storage>

@@ -9,13 +9,14 @@
 using namespace std;
 using namespace cv;
 
-MotionHistory::MotionHistory(const Size& size, const int bufferSize, const int mhiDuration, const double maxTimeDelta, const double minTimeDelta)
+MotionHistory::MotionHistory(const Size& size, const int bufferSize, const int mhiDuration, const double maxTimeDelta, const double minTimeDelta, const int diffThreshold)
 :   buffer_(NULL),
     lastId_(0),
     bufferSize_(bufferSize),
     mhiDuration_(mhiDuration),
     maxTimeDelta_(maxTimeDelta),
-    minTimeDelta_(minTimeDelta)
+    minTimeDelta_(minTimeDelta),
+    diffThreshold_(diffThreshold)
 {
     buffer_ = new Mat[bufferSize_];
     for(int i = 0; i < bufferSize_; i++)
@@ -33,7 +34,7 @@ MotionHistory::~MotionHistory(void)
     delete[] buffer_;
 }
 
-void MotionHistory::UpdateMotionHistory(const Mat& image, int diffThreshold)
+void MotionHistory::UpdateMotionHistory(const Mat& image)
 {
     // get current time in seconds
     double timestamp = (double)clock() / CLOCKS_PER_SEC;
@@ -51,7 +52,7 @@ void MotionHistory::UpdateMotionHistory(const Mat& image, int diffThreshold)
     absdiff(buffer_[idx1], buffer_[idx2], silh);
 
     // and threshold it
-    threshold(silh, silh, diffThreshold, 1, CV_THRESH_BINARY);
+    threshold(silh, silh, diffThreshold_, 1, CV_THRESH_BINARY);
 
     // update MHI
     updateMotionHistory(silh, mhi_, timestamp, mhiDuration_);

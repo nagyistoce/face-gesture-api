@@ -3,12 +3,15 @@
 	<settings>
 		<_>
 			<cameraId>0</cameraId>
+			<width>320</width>
+			<height>240</height>
 		</_>
 	</settings>
 	
 	<motion>
 		<_>
 			<pointTracker>"Farneback"</pointTracker>
+			<diffThreshold>30</diffThreshold>
 			<bufferSize>4</bufferSize>
 			<mhiDuration>1</mhiDuration>
 			<maxTimeDelta>0.5</maxTimeDelta>
@@ -21,6 +24,10 @@
 	</haarDetectors>
 		
 	<featureExtractors>
+		<_>
+			<name>"ORB"</name>
+			<type>"local"</type>
+		</_>
 		<_>
 			<name>"MSER"</name>
 			<type>"local"</type>

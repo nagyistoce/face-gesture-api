@@ -54,17 +54,10 @@ void PointTracker::Process(const Mat& frame, const Mat& prevFrame, const Rect& r
 
 	cvtColor(frame, grayFrame_, CV_BGR2GRAY);
 	cvtColor(prevFrame, grayPrevFrame_, CV_BGR2GRAY);
+    //grayFrame_ = grayFrame_(rect);
+    //grayPrevFrame_ = grayPrevFrame_(rect);
 
 	calcOpticalFlowFarneback(grayPrevFrame_, grayFrame_, flow_, pyrScale_, levels_, winsize_, iterations_, polyN_, polySigma_, flags_);
-
-
-	//for(size_t i = 0; i < keyPoints.size(); i++)
-	//{
-	//	double dst = sqrt(pow(center.x - keyPoints[i].pt.x, 2) + pow(center.y - keyPoints[i].pt.y, 2));
-
-	//	if(dst < radius)
-	//		innerPoints.push_back(points[i]);
-	//}
 
 	procTime_ = (double)cvGetTickCount() - procTime_;
 
@@ -96,4 +89,26 @@ void PointTracker::Visualize(void)
 	ss.str("");
 
 	VisualizerPtr->ShowImage("FlowMap", flowMap);
+
+
+    Mat flowPlanes[2], hsvPlanes[3];
+    Mat magnitude, bgrFlow, hsv;
+    split(flow_, flowPlanes);
+
+    // calculate angle (hsvPlanes[0]) and magnitude (hsvPlanes[2])
+    cartToPolar(flowPlanes[0], flowPlanes[1], magnitude, hsvPlanes[0], true);
+
+    hsvPlanes[1] = Mat::ones(hsvPlanes[0].size(), CV_32F);
+
+    // translate magnitude to range [0;1]
+    double magMax;
+    minMaxLoc(magnitude, NULL, &magMax);
+    magnitude.convertTo(hsvPlanes[2], -1, 1.0 / magMax);
+
+    // build hsv image
+    merge(hsvPlanes, 3, hsv);
+
+    // convert to BGR and show
+    cvtColor(hsv, bgrFlow, COLOR_HSV2BGR);
+    VisualizerPtr->ShowImage("Optical flow - Farneback", bgrFlow);
 }

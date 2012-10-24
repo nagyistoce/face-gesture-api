@@ -12,8 +12,8 @@ CV_HAAR_DO_ROUGH_SEARCH: 		8
 -->
 	<flags>16</flags>
 	
-	<minWidth>100</minWidth>
-	<minHeight>100</minHeight>
+	<minWidth>50</minWidth>
+	<minHeight>50</minHeight>
 	
 	<!--maxWidth>500</maxWidth>
 	<maxHeight>500</maxHeight-->

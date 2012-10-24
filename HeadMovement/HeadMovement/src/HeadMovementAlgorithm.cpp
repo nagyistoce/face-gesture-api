@@ -23,7 +23,8 @@ using namespace cv;
 HeadMovementAlgorithm::HeadMovementAlgorithm(void)
 :   motionHistory_(NULL),
     pointTracker_(NULL),
-    cameraId_(0)
+    cameraId_(0),
+    resolution_(Size(640, 480))
 {
 	LoadSettingsFromFileStorage();
 }
@@ -45,6 +46,8 @@ void HeadMovementAlgorithm::LoadSettingsFromFileStorage(void)
 
     FileNode node = fileStorage["settings"];
     node[0]["cameraId"] >> cameraId_;
+    node[0]["width"] >> resolution_.width;
+    node[0]["height"] >> resolution_.height;
 
     videoCapture_.open(cameraId_);
     if(!videoCapture_.isOpened())
@@ -54,9 +57,9 @@ void HeadMovementAlgorithm::LoadSettingsFromFileStorage(void)
     node = fileStorage["motion"];
 
     string pointTracker;
-    int frameWidth = cvRound(videoCapture_.get(CV_CAP_PROP_FRAME_WIDTH));
-    int frameHeight = cvRound(videoCapture_.get(CV_CAP_PROP_FRAME_HEIGHT));
-    int bufferSize, mhiDuration;
+    //int frameWidth = cvRound(videoCapture_.get(CV_CAP_PROP_FRAME_WIDTH));
+    //int frameHeight = cvRound(videoCapture_.get(CV_CAP_PROP_FRAME_HEIGHT));
+    int bufferSize, mhiDuration, diffThreshold;
     double maxTimeDelta, minTimeDelta;
 
     node[0]["pointTracker"] >> pointTracker;
@@ -64,8 +67,9 @@ void HeadMovementAlgorithm::LoadSettingsFromFileStorage(void)
     node[0]["mhiDuration"] >> mhiDuration;
     node[0]["maxTimeDelta"] >> maxTimeDelta;
     node[0]["minTimeDelta"] >> minTimeDelta;
+    node[0]["diffThreshold"] >> diffThreshold;
     
-    motionHistory_ = new MotionHistory(Size(frameWidth, frameHeight), bufferSize, mhiDuration, maxTimeDelta, minTimeDelta);
+    motionHistory_ = new MotionHistory(resolution_, bufferSize, mhiDuration, maxTimeDelta, minTimeDelta, diffThreshold);
     pointTracker_ = new PointTracker(pointTracker);
     // Loading motion settings
 
@@ -128,22 +132,35 @@ void HeadMovementAlgorithm::Process(void)
 #endif
 		// get a new frame from camera
 		videoCapture_ >> frame_;
+        resize(frame_, frame_, resolution_);
         flip(frame_, frame_, 1);
 
-        StartDetectors();
-
-		motionHistory_->UpdateMotionHistory(frame_, 30);
+		motionHistory_->UpdateMotionHistory(frame_);
 
         StartFeatureExtractors();
         VisualizeProcesses();
 
         faces_ = haarDetectorPool_["FACE"]->GetObjects();
+        
         if(!faces_.empty())
         {
-            if(localFeaturePool_.find("MSER") != localFeaturePool_.end() && !localFeaturePool_["MSER"]->keyPoints.empty())
+            Mat faceMask(frame_.size(), CV_8UC1, Scalar(0));
+            rectangle(faceMask, faces_[0], Scalar(255), -1);
+            keyPoints_.clear();
+
+            for(LocalFeaturePool::iterator elem = localFeaturePool_.begin(); elem != localFeaturePool_.end(); elem++)
+            {
+                const vector<KeyPoint>& keyPoints = elem->second->keyPoints;
+                for(size_t i = 0; i < keyPoints.size(); i++)
+                    keyPoints_.push_back(keyPoints[i]);
+            }
+
+            //KeyPointsFilter::runByPixelsMask(keyPoints_, faceMask);
+            //KeyPointsFilter::removeDuplicated(keyPoints_);
+            if(!keyPoints_.empty())
             {
                 if(!prevFrame_.empty())
-                    pointTracker_->Process(frame_, prevFrame_, faces_[0], localFeaturePool_["MSER"]->keyPoints);
+                    pointTracker_->Process(frame_, prevFrame_, faces_[0], keyPoints_);
             }
         }
 		
@@ -169,6 +186,13 @@ void HeadMovementAlgorithm::StartFeatureExtractors(void)
     {
         GlobalFeature* globalFeature = dynamic_cast<GlobalFeature*>(elem->second);
         LocalFeature* localFeature = dynamic_cast<LocalFeature*>(elem->second);
+        HaarDetector* haarDetector = dynamic_cast<HaarDetector*>(elem->second);
+
+        if(haarDetector)
+        {
+            haarDetector->SetFrame(frame_);
+            haarDetector->Start();
+        }
 
         if(globalFeature)
         {
@@ -181,17 +205,6 @@ void HeadMovementAlgorithm::StartFeatureExtractors(void)
             localFeature->SetFrame(motionMask);
             localFeature->Start();
         }
-    }
-}
-
-void HeadMovementAlgorithm::StartDetectors(void)
-{
-    CV_Assert(!frame_.empty());
-
-    for(HaarDetectorPool::iterator hdElem = haarDetectorPool_.begin(); hdElem != haarDetectorPool_.end(); hdElem++)
-    {
-        hdElem->second->SetFrame(frame_);
-        hdElem->second->Start();
     }
 }
 

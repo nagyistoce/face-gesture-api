@@ -41,6 +41,8 @@ private:
     HaarDetectorPool    haarDetectorPool_;
 
     int cameraId_;				//!< ID of the camera to be analyzed.
+    cv::Size resolution_;
+    std::vector<cv::KeyPoint> keyPoints_;
 
     MotionHistory* motionHistory_;
     PointTracker* pointTracker_;
