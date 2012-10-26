@@ -28,11 +28,11 @@
 			<name>"ORB"</name>
 			<type>"local"</type>
 		</_>
-		<_>
+		<!--_>
 			<name>"MSER"</name>
 			<type>"local"</type>
 		</_>
-		<!--_>
+		<_>
 			<name>"SIFT"</name>
 			<type>"local"</type>
 		</_>

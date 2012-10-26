@@ -1,6 +1,8 @@
 #pragma once
 #pragma warning(disable: 4251)
 
+#include <utility>
+
 #include "opencv2/opencv.hpp"
 
 extern "C++" class __declspec(dllexport) PointTracker
@@ -20,6 +22,9 @@ private:
 	cv::Mat grayFrame_;
 	cv::Mat grayPrevFrame_;
 	cv::Mat flow_;
+	cv::Mat keyPointMask_;
+
+	std::pair<cv::Point2f, cv::Point2f> direction_;
 
     std::string name_;
 	double procTime_;
@@ -30,4 +35,6 @@ private:
     int polyN_;
     double polySigma_;
     int flags_;
+
+	int showBgrFlow_;
 };

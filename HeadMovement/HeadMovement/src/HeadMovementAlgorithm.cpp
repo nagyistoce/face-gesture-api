@@ -132,6 +132,10 @@ void HeadMovementAlgorithm::Process(void)
 #endif
 		// get a new frame from camera
 		videoCapture_ >> frame_;
+
+		if(frame_.empty())
+			break;
+
         resize(frame_, frame_, resolution_);
         flip(frame_, frame_, 1);
 
@@ -165,7 +169,7 @@ void HeadMovementAlgorithm::Process(void)
         }
 		
 		// press ESC to exit
-		if(waitKey(30) >= 0) 
+		if(waitKey(5) >= 0) 
 			break;
 
         prevFrame_ = frame_.clone();

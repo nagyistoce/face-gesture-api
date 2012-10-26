@@ -13,4 +13,5 @@
 	OPTFLOW_FARNEBACK_GAUSSIAN: 256
 -->
 	<flags>0</flags>
+	<showBgrFlow>0</showBgrFlow>
 </opencv_storage>
