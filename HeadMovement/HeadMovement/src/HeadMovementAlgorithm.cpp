@@ -161,11 +161,8 @@ void HeadMovementAlgorithm::Process(void)
 
             //KeyPointsFilter::runByPixelsMask(keyPoints_, faceMask);
             //KeyPointsFilter::removeDuplicated(keyPoints_);
-            if(!keyPoints_.empty())
-            {
-                if(!prevFrame_.empty())
-                    pointTracker_->Process(frame_, prevFrame_, faces_[0], keyPoints_);
-            }
+            if(!keyPoints_.empty() && !prevFrame_.empty())
+                pointTracker_->Process(frame_, prevFrame_, faces_[0], keyPoints_);
         }
 		
 		// press ESC to exit
@@ -176,7 +173,9 @@ void HeadMovementAlgorithm::Process(void)
 
 #ifdef DEBUG_MODE
         t = (double)cvGetTickCount() - t;
-        printf("Processing time: %g ms.\n", t / ((double)cvGetTickFrequency() * 1000.0));
+        double ms = t / ((double)cvGetTickFrequency() * 1000.0);
+        double fps = 1000.0 / ms;
+        printf("Processing time: %6.2lf ms - %6.2lf fps.\n", ms, fps);
 #endif
 	}
 }
