@@ -24,6 +24,7 @@ PointTracker::PointTracker(string name)
     flags_(0),
 	procTime_(0.0),
 	showBgrFlow_(0),
+	angle_(0.0),
 	direction_(make_pair(Point2f(0.0f, 0.0f), Point2f(0.0f, 0.0f)))
 {
     LoadSettingsFromFileStorage();
@@ -103,6 +104,8 @@ void PointTracker::Process(const Mat& frame, const Mat& prevFrame, const Rect& r
 		direction_.first = Point2f(sumStartPt.x / float(count), sumStartPt.y / float(count));
 		direction_.second = Point2f(sumEndPt.x / float(count), sumEndPt.y / float(count));
 	}
+	angle_ = Bearing(direction_.first, direction_.second);
+
 	procTime_ = (double)cvGetTickCount() - procTime_;
 
 	Visualize();
@@ -121,9 +124,19 @@ double PointTracker::Bearing(Point2f start, Point2f end)
 	return cvRound(360.0 - angle) %  360;
 }
 
-string PointTracker::GetName(void) const
+const string& PointTracker::GetName(void) const
 {
     return name_;
+}
+
+const double& PointTracker::GetAngle(void) const
+{
+	return angle_;
+}
+
+const PointPair& PointTracker::GetDirection(void) const
+{
+	return direction_;
 }
 
 void PointTracker::Visualize(void)
@@ -147,7 +160,7 @@ void PointTracker::Visualize(void)
 	VisualizerPtr->PutText(flowMap, ss.str(), Point(10, 20));
 	ss.str("");
 
-	ss << "Angle: " << Bearing(direction_.first, direction_.second);
+	ss << "Angle: " << angle_;
 	VisualizerPtr->PutText(flowMap, ss.str(), Point(10, 40));
 	ss.str("");
 

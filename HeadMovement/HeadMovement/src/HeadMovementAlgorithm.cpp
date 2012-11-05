@@ -67,8 +67,6 @@ void HeadMovementAlgorithm::LoadSettingsFromFileStorage(void)
     node = fileStorage["motion"];
 
     string pointTracker;
-    //int frameWidth = cvRound(videoCapture_.get(CV_CAP_PROP_FRAME_WIDTH));
-    //int frameHeight = cvRound(videoCapture_.get(CV_CAP_PROP_FRAME_HEIGHT));
     int bufferSize, mhiDuration, diffThreshold;
     double maxTimeDelta, minTimeDelta;
 
@@ -173,6 +171,9 @@ void HeadMovementAlgorithm::Process(void)
             //KeyPointsFilter::removeDuplicated(keyPoints_);
             if(!keyPoints_.empty() && !prevFrame_.empty())
                 pointTracker_->Process(frame_, prevFrame_, faces_[0], keyPoints_);
+
+			Scalar s = mean(motionHistory_->GetMask(), faceMask);
+			cout << s[0] << endl;
         }
 		
 		// press ESC to exit
@@ -247,4 +248,6 @@ void HeadMovementAlgorithm::VisualizeProcesses(void)
             globalFeature->Visualize();
         }
     }
+
+	motionHistory_->Visualize();
 }

@@ -44,6 +44,7 @@ private:
 	std::string fileName_;
     cv::Size resolution_;
     std::vector<cv::KeyPoint> keyPoints_;
+	std::vector<double> angles_;
 
     MotionHistory* motionHistory_;
     PointTracker* pointTracker_;

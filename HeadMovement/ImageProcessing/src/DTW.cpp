@@ -1,9 +1,5 @@
-#include "dolslr/doldef.h"
-#include "dolslr/DTW.h"
-
-#include "dolslr/Visualizer.h"
-#include "opencv2/imgproc/imgproc.hpp"
-
+#include "DTW.h"
+#include "Visualizer.h"
 
 using namespace std;
 using namespace cv;
@@ -137,7 +133,7 @@ void DTW::ShowGrid(void)
 	putText(dtwImg8, text, Point(10, 20), CV_FONT_HERSHEY_COMPLEX, 0.5, Scalar(0), 2);
 	putText(dtwImg8, text, Point(10, 20), CV_FONT_HERSHEY_COMPLEX, 0.5, Scalar(255), 1);
 
-	//dtwImg8.copyTo( VisualizerPtr->ShowFrame("DTW Grid") );
+	VisualizerPtr->ShowImage("DTW Grid", dtwImg8);
 }
 
 double DTW::GetDistance(void) 

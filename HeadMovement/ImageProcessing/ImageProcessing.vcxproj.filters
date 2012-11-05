@@ -37,6 +37,9 @@
     <ClCompile Include="src\PointTracker.cpp">
       <Filter>Tracker</Filter>
     </ClCompile>
+    <ClCompile Include="src\DTW.cpp">
+      <Filter>Sequences</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\FastFeature.h">
@@ -75,6 +78,9 @@
     <ClInclude Include="include\PointTracker.h">
       <Filter>Tracker</Filter>
     </ClInclude>
+    <ClInclude Include="include\DTW.h">
+      <Filter>Sequences</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Detector">
@@ -88,6 +94,9 @@
     </Filter>
     <Filter Include="LocalFeatures">
       <UniqueIdentifier>{94f8dc7f-d742-4793-ada9-bb1468169318}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sequences">
+      <UniqueIdentifier>{0d5f255d-fb0f-4cfc-9c36-5efddd397827}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

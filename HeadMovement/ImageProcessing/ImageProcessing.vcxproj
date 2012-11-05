@@ -78,6 +78,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\DTW.h" />
     <ClInclude Include="include\FastFeature.h" />
     <ClInclude Include="include\GlobalFeature.h" />
     <ClInclude Include="include\LbpFeature.h" />
@@ -92,6 +93,7 @@
     <ClInclude Include="include\MotionHistory.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\DTW.cpp" />
     <ClCompile Include="src\FastFeature.cpp" />
     <ClCompile Include="src\GlobalFeature.cpp" />
     <ClCompile Include="src\LbpFeature.cpp" />

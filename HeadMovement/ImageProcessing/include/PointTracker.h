@@ -5,6 +5,8 @@
 
 #include "opencv2/opencv.hpp"
 
+typedef std::pair<cv::Point2f, cv::Point2f> PointPair;
+
 extern "C++" class __declspec(dllexport) PointTracker
 {
 public:
@@ -13,7 +15,9 @@ public:
 
 	void Process(const cv::Mat& frame, const cv::Mat& prevFrame, const cv::Rect& rect, const std::vector<cv::KeyPoint>& keyPoints);
 	void Visualize(void);
-    std::string GetName(void) const;
+    const std::string& GetName(void) const;
+	const double& GetAngle(void) const;
+	const PointPair& GetDirection(void) const;
 
 private:
     //! Virtual method for loading algorithm specific settings from the given storage.
@@ -28,7 +32,8 @@ private:
 	cv::Mat flow_;
 	cv::Mat keyPointMask_;
 
-	std::pair<cv::Point2f, cv::Point2f> direction_;
+	PointPair direction_;
+	double angle_;
 
     std::string name_;
 	double procTime_;

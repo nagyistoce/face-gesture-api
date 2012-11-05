@@ -2,7 +2,8 @@
 <opencv_storage>
 	<settings>
 		<_>
-			<media>"test.01.wmv"</media>
+			<!--media>"test.01.wmv"</media-->
+			<media>0</media>
 			<width>320</width>
 			<height>240</height>
 		</_>

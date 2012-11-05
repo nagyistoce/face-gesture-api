@@ -41,6 +41,7 @@ public:
 		\param o Current object
 	*/
 	friend std::ostream &operator<<( std::ostream &out, const DTW &o );
+
 private:
 	//! Computes a distance between two points
 	/*!
