@@ -17,6 +17,7 @@ LocalSettings::LocalSettings(void)
 
 	getline(fileStream, dataDirectory_);
 
+	inputDirectory_ = dataDirectory_ + "input/";
 	processXmlFileName_ = dataDirectory_ + "xml/Process.default.xml";
     motionDirectory_  = dataDirectory_ + "xml/Motion/";
     featureExtractorDirectory_  = dataDirectory_ + "xml/FeatureExtractor/";
@@ -38,6 +39,11 @@ LocalSettings* LocalSettings::GetInstance(void)
 string LocalSettings::GetDataDirectory(void) const
 {
 	return dataDirectory_;
+}
+
+string LocalSettings::GetInputDirectory(void) const
+{
+	return inputDirectory_;
 }
 
 string LocalSettings::GetFeatureExtractorDirectory(void) const

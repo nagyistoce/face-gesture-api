@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include "Definitions.h"
 #include "PointTracker.h"
 
@@ -6,6 +8,10 @@
 
 using namespace std;
 using namespace cv;
+
+#ifndef M_PI
+	#define M_PI 3.14159265358979323846
+#endif
 
 PointTracker::PointTracker(string name)
 :   name_(name),
@@ -102,19 +108,18 @@ void PointTracker::Process(const Mat& frame, const Mat& prevFrame, const Rect& r
 	Visualize();
 }
 
-//// Calculate angle between vector from (x1,y1) to (x2,y2) & +Y axis in degrees.
-//// Essentially gives a compass reading, where N is 0 degrees and E is 90 degrees.
-//
-//double bearing(double x1, double y1, double x2, double y2)
-//{
-//	// x and y args to atan2() swapped to rotate resulting angle 90 degrees
-//	// (Thus angle in respect to +Y axis instead of +X axis)
-//	double angle = Math.toDegrees(atan2(x1 - x2, y2 - y1));
-//
-//	// Ensure result is in interval [0, 360)
-//	// Subtract because positive degree angles go clockwise
-//	return (360 - angle) %  360;
-//}
+
+double PointTracker::Bearing(Point2f start, Point2f end)
+{
+	// x and y args to atan2() swapped to rotate resulting angle 90 degrees
+	// (Thus angle in respect to +Y axis instead of +X axis)
+	double radian = atan2(start.x - end.x, end.y - start.y);
+	double angle = (radian * 180.0) / M_PI;
+
+	// Ensure result is in interval [0, 360)
+	// Subtract because positive degree angles go clockwise
+	return cvRound(360.0 - angle) %  360;
+}
 
 string PointTracker::GetName(void) const
 {
@@ -140,6 +145,10 @@ void PointTracker::Visualize(void)
 	circle(flowMap, Point(direction_.first), 2, Scalar(0, 255, 0), -1);
 	ss << "Processing time of MotionHistory: " << procTime_ / (cvGetTickFrequency() * 1000.0);
 	VisualizerPtr->PutText(flowMap, ss.str(), Point(10, 20));
+	ss.str("");
+
+	ss << "Angle: " << Bearing(direction_.first, direction_.second);
+	VisualizerPtr->PutText(flowMap, ss.str(), Point(10, 40));
 	ss.str("");
 
 	VisualizerPtr->ShowImage("KeyPointMask", keyPointMask_);

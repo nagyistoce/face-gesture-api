@@ -24,6 +24,7 @@ HeadMovementAlgorithm::HeadMovementAlgorithm(void)
 :   motionHistory_(NULL),
     pointTracker_(NULL),
     cameraId_(0),
+	fileName_(""),
     resolution_(Size(640, 480))
 {
 	LoadSettingsFromFileStorage();
@@ -45,13 +46,22 @@ void HeadMovementAlgorithm::LoadSettingsFromFileStorage(void)
         CV_Error(1, "Process XML does not exist (" + LocalSettingsPtr->GetProcessXmlFileName() + ")!");
 
     FileNode node = fileStorage["settings"];
-    node[0]["cameraId"] >> cameraId_;
+	if(node[0]["media"].isInt())
+	{
+		node[0]["media"] >> cameraId_;
+		videoCapture_.open(cameraId_);
+	}
+	else if(node[0]["media"].isString())
+	{
+		node[0]["media"] >> fileName_;
+		videoCapture_.open(LocalSettingsPtr->GetInputDirectory() + fileName_);
+	}
+
+	if(!videoCapture_.isOpened())
+		CV_Error(1, "VideoCapture is not opened!");
+    
     node[0]["width"] >> resolution_.width;
     node[0]["height"] >> resolution_.height;
-
-    videoCapture_.open(cameraId_);
-    if(!videoCapture_.isOpened())
-        CV_Error(1, "VideoCapture is not opened!");
 
     // Loading motion settings
     node = fileStorage["motion"];

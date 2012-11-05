@@ -30,6 +30,12 @@ public:
 	*/
 	std::string GetDataDirectory(void) const;
 
+	//! Data directory getter.
+	/*!
+		\return Data directory root.
+	*/
+	std::string GetInputDirectory(void) const;
+
     //! Settings directory getter.
 	/*!
 		\return Settings directory root.
@@ -62,6 +68,7 @@ private:
 	~LocalSettings(void);
 
 	std::string	dataDirectory_;				//!< Data directory root.
+	std::string	inputDirectory_;				//!< Data directory root.
     std::string	featureExtractorDirectory_;	//!< Settings directory root.
 	std::string	detectorDirectory_;			//!< Settings directory root.
     std::string	motionDirectory_;			//!< Settings directory root.

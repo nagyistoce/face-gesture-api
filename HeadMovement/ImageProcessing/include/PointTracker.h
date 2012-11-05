@@ -19,6 +19,10 @@ private:
     //! Virtual method for loading algorithm specific settings from the given storage.
     void LoadSettingsFromFileStorage(void);
 
+	// Calculate angle between vector from (x1,y1) to (x2,y2) & +Y axis in degrees.
+	// Essentially gives a compass reading, where N is 0 degrees and E is 90 degrees.
+	double Bearing(cv::Point2f start, cv::Point2f end);
+
 	cv::Mat grayFrame_;
 	cv::Mat grayPrevFrame_;
 	cv::Mat flow_;
