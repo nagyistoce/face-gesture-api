@@ -15,7 +15,7 @@ public:
 	/*!
 		\param frame Output parameter for the current frame.
 	*/
-	void SetFrame(const cv::Mat& frame);
+	void SetFrame(const cv::Mat& frame, const cv::Mat& prevFrame);
 
 	void Process(void);
 	const std::vector<cv::Rect>& GetObjects(void);
@@ -37,12 +37,14 @@ private:
 	void* Run(void);
 
     cv::Mat frame_;		//!< The current frame.
+    cv::Mat prevFrame_;		//!< The current frame.
 
 	cv::CascadeClassifier cascade_;
 	std::string cascadeName_;
 	const std::string name_;
 	std::vector<cv::Rect> objects_;
 
+    bool opticalFlow_;
 	double scaleFactor_;
 	int minNeighbors_;
 	int flags_;

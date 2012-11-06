@@ -1,5 +1,6 @@
 #include "Definitions.h"
 
+#include <ctime>
 #include "HaarDetector.h"
 #include "LocalSettings.h"
 #include "Visualizer.h"
@@ -15,7 +16,8 @@ HaarDetector::HaarDetector(const string& name)
 	flags_(0),
 	minSize_(Size()),
 	maxSize_(Size()),
-	procTime_(0.0)
+	procTime_(0.0),
+    opticalFlow_(false)
 {
 	LoadSettingsFromFileStorage();
 
@@ -57,9 +59,10 @@ void HaarDetector::LoadSettingsFromFileStorage(void)
 	}
 }
 
-void HaarDetector::SetFrame(const Mat& frame)
+void HaarDetector::SetFrame(const Mat& frame, const cv::Mat& prevFrame)
 {
     frame_ = frame.clone();
+    prevFrame_ = prevFrame.clone();
 }
 
 void* HaarDetector::Run(void)
@@ -77,16 +80,61 @@ void* HaarDetector::Run(void)
 
 void HaarDetector::Process(void)
 {
-	objects_.clear();
+    clock_t time = clock() / CLOCKS_PER_SEC;
 
-	Mat grayImage;
-	Mat normalizedImage(cvRound(frame_.rows), cvRound(frame_.cols), CV_8UC1);
+    opticalFlow_ = false;
+    if(time % 5 != 0 && !prevFrame_.empty() && !objects_.empty())
+    {
+        vector<Point2f> prevPoints, nextPoints;
+        vector<uchar> status;
+        vector<float> err;
+        TermCriteria termcrit(CV_TERMCRIT_ITER | CV_TERMCRIT_EPS, 20, 0.03);
+        Size winSize(31, 31);
 
-	cvtColor(frame_, grayImage, CV_BGR2GRAY);
-	resize(grayImage, normalizedImage, normalizedImage.size());
-	equalizeHist(normalizedImage, normalizedImage);
+        Mat grayFrame, grayPrevFrame;
+        cvtColor(frame_, grayFrame, CV_BGR2GRAY);
+        cvtColor(prevFrame_, grayPrevFrame, CV_BGR2GRAY);
 
-	cascade_.detectMultiScale(normalizedImage, objects_, scaleFactor_, minNeighbors_, flags_, minSize_, maxSize_);
+        for(vector<Rect>::const_iterator r = objects_.begin(); r != objects_.end(); r++)
+        {
+            Point center(cvRound(r->x + r->width * 0.5), cvRound(r->y + r->height * 0.5));
+
+            prevPoints.push_back(Point2f(r->x, r->y));
+            prevPoints.push_back(Point2f(r->x + r->width, r->y + r->height));
+        }
+
+        calcOpticalFlowPyrLK(grayPrevFrame, grayFrame, prevPoints, nextPoints, status, err, winSize, 3, termcrit, 0, 0.001);
+
+        if(prevPoints.size() == nextPoints.size())
+        {
+            opticalFlow_ = true;
+
+            for(size_t i = 0; i < nextPoints.size() - 1; i += 2)
+                objects_[i/2] = Rect(nextPoints[i], nextPoints[i+1]);
+        }
+    }
+    
+    if(opticalFlow_ == false)
+    {
+        objects_.clear();
+
+        Mat grayImage;
+        Mat normalizedImage(cvRound(frame_.rows), cvRound(frame_.cols), CV_8UC1);
+
+        cvtColor(frame_, grayImage, CV_BGR2GRAY);
+        resize(grayImage, normalizedImage, normalizedImage.size());
+        equalizeHist(normalizedImage, normalizedImage);
+
+        cascade_.detectMultiScale(normalizedImage, objects_, scaleFactor_, minNeighbors_, flags_, minSize_, maxSize_);
+
+        for(vector<Rect>::iterator r = objects_.begin(); r != objects_.end(); r++)
+        {
+            r->x = cvRound(r->x + r->width * 0.15);
+            r->y = cvRound(r->y + r->height * 0.15);
+            r->width = cvRound(r->width * 0.7);
+            r->height = cvRound(r->height * 0.7);
+        }
+    }
 }
 
 const vector<Rect>& HaarDetector::GetObjects(void)
@@ -121,11 +169,10 @@ void HaarDetector::Visualize(void)
 
 	for(vector<Rect>::const_iterator r = objects_.begin(); r != objects_.end(); r++, i++)
 	{
-		Point center(cvRound(r->x + r->width * 0.5), cvRound(r->y + r->height * 0.5));
-		int radius = cvRound((r->width + r->height) * 0.25);
-
-		circle(frame_, center, radius, colors[i % 8], 2);
-        rectangle(frame_, Point(r->x, r->y), Point(r->x + r->width, r->y + r->height), colors[i % 8], 2);
+        if(opticalFlow_)
+            rectangle(frame_, Point(r->x, r->y), Point(r->x + r->width, r->y + r->height), colors[(i+1) % 8], 2);
+        else
+            rectangle(frame_, Point(r->x, r->y), Point(r->x + r->width, r->y + r->height), colors[i % 8], 2);
 	}
 
 	VisualizerPtr->ShowImage("HeadMovementAlgorithm - " + name_, frame_);

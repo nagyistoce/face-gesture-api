@@ -167,8 +167,6 @@ void HeadMovementAlgorithm::Process(void)
                     keyPoints_.push_back(keyPoints[i]);
             }
 
-            //KeyPointsFilter::runByPixelsMask(keyPoints_, faceMask);
-            //KeyPointsFilter::removeDuplicated(keyPoints_);
             if(!keyPoints_.empty() && !prevFrame_.empty())
                 pointTracker_->Process(frame_, prevFrame_, faces_[0], keyPoints_);
 
@@ -204,7 +202,7 @@ void HeadMovementAlgorithm::StartFeatureExtractors(void)
 
         if(haarDetector)
         {
-            haarDetector->SetFrame(frame_);
+            haarDetector->SetFrame(frame_, prevFrame_);
             haarDetector->Start();
         }
 
