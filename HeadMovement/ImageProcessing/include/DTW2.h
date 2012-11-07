@@ -18,70 +18,13 @@ public:
 	//! Constructor
 	DTW2(void);
 
-	//! Constructor
-	/*!
-		\param n Length of the first sequence.
-		\param m Length of the second sequence.
-		\param window The maximum warping distance. Typically: "constraint = n/10", for "constraint = n" the process will be slower.
-	*/
-	DTW2(int n, int m);
-
 	//! Destructor
 	~DTW2(void);
 
-	//! DTW algorithm. Currently uses euclidean distance.
-	/*!
-		\param v First sequence.
-		\param w Second sequence.
-		\param distType Type of the distance. See DtwDistance enum.
-	*/
-	float FastDTW(std::vector<double> &v, std::vector<double> &w, int distType = EUCLIDEAN_DST, bool showGrid = false);
-
-    double DtwSeq(const std::vector<double>& seq1, const std::vector<double>& seq2, double& err);
-
-	//! Enumeration for computing the distance.
-	enum DtwDistance 
-	{ 
-		L1_DST = 0,			//<! L1 Distance
-		EUCLIDEAN_DST = 1	//<! Euclidean Distance
-	};
+    double DoDtw(const std::vector<double>& seq1, const std::vector<double>& seq2, double& err);
 
 private:
-	//! Inline function for minimum estimation.
-	/*!
-		\param x First element.
-		\param y Second element.
-	*/
-   	static inline float Minimum(float x, float y) { return x <= y ? x : y; }
+    double Distance(double p1, double p2, double pd);
 
-	//! Inline function for maximum estimation.
-	/*!
-		\param x First element.
-		\param y Second element.
-	*/
-	static inline float Maximum(float x, float y) { return x >= y ? x : y; }
-
-	//! L1 distance between two 2D float point.
-	/*!
-		\param p1 First point.
-		\param p2 Second point.
-	*/
-	float L1Distance(double p1, double p2);
-
-	//! Euclidean distance between two 2D float point.
-	/*!
-		\param p1 First point.
-		\param p2 Second point.
-	*/
-	float EuclideanDistance(double p1, double p2);
-
-	float**		grid_;				//<! DTW grid. Both sequences start on the bottom left of the grid.
-	int			n_;					//<! Size of the first sequence.
-	int			m_;					//<! Size of the second sequence.
-	int			window_;			//<! The maximum warping distance.
-
-	cv::Mat		dtwImg_;			//<! Visual representation of the grid.
-    cv::Mat dtwMap;
-
-    double GetDistanceGr(double p1, double p2, double pd);
+    cv::Mat dtwMap_;
 };
