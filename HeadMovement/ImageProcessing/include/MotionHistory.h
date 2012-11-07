@@ -6,7 +6,7 @@
 extern "C++" class __declspec(dllexport) MotionHistory
 {
 public:
-    MotionHistory(const cv::Size& size, const int bufferSize, const int mhiDuration, const double maxTimeDelta, const double minTimeDelta, const int diffThreshold);
+    MotionHistory(const cv::Size& size, const int bufferSize, const double mhiDuration, const double maxTimeDelta, const double minTimeDelta, const int diffThreshold);
     ~MotionHistory(void);
 
     void UpdateMotionHistory(const cv::Mat& image);
@@ -26,7 +26,7 @@ private:
 
     const int bufferSize_;
     const int diffThreshold_;
-    const int mhiDuration_;
+    const double mhiDuration_;
     const double maxTimeDelta_;
     const double minTimeDelta_;
 };

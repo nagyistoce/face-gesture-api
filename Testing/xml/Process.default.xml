@@ -14,8 +14,8 @@
 			<pointTracker>"Farneback"</pointTracker>
 			<diffThreshold>30</diffThreshold>
 			<bufferSize>4</bufferSize>
-			<mhiDuration>1</mhiDuration>
-			<maxTimeDelta>0.5</maxTimeDelta>
+			<mhiDuration>0.5</mhiDuration>
+			<maxTimeDelta>0.25</maxTimeDelta>
 			<minTimeDelta>0.05</minTimeDelta>
 		</_>
 	</motion>

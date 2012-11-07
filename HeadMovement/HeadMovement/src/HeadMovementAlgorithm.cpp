@@ -25,7 +25,9 @@ HeadMovementAlgorithm::HeadMovementAlgorithm(void)
     pointTracker_(NULL),
     cameraId_(0),
 	fileName_(""),
-    resolution_(Size(640, 480))
+    resolution_(Size(640, 480)),
+    motionStarted_(false),
+    motionEnded_(false)
 {
 	LoadSettingsFromFileStorage();
 }
@@ -67,8 +69,8 @@ void HeadMovementAlgorithm::LoadSettingsFromFileStorage(void)
     node = fileStorage["motion"];
 
     string pointTracker;
-    int bufferSize, mhiDuration, diffThreshold;
-    double maxTimeDelta, minTimeDelta;
+    int bufferSize, diffThreshold;
+    double maxTimeDelta, minTimeDelta, mhiDuration;
 
     node[0]["pointTracker"] >> pointTracker;
     node[0]["bufferSize"] >> bufferSize;
@@ -168,10 +170,35 @@ void HeadMovementAlgorithm::Process(void)
             }
 
             if(!keyPoints_.empty() && !prevFrame_.empty())
+            {
+                Scalar s = mean(motionHistory_->GetMask(), faceMask);
                 pointTracker_->Process(frame_, prevFrame_, faces_[0], keyPoints_);
 
-			Scalar s = mean(motionHistory_->GetMask(), faceMask);
-			cout << s[0] << endl;
+                if(motionStarted_ == false && motionEnded_ == false && s[0] > 10.0)
+                {
+                    cout << "Motion STARTED " << s[0] << endl;
+                    motionStarted_ = true;
+                    motionEnded_ = false;
+                }
+                else if(motionStarted_ == true && motionEnded_ == false && s[0] < 10.0)
+                {
+                    cout << "Motion ENDED   " << s[0] << endl;
+                    motionStarted_ = false;
+                    motionEnded_ = true;
+                }
+
+                if(motionStarted_)
+                {
+                    angles_.push_back(pointTracker_->GetAngle());
+                }
+                else if(motionEnded_)
+                {
+                    angles_.push_back(pointTracker_->GetAngle());
+                    motionStarted_ = motionEnded_ = false;
+                    cout << Mat(angles_) << endl;
+                    angles_.clear();
+                }
+            }
         }
 		
 		// press ESC to exit

@@ -9,7 +9,7 @@
 using namespace std;
 using namespace cv;
 
-MotionHistory::MotionHistory(const Size& size, const int bufferSize, const int mhiDuration, const double maxTimeDelta, const double minTimeDelta, const int diffThreshold)
+MotionHistory::MotionHistory(const Size& size, const int bufferSize, const double mhiDuration, const double maxTimeDelta, const double minTimeDelta, const int diffThreshold)
 :   buffer_(NULL),
     lastId_(0),
     bufferSize_(bufferSize),

@@ -45,6 +45,8 @@ private:
     cv::Size resolution_;
     std::vector<cv::KeyPoint> keyPoints_;
 	std::vector<double> angles_;
+    bool motionStarted_;
+    bool motionEnded_;
 
     MotionHistory* motionHistory_;
     PointTracker* pointTracker_;

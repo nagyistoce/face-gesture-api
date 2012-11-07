@@ -68,7 +68,7 @@ void PointTracker::Process(const Mat& frame, const Mat& prevFrame, const Rect& r
 	calcOpticalFlowFarneback(grayPrevFrame_, grayFrame_, flow_, pyrScale_, levels_, winsize_, iterations_, polyN_, polySigma_, flags_);
 
 	Point2f center(rect.x + rect.width * 0.5f, rect.y + rect.height * 0.5f);
-	double radius = (rect.width + rect.height) * 0.25f;
+	double radius = (rect.width + rect.height) * 0.25;
 	keyPointMask_ = Mat::zeros(grayFrame_.size(), CV_8UC1);
 
 	for(size_t i = 0; i < keyPoints.size(); i++)
@@ -76,7 +76,7 @@ void PointTracker::Process(const Mat& frame, const Mat& prevFrame, const Rect& r
 		double dst = sqrt(pow(keyPoints[i].pt.x - center.x, 2) + pow(keyPoints[i].pt.y - center.y, 2));
 
 		if(dst < radius)
-			circle(keyPointMask_, Point(keyPoints[i].pt), cvRound(keyPoints[i].size / 2.0), Scalar(255), -1);
+			circle(keyPointMask_, Point(keyPoints[i].pt), cvRound( 5.0), Scalar(255), -1);
 	}
 
 	Point2f sumStartPt(0.0f, 0.0f);

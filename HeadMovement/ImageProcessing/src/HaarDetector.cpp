@@ -80,27 +80,38 @@ void* HaarDetector::Run(void)
 
 void HaarDetector::Process(void)
 {
-    clock_t time = clock() / CLOCKS_PER_SEC;
-
+    vector<Rect> tmpObj = objects_;
+    objects_.clear();
     opticalFlow_ = false;
-    if(time % 5 != 0 && !prevFrame_.empty() && !objects_.empty())
+
+    Mat grayFrame;
+    Mat normalizedImage(cvRound(frame_.rows), cvRound(frame_.cols), CV_8UC1);
+
+    cvtColor(frame_, grayFrame, CV_BGR2GRAY);
+    resize(grayFrame, normalizedImage, normalizedImage.size());
+    equalizeHist(normalizedImage, normalizedImage);
+
+    cascade_.detectMultiScale(normalizedImage, objects_, scaleFactor_, minNeighbors_, flags_, minSize_, maxSize_);
+
+    if(objects_.empty() && !tmpObj.empty() && !prevFrame_.empty())
     {
+        objects_ = tmpObj;
+
         vector<Point2f> prevPoints, nextPoints;
+        vector<Size> objSizes;
         vector<uchar> status;
         vector<float> err;
         TermCriteria termcrit(CV_TERMCRIT_ITER | CV_TERMCRIT_EPS, 20, 0.03);
-        Size winSize(31, 31);
+        Size winSize(5, 5);
 
-        Mat grayFrame, grayPrevFrame;
-        cvtColor(frame_, grayFrame, CV_BGR2GRAY);
+        Mat grayPrevFrame;
         cvtColor(prevFrame_, grayPrevFrame, CV_BGR2GRAY);
 
         for(vector<Rect>::const_iterator r = objects_.begin(); r != objects_.end(); r++)
         {
             Point center(cvRound(r->x + r->width * 0.5), cvRound(r->y + r->height * 0.5));
-
-            prevPoints.push_back(Point2f(r->x, r->y));
-            prevPoints.push_back(Point2f(r->x + r->width, r->y + r->height));
+            prevPoints.push_back(center);
+            objSizes.push_back(Size(r->width, r->height));
         }
 
         calcOpticalFlowPyrLK(grayPrevFrame, grayFrame, prevPoints, nextPoints, status, err, winSize, 3, termcrit, 0, 0.001);
@@ -108,31 +119,16 @@ void HaarDetector::Process(void)
         if(prevPoints.size() == nextPoints.size())
         {
             opticalFlow_ = true;
-
-            for(size_t i = 0; i < nextPoints.size() - 1; i += 2)
-                objects_[i/2] = Rect(nextPoints[i], nextPoints[i+1]);
+            for(size_t i = 0; i < nextPoints.size(); i++)
+            {
+                Point tl(nextPoints[i].x - objSizes[i].width * 0.5, nextPoints[i].y - objSizes[i].height * 0.5);
+                Point br(nextPoints[i].x + objSizes[i].width * 0.5, nextPoints[i].y + objSizes[i].height * 0.5);
+                objects_[i] = Rect(tl, br);
+            }
         }
-    }
-    
-    if(opticalFlow_ == false)
-    {
-        objects_.clear();
-
-        Mat grayImage;
-        Mat normalizedImage(cvRound(frame_.rows), cvRound(frame_.cols), CV_8UC1);
-
-        cvtColor(frame_, grayImage, CV_BGR2GRAY);
-        resize(grayImage, normalizedImage, normalizedImage.size());
-        equalizeHist(normalizedImage, normalizedImage);
-
-        cascade_.detectMultiScale(normalizedImage, objects_, scaleFactor_, minNeighbors_, flags_, minSize_, maxSize_);
-
-        for(vector<Rect>::iterator r = objects_.begin(); r != objects_.end(); r++)
+        else
         {
-            r->x = cvRound(r->x + r->width * 0.15);
-            r->y = cvRound(r->y + r->height * 0.15);
-            r->width = cvRound(r->width * 0.7);
-            r->height = cvRound(r->height * 0.7);
+            objects_.clear();
         }
     }
 }
