@@ -17,7 +17,7 @@
 
 #include "LbpFeature.h"
 
-#include "DTW2.h"
+#include "Similarity.h"
 
 using namespace std;
 using namespace cv;
@@ -32,6 +32,8 @@ HeadMovementAlgorithm::HeadMovementAlgorithm(void)
     motionEnded_(false)
 {
 	LoadSettingsFromFileStorage();
+
+	similarity_ = new Similarity;
 }
 
 HeadMovementAlgorithm::~HeadMovementAlgorithm(void)
@@ -41,6 +43,7 @@ HeadMovementAlgorithm::~HeadMovementAlgorithm(void)
 
     delete motionHistory_;
     delete pointTracker_;
+	delete similarity_;
 }
 
 void HeadMovementAlgorithm::LoadSettingsFromFileStorage(void)
@@ -197,14 +200,9 @@ void HeadMovementAlgorithm::Process(void)
                 {
                     angles_.push_back(pointTracker_->GetAngle());
                     motionStarted_ = motionEnded_ = false;
-                    cout << Mat(angles_) << endl;
+                    //cout << Mat(angles_) << endl;
 
-                    double a[30] = {113, 104, 111, 108, 99, 107, 102, 103, 101, 99, 98, 98, 95, 96, 93, 86, 288, 28, 7, 284, 285, 287, 283, 271, 269, 270, 262, 271, 283, 300};
-                    vector<double> v(a, a + 30);
-                    DTW2 dtw;
-                    double err = 0;
-                    cout << "DTW: " << dtw.DoDtw(angles_, v, err) << ", " << err << endl;
-
+                    similarity_->Predict(angles_);
                     angles_.clear();
                 }
             }

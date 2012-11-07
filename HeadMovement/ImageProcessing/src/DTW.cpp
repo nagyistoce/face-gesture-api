@@ -1,18 +1,18 @@
-#include "DTW2.h"
+#include "DTW.h"
 #include "Visualizer.h"
 
 using namespace std;
 using namespace cv;
 
-DTW2::DTW2(void)
+DTW::DTW(void)
 {
 }
 
-DTW2::~DTW2(void)
+DTW::~DTW(void)
 {
 }
 
-double DTW2::DoDtw(const vector<double>& seq1, const vector<double>& seq2, double& err)
+double DTW::DoDtw(const vector<double>& seq1, const vector<double>& seq2, double& err)
 {
     err = 0;
 
@@ -146,7 +146,7 @@ double DTW2::DoDtw(const vector<double>& seq1, const vector<double>& seq2, doubl
     //return fVal / length;
 }
 
-double DTW2::Distance(double p1, double p2, double pd)
+double DTW::Distance(double p1, double p2, double pd)
 {
     //return sqrt(pow(p1 - p2, 2) + pow(pd, 2));
     return abs(p1 - p2);

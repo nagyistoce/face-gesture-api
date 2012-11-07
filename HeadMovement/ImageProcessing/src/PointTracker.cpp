@@ -76,7 +76,7 @@ void PointTracker::Process(const Mat& frame, const Mat& prevFrame, const Rect& r
 		double dst = sqrt(pow(keyPoints[i].pt.x - center.x, 2) + pow(keyPoints[i].pt.y - center.y, 2));
 
 		if(dst < radius)
-			circle(keyPointMask_, Point(keyPoints[i].pt), cvRound( 5.0), Scalar(255), -1);
+			circle(keyPointMask_, Point(keyPoints[i].pt), cvRound(10.0), Scalar(255), -1);
 	}
 
 	Point2f sumStartPt(0.0f, 0.0f);
@@ -121,7 +121,26 @@ double PointTracker::Bearing(Point2f start, Point2f end)
 
 	// Ensure result is in interval [0, 360)
 	// Subtract because positive degree angles go clockwise
-	return cvRound(360.0 - angle) %  360;
+	angle = cvRound(360.0 - angle) %  360;
+
+	if(angle > 337 && angle <= 22)
+		angle = 360.0;
+	else if(angle > 22 && angle <= 67)
+		angle = 45.0;
+	else if(angle > 67 && angle <= 112)
+		angle = 90.0;
+	else if(angle > 112 && angle <= 157)
+		angle = 135.0;
+	else if(angle > 157 && angle <= 202)
+		angle = 180.0;
+	else if(angle > 202 && angle <= 247)
+		angle = 225.0;
+	else if(angle > 247 && angle <= 292)
+		angle = 270.0;
+	else
+		angle = 315.0;
+	
+	return angle;
 }
 
 const string& PointTracker::GetName(void) const

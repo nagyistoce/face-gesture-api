@@ -78,7 +78,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\DTW2.h" />
+    <ClInclude Include="include\DTW.h" />
     <ClInclude Include="include\FastFeature.h" />
     <ClInclude Include="include\GlobalFeature.h" />
     <ClInclude Include="include\LbpFeature.h" />
@@ -86,6 +86,7 @@
     <ClInclude Include="include\MserFeature.h" />
     <ClInclude Include="include\OrbFeature.h" />
     <ClInclude Include="include\SiftFeature.h" />
+    <ClInclude Include="include\Similarity.h" />
     <ClInclude Include="include\StarFeature.h" />
     <ClInclude Include="include\SurfFeature.h" />
     <ClInclude Include="include\HaarDetector.h" />
@@ -93,7 +94,7 @@
     <ClInclude Include="include\MotionHistory.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\DTW2.cpp" />
+    <ClCompile Include="src\DTW.cpp" />
     <ClCompile Include="src\FastFeature.cpp" />
     <ClCompile Include="src\GlobalFeature.cpp" />
     <ClCompile Include="src\LbpFeature.cpp" />
@@ -101,6 +102,7 @@
     <ClCompile Include="src\MserFeature.cpp" />
     <ClCompile Include="src\OrbFeature.cpp" />
     <ClCompile Include="src\SiftFeature.cpp" />
+    <ClCompile Include="src\Similarity.cpp" />
     <ClCompile Include="src\StarFeature.cpp" />
     <ClCompile Include="src\SurfFeature.cpp" />
     <ClCompile Include="src\HaarDetector.cpp" />

@@ -12,14 +12,14 @@
 
 	\ingroup Core
 */
-extern "C++" class __declspec(dllexport) DTW2
+extern "C++" class __declspec(dllexport) DTW
 {
 public:
 	//! Constructor
-	DTW2(void);
+	DTW(void);
 
 	//! Destructor
-	~DTW2(void);
+	~DTW(void);
 
     double DoDtw(const std::vector<double>& seq1, const std::vector<double>& seq2, double& err);
 

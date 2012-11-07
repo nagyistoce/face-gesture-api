@@ -37,7 +37,10 @@
     <ClCompile Include="src\PointTracker.cpp">
       <Filter>Tracker</Filter>
     </ClCompile>
-    <ClCompile Include="src\DTW2.cpp">
+    <ClCompile Include="src\DTW.cpp">
+      <Filter>DTW</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Similarity.cpp">
       <Filter>DTW</Filter>
     </ClCompile>
   </ItemGroup>
@@ -78,7 +81,10 @@
     <ClInclude Include="include\PointTracker.h">
       <Filter>Tracker</Filter>
     </ClInclude>
-    <ClInclude Include="include\DTW2.h">
+    <ClInclude Include="include\DTW.h">
+      <Filter>DTW</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Similarity.h">
       <Filter>DTW</Filter>
     </ClInclude>
   </ItemGroup>

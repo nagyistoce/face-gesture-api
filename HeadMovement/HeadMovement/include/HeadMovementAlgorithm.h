@@ -10,6 +10,7 @@ class LocalFeature;
 class ImageFrame;
 class Thread;
 class PointTracker;
+class Similarity;
 
 typedef std::map<std::string, GlobalFeature*> GlobalFeaturePool;
 typedef std::map<std::string, LocalFeature*> LocalFeaturePool;
@@ -40,6 +41,7 @@ private:
     LocalFeaturePool    localFeaturePool_;      //!< Stores all local feature extractor.
     HaarDetectorPool    haarDetectorPool_;
 
+	Similarity* similarity_;
     int cameraId_;				//!< ID of the camera to be analyzed.
 	std::string fileName_;
     cv::Size resolution_;
