@@ -37,8 +37,8 @@
     <ClCompile Include="src\PointTracker.cpp">
       <Filter>Tracker</Filter>
     </ClCompile>
-    <ClCompile Include="src\DTW.cpp">
-      <Filter>Sequences</Filter>
+    <ClCompile Include="src\DTW2.cpp">
+      <Filter>DTW</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -78,8 +78,8 @@
     <ClInclude Include="include\PointTracker.h">
       <Filter>Tracker</Filter>
     </ClInclude>
-    <ClInclude Include="include\DTW.h">
-      <Filter>Sequences</Filter>
+    <ClInclude Include="include\DTW2.h">
+      <Filter>DTW</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +97,9 @@
     </Filter>
     <Filter Include="Sequences">
       <UniqueIdentifier>{0d5f255d-fb0f-4cfc-9c36-5efddd397827}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DTW">
+      <UniqueIdentifier>{a53b6358-2c30-48ff-a6ba-6085a99b9522}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

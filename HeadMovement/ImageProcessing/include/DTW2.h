@@ -1,7 +1,7 @@
 #pragma once
 #pragma warning( disable: 4251 4244 ) // Disable needs to have dll-interface, and int to float...
 
-#include "opencv2/core/core.hpp"
+#include "opencv2/opencv.hpp"
 
 //! Class for measuring similarity between two sequences which may vary in time or speed.
 /*!
@@ -36,6 +36,8 @@ public:
 		\param distType Type of the distance. See DtwDistance enum.
 	*/
 	float FastDTW(std::vector<double> &v, std::vector<double> &w, int distType = EUCLIDEAN_DST, bool showGrid = false);
+
+    double DtwSeq(const std::vector<double>& seq1, const std::vector<double>& seq2, double& err);
 
 	//! Enumeration for computing the distance.
 	enum DtwDistance 
@@ -79,4 +81,7 @@ private:
 	int			window_;			//<! The maximum warping distance.
 
 	cv::Mat		dtwImg_;			//<! Visual representation of the grid.
+    cv::Mat dtwMap;
+
+    double GetDistanceGr(double p1, double p2, double pd);
 };
