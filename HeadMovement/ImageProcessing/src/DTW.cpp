@@ -140,7 +140,7 @@ double DTW::DoDtw(const vector<double>& seq1, const vector<double>& seq2, double
 
     err = ((length - sqrt(pow(minSize, 2.0) + pow(minSize, 2.0))) / length) * 100;
     resize(dtwMap_, dtwMap_, Size(500, 500));
-    VisualizerPtr->ShowImage("GS", dtwMap_);
+    VisualizerPtr->ShowImage("DTW Grid", dtwMap_);
 
     return cost[minSize - 1][minSize - 1] / length;
     //return fVal / length;

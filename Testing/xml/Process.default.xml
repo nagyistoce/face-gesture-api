@@ -9,6 +9,13 @@
 		</_>
 	</settings>
 	
+	<gesture>
+		<_>
+			<database>database.xml</database>
+			<diffThreshold>20</diffThreshold>
+		</_>
+	</gesture>
+	
 	<motion>
 		<_>
 			<pointTracker>"Farneback"</pointTracker>

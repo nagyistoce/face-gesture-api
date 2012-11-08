@@ -20,6 +20,7 @@ LocalSettings::LocalSettings(void)
 	inputDirectory_ = dataDirectory_ + "input/";
 	processXmlFileName_ = dataDirectory_ + "xml/Process.default.xml";
     motionDirectory_  = dataDirectory_ + "xml/Motion/";
+	gestureDirectory_ = dataDirectory_ + "xml/Gesture/";
     featureExtractorDirectory_  = dataDirectory_ + "xml/FeatureExtractor/";
 	detectorDirectory_ = dataDirectory_ + "xml/Detector/";
 
@@ -64,4 +65,9 @@ string LocalSettings::GetProcessXmlFileName(void) const
 string LocalSettings::GetMotionDirectory(void) const
 {
     return motionDirectory_;
+}
+
+string LocalSettings::GetGestureDirectory(void) const
+{
+	return gestureDirectory_;
 }

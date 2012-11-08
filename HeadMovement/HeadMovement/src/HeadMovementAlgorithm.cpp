@@ -32,8 +32,6 @@ HeadMovementAlgorithm::HeadMovementAlgorithm(void)
     motionEnded_(false)
 {
 	LoadSettingsFromFileStorage();
-
-	similarity_ = new Similarity;
 }
 
 HeadMovementAlgorithm::~HeadMovementAlgorithm(void)
@@ -70,11 +68,22 @@ void HeadMovementAlgorithm::LoadSettingsFromFileStorage(void)
     node[0]["width"] >> resolution_.width;
     node[0]["height"] >> resolution_.height;
 
+
+	// Loading gesture settings
+	node = fileStorage["gesture"];
+	string gestureFileName;
+	double diffThreshold;
+	node[0]["database"] >> gestureFileName;
+	node[0]["diffThreshold"] >> diffThreshold;
+	similarity_ = new Similarity(gestureFileName, diffThreshold);
+	// Loading gesture settings
+
+
     // Loading motion settings
     node = fileStorage["motion"];
 
     string pointTracker;
-    int bufferSize, diffThreshold;
+    int bufferSize;
     double maxTimeDelta, minTimeDelta, mhiDuration;
 
     node[0]["pointTracker"] >> pointTracker;
@@ -181,13 +190,13 @@ void HeadMovementAlgorithm::Process(void)
 
                 if(motionStarted_ == false && motionEnded_ == false && s[0] > 10.0)
                 {
-                    cout << "Motion STARTED " << s[0] << endl;
+                    cout << endl << "Motion STARTED " /*<< s[0]*/ << endl;
                     motionStarted_ = true;
                     motionEnded_ = false;
                 }
                 else if(motionStarted_ == true && motionEnded_ == false && s[0] < 10.0)
                 {
-                    cout << "Motion ENDED   " << s[0] << endl;
+                    cout << "Motion ENDED   " /*<< s[0]*/ << endl;
                     motionStarted_ = false;
                     motionEnded_ = true;
                 }

@@ -54,6 +54,12 @@ public:
 	*/
 	std::string GetMotionDirectory(void) const;
 
+	//! Settings directory getter.
+	/*!
+		\return Settings directory root.
+	*/
+	std::string GetGestureDirectory(void) const;
+
     //! Process xml filename getter.
 	/*!
 		\return Settings directory root.
@@ -67,7 +73,8 @@ private:
 	//! Destructor.
 	~LocalSettings(void);
 
-	std::string	dataDirectory_;				//!< Data directory root.
+	std::string	dataDirectory_;				//!< Data directory root
+	std::string	gestureDirectory_;				//!< Data directory root.
 	std::string	inputDirectory_;				//!< Data directory root.
     std::string	featureExtractorDirectory_;	//!< Settings directory root.
 	std::string	detectorDirectory_;			//!< Settings directory root.

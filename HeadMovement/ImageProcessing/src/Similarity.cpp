@@ -7,38 +7,29 @@
 using namespace std;
 using namespace cv;
 
-Similarity::Similarity(void)
+Similarity::Similarity(const string& databaseName, double diffThreshold)
+:	databaseName_(databaseName),
+	diffThreshold_(diffThreshold),
+	minDst_(DBL_MAX),
+	minErr_(DBL_MAX),
+	clusterLabel_(UNKNOWN_CLUSTER)
 {
-	MovementCluster noCluster;
-	Movement movement = CreateVector(18, 90, 90, 90, 90, 90, 90, 90, 270, 270, 270, 270, 270, 270, 270, 270, 225, 135, 180);
-	noCluster.push_back(movement);
-
-	movement = CreateVector(19, 90, 90, 90, 90, 90, 225, 270, 270, 270, 270, 270, 270, 270, 270, 270, 270, 225, 135, 90);
-	noCluster.push_back(movement);
-
-	movement = CreateVector(15, 90, 90, 90, 90, 90, 270, 270, 270, 270, 270, 270, 270, 225, 90, 90);
-	noCluster.push_back(movement);
-
-	movement = CreateVector(14, 90, 90, 90, 90, 90, 270, 270, 270, 270, 270, 135, 90, 135, 135);
-	noCluster.push_back(movement);
-
-	movement = CreateVector(12, 90, 90, 90, 90, 270, 270, 270, 270, 270, 180, 45, 90);
-	noCluster.push_back(movement);
-
-	movement = CreateVector(14, 90, 90, 90, 90, 270, 270, 270, 270, 270, 270, 270, 90, 90, 90);
-	noCluster.push_back(movement);
-
-	movementClusterBuffer_[NO_CLUSTER] = noCluster;
+	ReadDatabase();
 }
 
 
 Similarity::~Similarity(void)
 {
+	WriteDatabase();
 }
 
 
 void Similarity::Predict(const vector<double>& seq)
 {
+	minDst_ = DBL_MAX;
+	minErr_ = DBL_MAX;
+	clusterLabel_ = UNKNOWN_CLUSTER;
+
 	MovementClusterBuffer::const_iterator itMap;
 	for(itMap = movementClusterBuffer_.begin(); itMap != movementClusterBuffer_.end(); itMap++)
 	{
@@ -53,12 +44,31 @@ void Similarity::Predict(const vector<double>& seq)
 
 			avgDst += dst;
 			avgErr += err;
-			//cout << "DTW: " << dst << ", " << err << endl;
 		}
 
-		avgDst /= itMap->second.size();
-		avgErr /= itMap->second.size();
-		cout << "DTW (" << itMap->first << "): " << avgDst << ", " << avgErr << endl;
+		if(itMap->second.size() > 0)
+		{
+			avgDst /= itMap->second.size();
+			avgErr /= itMap->second.size();
+		}
+
+		if(avgDst > 0.0 && avgDst < minDst_)
+		{
+			minDst_ = avgDst;
+			minErr_ = avgErr;
+			clusterLabel_ = itMap->first;
+		}
+	}
+
+	if (minDst_ > 0.0 && minDst_ < diffThreshold_)
+	{
+		cout << "- DTW (" << clusterLabel_ << "): " << minDst_ << ", " << minErr_ << endl;
+		movementClusterBuffer_[clusterLabel_].push_back(seq);
+		WriteDatabase();
+	}
+	else
+	{
+		cout << "- DTW : " << minDst_ << ", " << minErr_ << endl;
 	}
 }
 
@@ -77,4 +87,48 @@ Movement Similarity::CreateVector(int count, ...)
 	va_end(arguments);
 
 	return retVector;
+}
+
+
+void Similarity::WriteDatabase(void)
+{
+	FileStorage fs(LocalSettingsPtr->GetGestureDirectory() + databaseName_, FileStorage::WRITE);
+	if(!fs.isOpened())
+		CV_Error(1, "XML does not exist (" + LocalSettingsPtr->GetGestureDirectory() + databaseName_ + ")!");
+
+	fs << "movement" << "[";
+	
+	MovementClusterBuffer::const_iterator itMap;
+	for(itMap = movementClusterBuffer_.begin(); itMap != movementClusterBuffer_.end(); itMap++)
+	{
+		MovementCluster::const_iterator itMc;
+		for(itMc = itMap->second.begin(); itMc != itMap->second.end(); itMc++)
+			fs << "{:" << "id" << itMap->first << "angles" << *itMc << "}";
+	}
+
+	fs << "]";
+	fs.release();
+}
+
+
+void Similarity::ReadDatabase(void)
+{
+	FileStorage fs(LocalSettingsPtr->GetGestureDirectory() + databaseName_, FileStorage::READ);
+	if(!fs.isOpened())
+		CV_Error(1, "XML does not exist (" + LocalSettingsPtr->GetGestureDirectory() + databaseName_ + ")!");
+
+	FileNode node = fs["movement"];
+
+	for(size_t i = 0; i < node.size(); ++i)
+	{
+		Movement movement;
+		int id;
+
+		node[i]["id"] >> id;
+		node[i]["angles"] >> movement;
+
+		movementClusterBuffer_[id].push_back(movement);
+	}
+
+	fs.release();
 }

@@ -173,6 +173,14 @@ void PointTracker::Visualize(void)
 	//		circle(flowMap, Point(x, y), 2, Scalar(0, 255, 0), -1);
 	//	}
 
+	double dx = flowMap.cols / 2.0 - direction_.first.x;
+	double dy = flowMap.rows / 2.0 - direction_.first.y;
+
+	direction_.first.x += dx;
+	direction_.second.x += dx;
+	direction_.first.y += dy;
+	direction_.second.y += dy;
+
 	line(flowMap, Point(direction_.first), Point(direction_.second), Scalar(0, 255, 0));
 	circle(flowMap, Point(direction_.first), 2, Scalar(0, 255, 0), -1);
 	ss << "Processing time of MotionHistory: " << procTime_ / (cvGetTickFrequency() * 1000.0);

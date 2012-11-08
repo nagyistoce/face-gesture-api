@@ -18,16 +18,26 @@ public:
 	enum CLUSTER_NAMES
 	{
 		NO_CLUSTER = 0,
-		YES_CLUSTER
+		YES_CLUSTER,
+		UNKNOWN_CLUSTER = -1
 	};
-	Similarity(void);
+	Similarity(const std::string& databaseName, double diffThreshold);
 	~Similarity(void);
 
 	void Predict(const std::vector<double>& seq);
 private:
 	Movement CreateVector(int count, ...);
 
+	void WriteDatabase(void);
+	void ReadDatabase(void);
+
 	MovementClusterBuffer movementClusterBuffer_;
+	std::string databaseName_;
 	DTW dtw_;
+
+	double minDst_;
+	double minErr_;
+	int clusterLabel_;
+	double diffThreshold_;
 };
 
