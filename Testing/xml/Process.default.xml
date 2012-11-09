@@ -33,7 +33,7 @@
 		
 	<featureExtractors>
 		<_>
-			<name>"ORB"</name>
+			<name>"FAST"</name>
 			<type>"local"</type>
 		</_>
 		<!--_>

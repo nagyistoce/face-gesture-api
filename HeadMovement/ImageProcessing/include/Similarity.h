@@ -19,6 +19,12 @@ public:
 	{
 		NO_CLUSTER = 0,
 		YES_CLUSTER,
+        LEFT_CLUSTER,
+        RIGHT_CLUSTER,
+        TOP_CLUSTER,
+        BOTTOM_CLUSTER,
+        CIRCLE_CLUSTER,
+        ZIGZAG_CLUSTER,
 		UNKNOWN_CLUSTER = -1
 	};
 	Similarity(const std::string& databaseName, double diffThreshold);
@@ -26,6 +32,7 @@ public:
 
 	void Predict(const std::vector<double>& seq);
 private:
+    void PrintSeq(const std::vector<double>& seq);
 	Movement CreateVector(int count, ...);
 
 	void WriteDatabase(void);

@@ -175,14 +175,21 @@ void PointTracker::Visualize(void)
 
 	double dx = flowMap.cols / 2.0 - direction_.first.x;
 	double dy = flowMap.rows / 2.0 - direction_.first.y;
+    Point start(direction_.first.x + dx, direction_.first.y + dy);
+    Point end(direction_.second.x + dx, direction_.second.y + dy);
 
-	direction_.first.x += dx;
-	direction_.second.x += dx;
-	direction_.first.y += dy;
-	direction_.second.y += dy;
+    if(end.x > flowMap.cols / 2)
+        end.x += 10;
+    else if(end.x < flowMap.cols / 2)
+        end.x -= 10;
 
-	line(flowMap, Point(direction_.first), Point(direction_.second), Scalar(0, 255, 0));
-	circle(flowMap, Point(direction_.first), 2, Scalar(0, 255, 0), -1);
+    if(end.y > flowMap.rows / 2)
+        end.y += 10;
+    else if(end.y < flowMap.rows / 2)
+        end.y -= 10;
+
+	line(flowMap, start, end, Scalar(0, 255, 0));
+	circle(flowMap, start, 2, Scalar(0, 255, 0), -1);
 	ss << "Processing time of MotionHistory: " << procTime_ / (cvGetTickFrequency() * 1000.0);
 	VisualizerPtr->PutText(flowMap, ss.str(), Point(10, 20));
 	ss.str("");

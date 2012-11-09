@@ -70,6 +70,17 @@ void Similarity::Predict(const vector<double>& seq)
 	{
 		cout << "- DTW : " << minDst_ << ", " << minErr_ << endl;
 	}
+
+    //PrintSeq(seq);
+}
+
+
+void Similarity::PrintSeq(const vector<double>& seq)
+{
+    for (size_t i = 0; i < seq.size(); i++)
+        cout << seq[i] << ". ";
+
+    cout << endl;
 }
 
 
