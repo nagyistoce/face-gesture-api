@@ -58,6 +58,7 @@ void Similarity::Predict(const vector<double>& seq)
 			minErr_ = avgErr;
 			clusterLabel_ = itMap->first;
 		}
+
 	}
 
 	if (minDst_ > 0.0 && minDst_ < diffThreshold_)

@@ -11,7 +11,7 @@
 	
 	<gesture>
 		<_>
-			<database>database.xml</database>
+			<database>database.test.xml</database>
 			<diffThreshold>20</diffThreshold>
 		</_>
 	</gesture>
