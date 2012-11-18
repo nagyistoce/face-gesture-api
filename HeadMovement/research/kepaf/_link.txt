@@ -13,3 +13,10 @@ https://docs.google.com/viewer?a=v&q=cache:MfRA4QfsOjcJ:3dmr.iit.bme.hu/edu/ikla
 http://digitus.itk.ppke.hu/~losda/anyagok/Camera/TDK/karba_losi_TDK.pdf
 http://www.elte.hu/hir?id=NW-3212
 https://docs.google.com/viewer?a=v&q=cache:WC08jt5EGWUJ:hadmernok.hu/2009_4_vamossy.pdf+&hl=hu&pid=bl&srcid=ADGEESi5DXmRNq-heeEx7TNlGenI1lFgorZqSVodAwmoHdwXLKe4hpb6XhKLXs7PVCOBz3INCahbxRI8mZhqmI0rmTEdTZphK3oLL8jLTl6rx3MsaP284uWvX8PGuzKjBPGkHwezdmI8&sig=AHIEtbRLzRYwBTx38WZBki2VLp1CDPfeKQ
+
+
+
+REF:
+http://www.academia.edu/360567/Motion_history_image_its_variants_and_applications
+http://hadmernok.hu/2009_4_vamossy.pdf
+dynamic.hand.gesture.recognition.an.exemplar.based.approach.from.motion.divergence.fields.2.pdf
