@@ -275,7 +275,7 @@ HaarDetector::~HaarDetector( void )
 	}
 }
 
-CvSeq* HaarDetector::Detect( IplImage* pImg )
+CvSeq* HaarDetector::Detect( IplImage* pImg, double scale )
 {
 	return cvHaarDetectObjects( pImg, _cascade, _storage,  1.1, 3, 0 | CV_HAAR_FIND_BIGGEST_OBJECT | CV_HAAR_SCALE_IMAGE, _minSize );
 }
