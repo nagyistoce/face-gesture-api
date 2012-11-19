@@ -66,10 +66,10 @@ void LocalFeature::Visualize(void)
     VisualizerPtr->PutText(frame_, ss.str(), Point(10, 40));
     ss.str("");
 
-    circle(frame_, Point(centerOfPts_), 5, Scalar(0, 0, 255), -1);
-    ss << "Center of points: (" << centerOfPts_.x << ", " << centerOfPts_.y << ")";
-    VisualizerPtr->PutText(frame_, ss.str(), Point(10, 60));
-    ss.str("");
+    //circle(frame_, Point(centerOfPts_), 5, Scalar(0, 0, 255), -1);
+    //ss << "Center of points: (" << centerOfPts_.x << ", " << centerOfPts_.y << ")";
+    //VisualizerPtr->PutText(frame_, ss.str(), Point(10, 60));
+    //ss.str("");
 
     VisualizerPtr->ShowImage(name_, frame_);
 }

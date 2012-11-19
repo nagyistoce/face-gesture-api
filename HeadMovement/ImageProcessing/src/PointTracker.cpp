@@ -76,7 +76,7 @@ void PointTracker::Process(const Mat& frame, const Mat& prevFrame, const Rect& r
 		double dst = sqrt(pow(keyPoints[i].pt.x - center.x, 2) + pow(keyPoints[i].pt.y - center.y, 2));
 
 		if(dst < radius)
-			circle(keyPointMask_, Point(keyPoints[i].pt), cvRound(10.0), Scalar(255), -1);
+			circle(keyPointMask_, Point(keyPoints[i].pt), 10, Scalar(255), -1);
 	}
 
 	Point2f sumStartPt(0.0f, 0.0f);
