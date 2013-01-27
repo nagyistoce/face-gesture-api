@@ -172,8 +172,6 @@ void HeadMovementAlgorithm::Process(void)
         
         if(!faces_.empty())
         {
-            Mat faceMask(frame_.size(), CV_8UC1, Scalar(0));
-            rectangle(faceMask, faces_[0], Scalar(255), -1);
             keyPoints_.clear();
 
             for(LocalFeaturePool::iterator elem = localFeaturePool_.begin(); elem != localFeaturePool_.end(); elem++)
@@ -185,6 +183,9 @@ void HeadMovementAlgorithm::Process(void)
 
             if(!keyPoints_.empty() && !prevFrame_.empty())
             {
+                Mat faceMask(frame_.size(), CV_8UC1, Scalar(0));
+                rectangle(faceMask, faces_[0], Scalar(255), -1);
+
                 Scalar s = mean(motionHistory_->GetMask(), faceMask);
                 pointTracker_->Process(frame_, prevFrame_, faces_[0], keyPoints_);
 
@@ -193,12 +194,14 @@ void HeadMovementAlgorithm::Process(void)
                     cout << endl << "Motion STARTED " /*<< s[0]*/ << endl;
                     motionStarted_ = true;
                     motionEnded_ = false;
+                    pointTracker_->InitMotionPath(Point2f(faces_[0].x + faces_[0].width / 2.0, faces_[0].y + faces_[0].height / 2.0));
                 }
                 else if(motionStarted_ == true && motionEnded_ == false && s[0] < 10.0)
                 {
                     cout << "Motion ENDED   " /*<< s[0]*/ << endl;
                     motionStarted_ = false;
                     motionEnded_ = true;
+                    pointTracker_->InitMotionPath(Point2f(faces_[0].x + faces_[0].width / 2.0, faces_[0].y + faces_[0].height / 2.0));
                 }
 
                 if(motionStarted_)

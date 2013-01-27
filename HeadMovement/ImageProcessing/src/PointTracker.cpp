@@ -76,7 +76,7 @@ void PointTracker::Process(const Mat& frame, const Mat& prevFrame, const Rect& r
 		double dst = sqrt(pow(keyPoints[i].pt.x - center.x, 2) + pow(keyPoints[i].pt.y - center.y, 2));
 
 		if(dst < radius)
-			circle(keyPointMask_, Point(keyPoints[i].pt), 10, Scalar(255), -1);
+			circle(keyPointMask_, Point(keyPoints[i].pt), 1, Scalar(255), -1);
 	}
 
 	Point2f sumStartPt(0.0f, 0.0f);
@@ -106,9 +106,22 @@ void PointTracker::Process(const Mat& frame, const Mat& prevFrame, const Rect& r
 	}
 	angle_ = Bearing(direction_.first, direction_.second);
 
+    if(!motionPath_.empty())
+    {
+        Point2f tVec(motionPath_[motionPath_.size() - 1].x - direction_.first.x, motionPath_[motionPath_.size() - 1].y - direction_.first.y);
+        motionPath_.push_back(Point2f(direction_.second.x + tVec.x, direction_.second.y + tVec.y));
+    }
+
 	procTime_ = (double)cvGetTickCount() - procTime_;
 
 	Visualize();
+}
+
+
+void PointTracker::InitMotionPath(Point2f startPoint)
+{
+    motionPath_.clear();
+    motionPath_.push_back(startPoint);
 }
 
 
@@ -175,8 +188,8 @@ void PointTracker::Visualize(void)
 
 	double dx = flowMap.cols / 2.0 - direction_.first.x;
 	double dy = flowMap.rows / 2.0 - direction_.first.y;
-    Point start(direction_.first.x + dx, direction_.first.y + dy);
-    Point end(direction_.second.x + dx, direction_.second.y + dy);
+    Point start(cvRound(direction_.first.x + dx), cvRound(direction_.first.y + dy));
+    Point end(cvRound(direction_.second.x + dx), cvRound(direction_.second.y + dy));
 
     if(end.x > flowMap.cols / 2)
         end.x += 10;
@@ -190,7 +203,7 @@ void PointTracker::Visualize(void)
 
 	line(flowMap, start, end, Scalar(0, 255, 0));
 	circle(flowMap, start, 2, Scalar(0, 255, 0), -1);
-	ss << "Processing time of MotionHistory: " << procTime_ / (cvGetTickFrequency() * 1000.0);
+	ss << "Processing time: " << procTime_ / (cvGetTickFrequency() * 1000.0) << " ms.";
 	VisualizerPtr->PutText(flowMap, ss.str(), Point(10, 20));
 	ss.str("");
 
@@ -198,7 +211,10 @@ void PointTracker::Visualize(void)
 	VisualizerPtr->PutText(flowMap, ss.str(), Point(10, 40));
 	ss.str("");
 
-	VisualizerPtr->ShowImage("KeyPointMask", keyPointMask_);
+    for(int i = 0; i < int(motionPath_.size()) - 1; i++)
+        line(flowMap, motionPath_[i], motionPath_[i+1], Scalar(255, 255, 0), 2);
+
+	//VisualizerPtr->ShowImage("KeyPointMask", keyPointMask_);
 	VisualizerPtr->ShowImage("FlowMap", flowMap);
 
 	if(showBgrFlow_)

@@ -45,7 +45,7 @@ void GlobalFeature::Visualize(void)
 {
     stringstream ss;
 
-    ss << "Processing time of " << name_ << ": " << procTime_ / (cvGetTickFrequency() * 1000.0);
+    ss << "Processing time: " << procTime_ / (cvGetTickFrequency() * 1000.0) << " ms.";
     VisualizerPtr->PutText(frame_, ss.str(), Point(10, 20));
     ss.str("");
 

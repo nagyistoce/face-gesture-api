@@ -16,15 +16,14 @@ MotionHistory::MotionHistory(const Size& size, const int bufferSize, const doubl
     mhiDuration_(mhiDuration),
     maxTimeDelta_(maxTimeDelta),
     minTimeDelta_(minTimeDelta),
-    diffThreshold_(diffThreshold)
+    diffThreshold_(diffThreshold),
+    procTime_(0.0)
 {
     buffer_ = new Mat[bufferSize_];
     for(int i = 0; i < bufferSize_; i++)
         buffer_[i] = Mat::zeros(size, CV_8UC1);
 
     mhi_ =      Mat::zeros(size, CV_32FC1);
-    orient_ =   Mat::zeros(size, CV_32FC1);
-    segmask_ =  Mat::zeros(size, CV_32FC1);
     mask_ =     Mat::zeros(size, CV_8UC1);
 }
 
@@ -36,6 +35,8 @@ MotionHistory::~MotionHistory(void)
 
 void MotionHistory::UpdateMotionHistory(const Mat& image)
 {
+    procTime_ = (double)cvGetTickCount();
+
     // get current time in seconds
     double timestamp = (double)clock() / CLOCKS_PER_SEC;
     int idx1 = lastId_;
@@ -59,6 +60,8 @@ void MotionHistory::UpdateMotionHistory(const Mat& image)
 
     // convert MHI to blue 8u image
     mhi_.convertTo(mask_, mask_.type(), 255.0 / mhiDuration_, (mhiDuration_ - timestamp) * 255.0 / mhiDuration_);
+
+    procTime_ = (double)cvGetTickCount() - procTime_;
 }
 
 const Mat& MotionHistory::GetMhi(void)
@@ -73,10 +76,17 @@ const Mat& MotionHistory::GetMask(void)
 
 void MotionHistory::Visualize(void)
 {
-	//Mat maskCopy(frame_.rows, frame_.cols, CV_8UC3);
-	//cvtColor(motionHistory_->GetMask(), maskCopy, CV_GRAY2BGR);
-	//addWeighted(maskCopy, 0.5, frame_, 1.0, 0.0, frame_);
+    Mat outputImg(mhi_.rows, mhi_.cols * 2, CV_8UC1, Scalar(0));
+    Mat& window1 = outputImg(Rect(0, 0, mhi_.cols, mhi_.rows));
+    Mat& window2 = outputImg(Rect(mhi_.cols, 0, mhi_.cols, mhi_.rows));
 
-	VisualizerPtr->ShowImage("UpdateMotionHistory - MHI", mhi_);
-	VisualizerPtr->ShowImage("UpdateMotionHistory - Mask", mask_);
+    mask_.copyTo(window2);
+    mhi_.convertTo(window1, CV_8UC1, 255.0, 0.0);
+    line(outputImg, Point(mhi_.cols, 0), Point(mhi_.cols, mhi_.rows), Scalar(255));
+
+    stringstream ss;
+    ss << "Processing time: " << procTime_ / ((double)cvGetTickFrequency() * 1000.0) << " ms.";
+
+    VisualizerPtr->PutText(outputImg, ss.str(), Point(10, 20));
+	VisualizerPtr->ShowImage("UpdateMotionHistory: Mask & MHI", outputImg);
 }

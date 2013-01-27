@@ -18,11 +18,10 @@ public:
 private:
     cv::Mat *buffer_;   // ring image buffer
     cv::Mat mhi_;       // MHI
-    cv::Mat orient_;    // orientation
     cv::Mat mask_;      // valid orientation mask
-    cv::Mat segmask_;   // motion segmentation map
 
     int lastId_;
+    double procTime_;	    //!< Processing time of the current feature extraction method.
 
     const int bufferSize_;
     const int diffThreshold_;

@@ -19,6 +19,8 @@ public:
 	const double& GetAngle(void) const;
 	const PointPair& GetDirection(void) const;
 
+    void InitMotionPath(cv::Point2f startPoint);
+
 private:
     //! Virtual method for loading algorithm specific settings from the given storage.
     void LoadSettingsFromFileStorage(void);
@@ -31,6 +33,8 @@ private:
 	cv::Mat grayPrevFrame_;
 	cv::Mat flow_;
 	cv::Mat keyPointMask_;
+
+    std::vector<cv::Point2f> motionPath_;
 
 	PointPair direction_;
 	double angle_;
