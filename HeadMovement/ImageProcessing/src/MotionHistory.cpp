@@ -49,14 +49,13 @@ void MotionHistory::UpdateMotionHistory(const Mat& image)
     lastId_ = idx2;
 
     // get difference between frames
-    Mat silh = buffer_[idx2];
-    absdiff(buffer_[idx1], buffer_[idx2], silh);
+    absdiff(buffer_[idx1], buffer_[idx2], silh_);
 
     // and threshold it
-    threshold(silh, silh, diffThreshold_, 1, CV_THRESH_BINARY);
+    threshold(silh_, silh_, diffThreshold_, 1, CV_THRESH_BINARY);
 
     // update MHI
-    updateMotionHistory(silh, mhi_, timestamp, mhiDuration_);
+    updateMotionHistory(silh_, mhi_, timestamp, mhiDuration_);
 
     // convert MHI to blue 8u image
     mhi_.convertTo(mask_, mask_.type(), 255.0 / mhiDuration_, (mhiDuration_ - timestamp) * 255.0 / mhiDuration_);
@@ -80,8 +79,9 @@ void MotionHistory::Visualize(void)
     Mat& window1 = outputImg(Rect(0, 0, mhi_.cols, mhi_.rows));
     Mat& window2 = outputImg(Rect(mhi_.cols, 0, mhi_.cols, mhi_.rows));
 
+    equalizeHist(silh_, silh_);
+    silh_.copyTo(window1);
     mask_.copyTo(window2);
-    mhi_.convertTo(window1, CV_8UC1, 255.0, 0.0);
     line(outputImg, Point(mhi_.cols, 0), Point(mhi_.cols, mhi_.rows), Scalar(255));
 
     stringstream ss;

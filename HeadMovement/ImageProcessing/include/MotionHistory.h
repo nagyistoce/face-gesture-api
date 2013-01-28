@@ -19,6 +19,7 @@ private:
     cv::Mat *buffer_;   // ring image buffer
     cv::Mat mhi_;       // MHI
     cv::Mat mask_;      // valid orientation mask
+    cv::Mat silh_;
 
     int lastId_;
     double procTime_;	    //!< Processing time of the current feature extraction method.
