@@ -11,6 +11,7 @@
 typedef std::vector<double> Movement;
 typedef std::vector<Movement> MovementCluster;
 typedef std::map<int, MovementCluster> MovementClusterBuffer;
+typedef std::pair<int, double> AvgDstElem;
 
 extern "C++" class __declspec(dllexport) Similarity
 {
@@ -41,7 +42,9 @@ private:
 	MovementClusterBuffer movementClusterBuffer_;
 	std::string databaseName_;
 	DTW dtw_;
+    std::vector<AvgDstElem> avgDistances_;
 
+    double procTime_;
 	double minDst_;
 	double minErr_;
 	int clusterLabel_;

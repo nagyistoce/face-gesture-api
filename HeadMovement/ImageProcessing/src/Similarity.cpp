@@ -7,12 +7,23 @@
 using namespace std;
 using namespace cv;
 
+
+struct AvgDstVectorCmp 
+{
+    bool operator()(const AvgDstElem& lhs, const AvgDstElem& rhs) 
+    {
+        return lhs.second < rhs.second;
+    }
+};
+
+
 Similarity::Similarity(const string& databaseName, double diffThreshold)
 :	databaseName_(databaseName),
 	diffThreshold_(diffThreshold),
 	minDst_(DBL_MAX),
 	minErr_(DBL_MAX),
-	clusterLabel_(UNKNOWN_CLUSTER)
+	clusterLabel_(UNKNOWN_CLUSTER),
+    procTime_(0.0)
 {
 	ReadDatabase();
 }
@@ -26,9 +37,13 @@ Similarity::~Similarity(void)
 
 void Similarity::Predict(const vector<double>& seq)
 {
+    procTime_ = (double)cvGetTickCount();
+
 	minDst_ = DBL_MAX;
 	minErr_ = DBL_MAX;
 	clusterLabel_ = UNKNOWN_CLUSTER;
+
+    avgDistances_.clear();
 
 	MovementClusterBuffer::const_iterator itMap;
 	for(itMap = movementClusterBuffer_.begin(); itMap != movementClusterBuffer_.end(); itMap++)
@@ -52,14 +67,54 @@ void Similarity::Predict(const vector<double>& seq)
 			avgErr /= itMap->second.size();
 		}
 
+        avgDistances_.push_back(make_pair(itMap->first, avgDst));
+
 		if(avgDst > 0.0 && avgDst < minDst_)
 		{
 			minDst_ = avgDst;
 			minErr_ = avgErr;
 			clusterLabel_ = itMap->first;
 		}
-
 	}
+
+    procTime_ = (double)cvGetTickCount() - procTime_;
+
+    if(!avgDistances_.empty())
+    {
+        int barHeight = 30;
+        double maxDst = 100.0;
+        double stretch = 300.0;
+
+        std::sort(avgDistances_.begin(), avgDistances_.end(), AvgDstVectorCmp());
+        Mat output(barHeight * (avgDistances_.size()+1), 300, CV_8UC1, Scalar(0.0));
+
+        stringstream ss;
+
+        ss << "Processing time: " << procTime_ / (cvGetTickFrequency() * 1000.0) << " ms.";
+        VisualizerPtr->PutText(output, ss.str(), Point(5, 20));
+
+        for(int i = 0; i < int(avgDistances_.size()); i++)
+        {
+            int barWidth = cvRound(avgDistances_[i].second / maxDst * stretch);
+            Rect r(0, (i+1) * barHeight, barWidth, barHeight);
+
+            rectangle(output, r, i%2 ? Scalar(100.0) : Scalar(200.0), -1);
+
+            rectangle(output, r, Scalar(barWidth%255), -1);
+            rectangle(output, r, Scalar(255.0));
+
+            stringstream ss;
+
+            if(avgDistances_[i].first >= 97 && avgDistances_[i].first <= 122)
+                ss << char(avgDistances_[i].first) << ": " << avgDistances_[i].second;
+            else
+                ss << avgDistances_[i].first << ": " << avgDistances_[i].second;
+
+            VisualizerPtr->PutText(output, ss.str(), Point(5, (i+1) * barHeight + 20));
+        }
+
+        VisualizerPtr->ShowImage("DTW Distances", output);
+    }
 
 	if (minDst_ > 0.0 && minDst_ < diffThreshold_)
 	{

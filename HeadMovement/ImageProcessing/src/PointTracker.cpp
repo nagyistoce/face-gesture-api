@@ -215,7 +215,7 @@ void PointTracker::Visualize(void)
         line(flowMap, motionPath_[i], motionPath_[i+1], Scalar(255, 255, 0), 2);
 
 	//VisualizerPtr->ShowImage("KeyPointMask", keyPointMask_);
-	VisualizerPtr->ShowImage("FlowMap", flowMap);
+	VisualizerPtr->ShowImage("Head Movement Trajectory", flowMap);
 
 	if(showBgrFlow_)
 	{

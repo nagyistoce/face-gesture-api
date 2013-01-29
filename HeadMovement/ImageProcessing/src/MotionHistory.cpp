@@ -88,5 +88,5 @@ void MotionHistory::Visualize(void)
     ss << "Processing time: " << procTime_ / ((double)cvGetTickFrequency() * 1000.0) << " ms.";
 
     VisualizerPtr->PutText(outputImg, ss.str(), Point(10, 20));
-	VisualizerPtr->ShowImage("UpdateMotionHistory: Mask & MHI", outputImg);
+	VisualizerPtr->ShowImage("Spatio-temporal Movement Segmentation: Mask & MHI", outputImg);
 }

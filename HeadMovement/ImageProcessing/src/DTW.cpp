@@ -5,6 +5,7 @@ using namespace std;
 using namespace cv;
 
 DTW::DTW(void)
+:   procTime_(0.0)
 {
 }
 
@@ -14,6 +15,8 @@ DTW::~DTW(void)
 
 double DTW::DoDtw(const vector<double>& seq1, const vector<double>& seq2, double& err)
 {
+    procTime_ = (double)cvGetTickCount();
+
     err = 0;
 
     if (seq1.size() < 5 || seq2.size() < 5)
@@ -35,7 +38,7 @@ double DTW::DoDtw(const vector<double>& seq1, const vector<double>& seq2, double
         float q = (float)n / float(m);
         for (int i = 0; i < m; i++)
         {
-            int t = i * q;
+            int t = cvRound(i * q);
             tmpseq2.push_back(seq2[t]);
         }
     }
@@ -45,25 +48,25 @@ double DTW::DoDtw(const vector<double>& seq1, const vector<double>& seq2, double
         float q = (float)m / (float)n;
         for (int i = 0; i < n; i++)
         {
-            int t = i * q;
+            int t = cvRound(i * q);
             tmpseq1.push_back(seq1[t]);
         }
     }
 
 
-    vector<vector <double> > cost(minSize, minSize);
+    vector<vector<double> > cost(minSize, minSize);
 
     cost[0][0] = Distance(tmpseq1[0], tmpseq2[0], 0);
 
-    for (int i = 1; i < minSize; i++)
+    for(int i = 1; i < minSize; i++)
         cost[i][0] = cost[i - 1][0] + Distance(tmpseq1[i], tmpseq2[0], i);
 
 
-    for (int j = 1; j < minSize; j++)
+    for(int j = 1; j < minSize; j++)
         cost[0][j] = cost[0][j - 1] + Distance(tmpseq1[0], tmpseq2[j], j);
 
 
-    for (int j = 1; j < minSize; j++)
+    for(int j = 1; j < minSize; j++)
         for (int i = 1; i < minSize; i++)
             cost[i][j] = min(cost[i-1][j], min(cost[i][j-1], cost[i-1][j-1])) +  Distance(tmpseq1[i], tmpseq2[j], i - j);
 
@@ -139,8 +142,26 @@ double DTW::DoDtw(const vector<double>& seq1, const vector<double>& seq2, double
     }
 
     err = ((length - sqrt(pow(minSize, 2.0) + pow(minSize, 2.0))) / length) * 100;
-    resize(dtwMap_, dtwMap_, Size(500, 500));
-    VisualizerPtr->ShowImage("DTW Grid", dtwMap_);
+    procTime_ = (double)cvGetTickCount() - procTime_;
+
+    // Visualizer
+    //if(draw)
+    //{
+        //double ratio = 300.0 / dtwMap_.cols;
+        //resize(dtwMap_, dtwMap_, Size(300, cvRound(dtwMap_.rows * ratio)), 0.0, 0.0, cv::INTER_AREA);
+        //
+        //stringstream ss;
+
+        //ss << "Processing time: " << procTime_ / (cvGetTickFrequency() * 1000.0) << " ms.";
+        //VisualizerPtr->PutText(dtwMap_, ss.str(), Point(10, 20));
+        //ss.str("");
+
+        //ss << "DTW distance: " << (cost[minSize - 1][minSize - 1] / length);
+        //VisualizerPtr->PutText(dtwMap_, ss.str(), Point(10, 40));
+        //ss.str("");
+
+        //VisualizerPtr->ShowImage("DTW Grid", dtwMap_);
+    //}
 
     return cost[minSize - 1][minSize - 1] / length;
     //return fVal / length;

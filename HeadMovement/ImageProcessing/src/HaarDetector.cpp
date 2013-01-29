@@ -121,8 +121,8 @@ void HaarDetector::Process(void)
             opticalFlow_ = true;
             for(size_t i = 0; i < nextPoints.size(); i++)
             {
-                Point tl(nextPoints[i].x - objSizes[i].width * 0.5, nextPoints[i].y - objSizes[i].height * 0.5);
-                Point br(nextPoints[i].x + objSizes[i].width * 0.5, nextPoints[i].y + objSizes[i].height * 0.5);
+                Point tl(cvRound(nextPoints[i].x - objSizes[i].width * 0.5), cvRound(nextPoints[i].y - objSizes[i].height * 0.5));
+                Point br(cvRound(nextPoints[i].x + objSizes[i].width * 0.5), cvRound(nextPoints[i].y + objSizes[i].height * 0.5));
                 objects_[i] = Rect(tl, br);
             }
         }
@@ -171,5 +171,5 @@ void HaarDetector::Visualize(void)
             rectangle(frame_, Point(r->x, r->y), Point(r->x + r->width, r->y + r->height), colors[i % 8], 2);
 	}
 
-	VisualizerPtr->ShowImage("HeadMovementAlgorithm - " + name_, frame_);
+	VisualizerPtr->ShowImage("Haar Detector - " + name_, frame_);
 }

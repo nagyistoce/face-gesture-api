@@ -71,7 +71,7 @@ void LocalFeature::Visualize(void)
     //VisualizerPtr->PutText(frame_, ss.str(), Point(10, 60));
     //ss.str("");
 
-    VisualizerPtr->ShowImage(name_, frame_);
+    VisualizerPtr->ShowImage("Local Feature Extractor - " + name_, frame_);
 }
 
 

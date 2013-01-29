@@ -53,7 +53,7 @@ void GlobalFeature::Visualize(void)
     VisualizerPtr->PutText(frame_, ss.str(), Point(10, 40));
     ss.str("");
 
-    VisualizerPtr->ShowImage(name_, outputFrame_);
+    VisualizerPtr->ShowImage("Global Feature Extractor - " + name_, outputFrame_);
 }
 
 

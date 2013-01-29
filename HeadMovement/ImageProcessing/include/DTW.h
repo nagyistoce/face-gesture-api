@@ -27,4 +27,5 @@ private:
     double Distance(double p1, double p2, double pd);
 
     cv::Mat dtwMap_;
+    double procTime_;
 };
