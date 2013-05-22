@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Algorithms">
+      <UniqueIdentifier>{11e9eb94-b758-43de-beeb-ceef703d3ca3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Algorithms\TestAlgorithm">
+      <UniqueIdentifier>{bf6c51ee-1df4-4112-acaa-1f168d466103}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Algorithms\Algorithm">
+      <UniqueIdentifier>{6822e47d-cccb-40ae-9e97-ba7a7bea7bdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules">
+      <UniqueIdentifier>{f0639ecb-ef13-4e99-9b4c-2766bbdb3fee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\Module">
+      <UniqueIdentifier>{ce8aedc2-3488-4cb5-9e2e-37f6d9f92265}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\Source">
+      <UniqueIdentifier>{74e04831-f478-4ee7-bcc5-8ae3638bb0d8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="TestAlgorithm.cpp">
+      <Filter>Algorithms\TestAlgorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="Algorithm.cpp">
+      <Filter>Algorithms\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="AlgorithmFactory.cpp">
+      <Filter>Algorithms\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleFactory.cpp">
+      <Filter>Modules\Module</Filter>
+    </ClCompile>
+    <ClCompile Include="Source.cpp">
+      <Filter>Modules\Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TestAlgorithm.h">
+      <Filter>Algorithms\TestAlgorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="Algorithm.h">
+      <Filter>Algorithms\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="AlgorithmFactory.h">
+      <Filter>Algorithms\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleFactory.h">
+      <Filter>Modules\Module</Filter>
+    </ClInclude>
+    <ClInclude Include="Source.h">
+      <Filter>Modules\Source</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

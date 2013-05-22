@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<opencv_storage>
+	<suite>"bkornel_branch_test"</suite>
+	<live>true</live>
+	<pufferSize>10</pufferSize>
+  
+	<flags>
+		<_>PauseOnEnd</_>
+	</flags>
+
+	<!-- algorithms>
+		<_>
+			<name>test</name>
+			<config>general</config>
+		</_>
+		<_>
+			<name>test</name>
+			<config>general2</config>
+		</_>
+	</algorithms -->
+  
+	<tasks>
+		<!-- Sensor -->
+		<_>
+			<module>Source.kinectDbDepth</module>
+		</_>	
+	</tasks>
+</opencv_storage>
