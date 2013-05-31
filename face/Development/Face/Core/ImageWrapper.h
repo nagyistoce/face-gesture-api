@@ -2,29 +2,14 @@
 
 #include <opencv2/core/core.hpp>
 #include "Message.h"
+#include "MetaData.h"
 
 class ImageWrapper
 :   public Message
 {
 public:
-    enum Position
-    {
-        POSITION_FRONT = 0,
-        POSITION_UNDEFINED
-    };
-
-    struct MetaData
-    {
-        MetaData(void);
-        MetaData(const MetaData& other);
-        ~MetaData(void);
-
-        Position position;
-        int frameNumber;
-        unsigned int timestamp;
-    };
-
     ImageWrapper(void);
+    ImageWrapper(const cv::Mat& frame, const MetaData& metaData);
     ImageWrapper(const ImageWrapper& other);
     ~ImageWrapper(void);
 
@@ -32,7 +17,7 @@ public:
 	/*!
 		\return Readable/writable RGB frame.
 	*/
-	cv::Mat& Rgb(void);
+	//cv::Mat& Rgb(void);
 
 	//! Const RGB frame getter.
 	/*!
@@ -40,17 +25,14 @@ public:
 	*/
 	const cv::Mat& Rgb(void) const;
 
-    //! Virtual method from Message.
-	/*!
-		\sa Message::Clone()
-
-		Creates a new ImageWrapper object from this object.
-	*/
-	virtual Message* Clone(void) const;
-
     const MetaData& GetMetaData(void) const;
 
+    ImageWrapper& operator=(ImageWrapper other);
+
+
 private:
+    friend void swap(ImageWrapper& first, ImageWrapper& second);
+
     cv::Mat rgb_;   //!< RGB frame.
     MetaData metaData_;
 };

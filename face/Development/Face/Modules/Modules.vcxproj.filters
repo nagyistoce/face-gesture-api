@@ -36,6 +36,9 @@
     <ClCompile Include="Source.cpp">
       <Filter>Modules\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Detector.cpp">
+      <Filter>Modules\Module</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestAlgorithm.h">
@@ -52,6 +55,9 @@
     </ClInclude>
     <ClInclude Include="Source.h">
       <Filter>Modules\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Detector.h">
+      <Filter>Modules\Module</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

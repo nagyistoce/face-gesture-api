@@ -19,6 +19,7 @@
     <ClInclude Include="GlobalSettings.h" />
     <ClInclude Include="ImageWrapper.h" />
     <ClInclude Include="Message.h" />
+    <ClInclude Include="MetaData.h" />
     <ClInclude Include="Module.h" />
     <ClInclude Include="PortNameParser.h" />
     <ClInclude Include="StringBuilder.h" />
@@ -34,6 +35,7 @@
     <ClCompile Include="GlobalSettings.cpp" />
     <ClCompile Include="ImageWrapper.cpp" />
     <ClCompile Include="Message.cpp" />
+    <ClCompile Include="MetaData.cpp" />
     <ClCompile Include="Module.cpp" />
     <ClCompile Include="PortNameParser.cpp" />
     <ClCompile Include="StringBuilder.cpp" />
@@ -71,8 +73,7 @@
   <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -86,8 +87,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>

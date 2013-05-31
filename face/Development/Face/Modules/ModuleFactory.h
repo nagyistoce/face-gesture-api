@@ -11,9 +11,14 @@
 #define ModuleFactoryPtr ModuleFactory::GetInstance()
 
 class Message;
+class Source;
 
 class ModuleFactory
 {
+    //typedef std::tuple<Message*, Message*> Item5;       
+    //typedef tbb::flow::function_node<Item5, Message*> FunctionNode;
+    //typedef tbb::flow::join_node<Item5, tbb::flow::queueing> JoinNode;
+
 public:
     static ModuleFactory* GetInstance(void);
 
@@ -22,11 +27,6 @@ public:
 
 
 private:
-    typedef tbb::flow::continue_msg ContinueMsg;
-    typedef tbb::flow::broadcast_node<ContinueMsg> BroadcastNode;
-    typedef tbb::flow::source_node<Message*> SourceNode;
-    typedef tbb::flow::function_node<Message*, Message*> FunctionNode;
-
     static ModuleFactory* instance_;
     static tbb::mutex mutex_;
 
@@ -34,6 +34,5 @@ private:
     ~ModuleFactory(void);
 
     tbb::flow::graph graph_;
-    std::vector<SourceNode*> sourceNodes_;
-    std::vector<FunctionNode*> functionNodes_;
+    Source* source_;
 };

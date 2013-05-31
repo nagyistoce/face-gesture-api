@@ -57,8 +57,11 @@
     <ClInclude Include="PortNameParser.h">
       <Filter>Message</Filter>
     </ClInclude>
+    <ClInclude Include="MetaData.h">
+      <Filter>Message</Filter>
+    </ClInclude>
     <ClInclude Include="ImageWrapper.h">
-      <Filter>Module</Filter>
+      <Filter>Message</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -98,8 +101,11 @@
     <ClCompile Include="PortNameParser.cpp">
       <Filter>Message</Filter>
     </ClCompile>
+    <ClCompile Include="MetaData.cpp">
+      <Filter>Message</Filter>
+    </ClCompile>
     <ClCompile Include="ImageWrapper.cpp">
-      <Filter>Module</Filter>
+      <Filter>Message</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

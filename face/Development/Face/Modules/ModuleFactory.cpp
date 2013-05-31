@@ -1,6 +1,8 @@
 #include "ModuleFactory.h"
 #include "Tracer.h"
 #include "Source.h"
+#include "Message.h"
+#include "ImageWrapper.h"
 
 using namespace std;
 using namespace tbb::flow;
@@ -22,48 +24,49 @@ ModuleFactory* ModuleFactory::GetInstance(void)
 
 
 ModuleFactory::ModuleFactory(void)
+:   source_(NULL)
 {
 }
 
 
 ModuleFactory::~ModuleFactory(void)
 {
-    for(size_t i = 0; i < sourceNodes_.size(); i++)
-        delete sourceNodes_[i];
+    delete source_;
 }
+
 
 struct square 
 {
-    Message* operator()(Message* frameIn) 
+    Message* operator()(Message* v) 
     {
+        ImageWrapper* frameIn = dynamic_cast<ImageWrapper*>(v);
+        cv::Mat frameInMat = frameIn->Rgb();
 
-        return frameIn; 
+        return v; 
     }
 };
 
 
 void ModuleFactory::CreateConnections(const ConnectionMap& sources, const ConnectionMap& modules)
 {
+    tbb::flow::function_node<Message*, Message*>* funcNode;
     for(size_t i = 0; i < sources.size(); i++)
     {
         const PortNameParser& ppp = sources[i].first;
 
-        SourceNode* A = new SourceNode(graph_, Source(ppp.GetModuleName(), ppp.GetInstanceName()));
+        source_ = new Source(graph_, ppp.GetModuleName(), ppp.GetInstanceName());
+        funcNode = new tbb::flow::function_node<Message*, Message*>(graph_, unlimited, square());
+        Source::SourceNodeType* sourceNode = source_->GetNode();
+        make_edge(*sourceNode, *funcNode);
 
-        FunctionNode* B = new FunctionNode(graph_, unlimited, square());
-        make_edge(*A, *B);
-        sourceNodes_.push_back(A);
+        //FunctionNode* B = new FunctionNode(graph_, unlimited, square());
+        //make_edge(*sourceScheduler_, *B);
+        //sourceNodes_.push_back(A);
     }
 }
 
 
 void ModuleFactory::Start(void)
 {
-    //for(int i = 0; i < 10; ++i) 
-    //{
-    //    cv::Mat *img = new cv::Mat();
-    //    sourceNodes_[0]->try_reserve( img );
-    //}
-
     graph_.wait_for_all();
 }

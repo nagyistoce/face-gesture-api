@@ -5,7 +5,6 @@
 #include <string>
 #include <windows.h>
 #include <opencv2/core/core.hpp>
-#include "tbb/flow_graph.h"
 
 #include "FaceDef.h"
 
@@ -45,7 +44,10 @@ protected:
     //! Destructor.
     virtual ~Module(void);
 
-    virtual bool operator() (Message* input) = 0;
+    virtual void BeforeProcess(void) = 0;
+    virtual void Process(void) = 0;
+    virtual void AfterProcess(void) = 0;
+
 
     //! Open the module configuration xml file.
 	/*!

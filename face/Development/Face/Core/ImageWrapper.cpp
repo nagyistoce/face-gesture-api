@@ -1,25 +1,14 @@
+#include <algorithm>
 #include "ImageWrapper.h"
 
 using namespace cv;
 
-ImageWrapper::MetaData::MetaData(void)
+
+void swap(ImageWrapper& first, ImageWrapper& second)
 {
-    position = POSITION_UNDEFINED;
-    frameNumber = 0;
-    timestamp = 0;
-}
-
-
-ImageWrapper::MetaData::MetaData(const ImageWrapper::MetaData& other)
-{
-    position = other.position;
-    frameNumber = other.frameNumber;
-    timestamp = other.timestamp;
-}
-
-
-ImageWrapper::MetaData::~MetaData(void)
-{
+    using std::swap;
+    swap(first.metaData_, second.metaData_);
+    swap(first.rgb_, second.rgb_);
 }
 
 
@@ -28,10 +17,16 @@ ImageWrapper::ImageWrapper(void)
 }
 
 
+ImageWrapper::ImageWrapper(const Mat& frame, const MetaData& metaData)
+{
+    metaData_ = metaData;
+    frame.copyTo(rgb_);
+}
+
+
 ImageWrapper::ImageWrapper(const ImageWrapper& other)
 {
-    metaData_ = ImageWrapper::MetaData(other.GetMetaData());
-
+    metaData_ = other.metaData_;
     other.rgb_.copyTo(rgb_);
 }
 
@@ -41,10 +36,10 @@ ImageWrapper::~ImageWrapper(void)
 }
 
 
-Mat& ImageWrapper::Rgb(void)
-{
-    return rgb_;
-}
+//Mat& ImageWrapper::Rgb(void)
+//{
+//    return rgb_;
+//}
 
 
 const Mat& ImageWrapper::Rgb(void) const
@@ -53,13 +48,14 @@ const Mat& ImageWrapper::Rgb(void) const
 }
 
 
-Message* ImageWrapper::Clone(void) const
+const MetaData& ImageWrapper::GetMetaData(void) const
 {
-    return new ImageWrapper(*this);
+    return metaData_;
 }
 
 
-const ImageWrapper::MetaData& ImageWrapper::GetMetaData() const
+ImageWrapper& ImageWrapper::operator=(ImageWrapper other)
 {
-    return metaData_;
+    swap(*this, other);
+    return *this;
 }

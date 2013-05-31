@@ -16,14 +16,4 @@ public:
 
 	//! Destructor.
 	virtual ~Message(void);
-
-	//! Abstract clone method which should be implemented.
-	virtual Message* Clone(void) const = 0;
-
-private:
-	//! Disabled copy constructor.
-	Message(const Message& other);
-
-	//! Disabled copy operator.
-	Message& operator =(const Message& other);
 };
