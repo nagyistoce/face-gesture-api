@@ -19,6 +19,7 @@ public:
     const std::string& GetInstanceName(void) const;
     const std::string& GetPort(void) const;
 
+
 private:
     std::string fullName_;
     std::string moduleName_;

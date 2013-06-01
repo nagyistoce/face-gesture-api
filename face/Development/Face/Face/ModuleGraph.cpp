@@ -6,6 +6,7 @@
 #include "Tracer.h"
 #include "XmlReader.h"
 #include "ModuleFactory.h"
+#include "GarbageCollector.h"
 
 using namespace std;
 using namespace cv;
@@ -44,17 +45,13 @@ void ModuleGraph::BuildFromFileNode(const FileNode& tasksNode)
         ChildrenList childrenList;
         ReadConnectionListFromFileNode(childrenNode, ppp, &childrenList);
 
-        if(ppp.GetModuleName() == "Source") // Source
-        {
-            sources_.push_back(make_pair(ppp, childrenList));
-        } 
-        else // Module
-        {
-            modules_.push_back(make_pair(ppp, childrenList));
-        }
+        modules_.push_back(make_pair(ppp, childrenList));
     }
 
-    ModuleFactoryPtr->CreateConnections(sources_, modules_);
+    CheckModules();
+
+    GarbageCollectorPtr->ParseConnectionMap(modules_);
+    ModuleFactoryPtr->CreateConnections(modules_);
 }
 
 
@@ -78,16 +75,36 @@ void ModuleGraph::ReadConnectionListFromFileNode(const FileNode& childrenNode, c
 
 bool ModuleGraph::NodeAlreadyExists(const PortNameParser& ppp) const
 {
-    if(ppp.GetModuleName() == "Source")
+    for(int i = 0; i < int(modules_.size()); i++)
     {
-        for(int i = 0; i < int(sources_.size()); i++)
-            if(sources_[i].first == ppp) return true;
-    }
-    else
-    {
-        for(int i = 0; i < int(modules_.size()); i++)
-            if(modules_[i].first == ppp) return true;
+        if(modules_[i].first == ppp) 
+        {
+            return true;
+        }
     }
 
 	return false;
+}
+
+
+void ModuleGraph::CheckModules(void)
+{
+    for(ConnectionMap::const_iterator itCpOut = modules_.begin(); itCpOut != modules_.end(); itCpOut++)
+    {
+        for(ChildrenList::const_iterator itChild = itCpOut->second.begin(); itChild != itCpOut->second.end(); itChild++)
+        {
+            bool found = false;
+            for(ConnectionMap::const_iterator itCpIn = modules_.begin(); itCpIn != modules_.end(); itCpIn++)
+            {
+                if(itChild->GetFullName() == itCpIn->first.GetFullName())
+                {
+                    found = true;
+                    break;
+                }
+            }
+
+            if(found == false)
+                CV_Error(-1, "Use of undefined children module in process.xml: " + itCpOut->first.GetFullName() + " -> " + itChild->GetFullName());
+        }
+    }
 }

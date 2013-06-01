@@ -1,9 +1,10 @@
 #include <opencv2/core/core.hpp>
 #include "Module.h"
+#include "Message.h"
 #include "Tracer.h"
 #include "GlobalSettings.h"
 #include "Configuration.h"
-
+#include "GarbageCollector.h"
 
 using namespace std;
 
@@ -19,13 +20,32 @@ Module::Module(const string& moduleName, const string& instanceName)
 
     configurationFs_.open(configFileName, cv::FileStorage::READ, "UTF-8");
     if(!configurationFs_.isOpened())
+    {
         std::cerr << "Warning: could not open module settings file, filename=\"" + configFileName + "\".\n";
+    }
+
+    timestamp_ = unsigned int(timer_.GetElapsedTimeInMicroSec());
 }
 
 
 Module::~Module(void)
 {
     configurationFs_.release();
+}
+
+
+void Module::BeforeProcess(void)
+{
+    timestamp_ = unsigned int(timer_.GetElapsedTimeInMicroSec());
+}
+
+
+void Module::AfterProcess(OutputType message)
+{
+    if(message != NULL)
+    {
+        GarbageCollectorPtr->PushNewOutput(message, fullName_);
+    }
 }
 
 
@@ -47,15 +67,15 @@ const string& Module::GetInstanceName(void) const
 }
 
 
-LONGLONG Module::GetTimeStamp(void) const
+unsigned int Module::GetTimestamp(void) const
 {
-    return timeStamp_;
+    return timestamp_;
 }
 
 
-void Module::SetTimeStamp(LONGLONG timeStamp)
+void Module::SetTimestamp(unsigned int timestamp)
 {
-    timeStamp_ = timeStamp;
+    timestamp_ = timestamp;
 }
 
 

@@ -16,6 +16,9 @@
     <Filter Include="Message">
       <UniqueIdentifier>{caff4256-1905-4df6-8e6d-e86f0d9c322f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Time">
+      <UniqueIdentifier>{f4e13218-2045-485d-8cee-a4f924d735b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FaceDef.h">
@@ -39,9 +42,6 @@
     <ClInclude Include="FileSystem.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="TimeStamp.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="GlobalSettings.h">
       <Filter>Configuration</Filter>
     </ClInclude>
@@ -60,7 +60,16 @@
     <ClInclude Include="MetaData.h">
       <Filter>Message</Filter>
     </ClInclude>
-    <ClInclude Include="ImageWrapper.h">
+    <ClInclude Include="TimeStamp.h">
+      <Filter>Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Time</Filter>
+    </ClInclude>
+    <ClInclude Include="StopwatchTimer.h">
+      <Filter>Time</Filter>
+    </ClInclude>
+    <ClInclude Include="GarbageCollector.h">
       <Filter>Message</Filter>
     </ClInclude>
   </ItemGroup>
@@ -83,9 +92,6 @@
     <ClCompile Include="FileSystem.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="TimeStamp.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="GlobalSettings.cpp">
       <Filter>Configuration</Filter>
     </ClCompile>
@@ -104,7 +110,16 @@
     <ClCompile Include="MetaData.cpp">
       <Filter>Message</Filter>
     </ClCompile>
-    <ClCompile Include="ImageWrapper.cpp">
+    <ClCompile Include="TimeStamp.cpp">
+      <Filter>Time</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Time</Filter>
+    </ClCompile>
+    <ClCompile Include="StopwatchTimer.cpp">
+      <Filter>Time</Filter>
+    </ClCompile>
+    <ClCompile Include="GarbageCollector.cpp">
       <Filter>Message</Filter>
     </ClCompile>
   </ItemGroup>

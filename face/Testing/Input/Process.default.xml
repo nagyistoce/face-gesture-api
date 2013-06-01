@@ -20,9 +20,30 @@
 	</algorithms -->
   
 	<tasks>
-		<!-- Sensor -->
 		<_>
-			<module>Source.kinectDbDepth</module>
-		</_>	
+			<module>Source.front</module>
+			<to>
+				<_>Detector.face:image</_>
+				<_>Detector.leftEye:image</_>
+				<_>Detector.rightEye:image</_>
+				<_>Detector.nose:image</_>
+				<_>Detector.mouth:image</_>
+			</to>
+		</_>
+		
+		<_>
+			<module>Detector.face</module>
+			<to>
+				<_>Detector.leftEye:faceRect</_>
+				<_>Detector.rightEye:faceRect</_>
+				<_>Detector.nose:faceRect</_>
+				<_>Detector.mouth:faceRect</_>
+			</to>
+		</_>
+		
+		<_><module>Detector.leftEye</module></_>
+		<_><module>Detector.rightEye</module></_>
+		<_><module>Detector.nose</module></_>
+		<_><module>Detector.mouth</module></_>
 	</tasks>
 </opencv_storage>

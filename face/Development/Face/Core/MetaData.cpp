@@ -47,6 +47,12 @@ MetaData& MetaData::operator=(MetaData other)
 }
 
 
+void MetaData::IncrementFrameNumber(void)
+{
+    frameNumber_++;
+}
+
+
 MetaData::Position MetaData::GetPosition(void) const
 {
     return position_;
@@ -62,4 +68,16 @@ int MetaData::GetFrameNumber(void) const
 unsigned int MetaData::GetTimestamp(void) const
 {
     return timestamp_;
+}
+
+
+void MetaData::SetFrameNumber(int value)
+{
+    frameNumber_ = value;
+}
+
+
+void MetaData::SetTimestamp(unsigned int value)
+{
+    timestamp_ = value;
 }

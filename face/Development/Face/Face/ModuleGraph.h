@@ -29,7 +29,7 @@ public:
 private:
 	void ReadConnectionListFromFileNode(const cv::FileNode& childrenNode, const PortNameParser& ppp, ChildrenList* list);
 	bool NodeAlreadyExists(const PortNameParser& name) const;
+    void CheckModules(void);
 
-	ConnectionMap sources_;
 	ConnectionMap modules_;
 };

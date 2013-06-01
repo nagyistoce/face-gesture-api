@@ -2,7 +2,7 @@
 
 #include <string>
 #include <vector>
-#include "tbb/mutex.h"
+#include <tbb/mutex.h>
 
 #include "FaceDef.h"
 #include "Configuration.h"

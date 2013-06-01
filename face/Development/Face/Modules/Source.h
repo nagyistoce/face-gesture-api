@@ -8,27 +8,26 @@
 #include "FaceDef.h"
 
 
+class MetaData;
+
 class Source
 :   public Module
 {
 public:
-    typedef Message* OutputType;
-    typedef tbb::flow::source_node<OutputType> SourceNodeType;
+    typedef tbb::flow::source_node<Module::OutputType> SourceNodeType;
 
     Source(tbb::flow::graph& graph, const std::string& moduleName, const std::string& instanceName);
     virtual ~Source(void);
 
-    bool operator() (OutputType &output);
+    bool operator() (Module::OutputType &output);
     SourceNodeType* GetNode(void);
 
 private:
-    virtual void BeforeProcess(void);
     virtual void Process(void);
-    virtual void AfterProcess(void);
 
-    int frameCounter_;
+    MetaData* metaData_;
     cv::VideoCapture videoCapture_;
     cv::Mat frame_;
-    OutputType output_;
+    Module::OutputType output_;
     SourceNodeType* sourceNode_;
 };

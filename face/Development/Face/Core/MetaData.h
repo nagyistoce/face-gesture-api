@@ -16,9 +16,14 @@ public:
 
     MetaData& operator=(MetaData other);
 
+    void IncrementFrameNumber(void);
+
     Position GetPosition(void) const;
     int GetFrameNumber(void) const;
     unsigned int GetTimestamp(void) const;
+
+    void SetFrameNumber(int value);
+    void SetTimestamp(unsigned int value);
 
 private:
     friend void swap(MetaData& first, MetaData& second);

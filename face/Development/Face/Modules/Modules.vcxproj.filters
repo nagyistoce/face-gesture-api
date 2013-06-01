@@ -39,6 +39,9 @@
     <ClCompile Include="Detector.cpp">
       <Filter>Modules\Module</Filter>
     </ClCompile>
+    <ClCompile Include="ImageWrapper.cpp">
+      <Filter>Modules\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestAlgorithm.h">
@@ -58,6 +61,9 @@
     </ClInclude>
     <ClInclude Include="Detector.h">
       <Filter>Modules\Module</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageWrapper.h">
+      <Filter>Modules\Source</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

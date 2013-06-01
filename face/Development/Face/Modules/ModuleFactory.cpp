@@ -42,23 +42,33 @@ struct square
         ImageWrapper* frameIn = dynamic_cast<ImageWrapper*>(v);
         cv::Mat frameInMat = frameIn->Rgb();
 
+        
+        for(int i = 0; i < 10000000; i++)
+            sqrt(sqrt(sqrt(double(i)))) * sqrt(sqrt(sqrt(double(i)))) * sqrt(sqrt(sqrt(double(i))));
+
+        IMSHOW("square", frameInMat);
+        TRACE("square: " + frameIn->GetMetaData().GetFrameNumber());
+        //Sleep(5000);
         return v; 
     }
 };
 
 
-void ModuleFactory::CreateConnections(const ConnectionMap& sources, const ConnectionMap& modules)
+void ModuleFactory::CreateConnections(const ConnectionMap& modules)
 {
     tbb::flow::function_node<Message*, Message*>* funcNode;
-    for(size_t i = 0; i < sources.size(); i++)
+    for(size_t i = 0; i < modules.size(); i++)
     {
-        const PortNameParser& ppp = sources[i].first;
+        const PortNameParser& ppp = modules[i].first;
 
-        source_ = new Source(graph_, ppp.GetModuleName(), ppp.GetInstanceName());
-        funcNode = new tbb::flow::function_node<Message*, Message*>(graph_, unlimited, square());
-        Source::SourceNodeType* sourceNode = source_->GetNode();
-        make_edge(*sourceNode, *funcNode);
-
+        if(ppp.GetModuleName() == "Source")
+        {
+            source_ = new Source(graph_, ppp.GetModuleName(), ppp.GetInstanceName());
+            funcNode = new tbb::flow::function_node<Message*, Message*>(graph_, queueing, square());
+            Source::SourceNodeType* sourceNode = source_->GetNode();
+            make_edge(*sourceNode, *funcNode);
+        }
+        
         //FunctionNode* B = new FunctionNode(graph_, unlimited, square());
         //make_edge(*sourceScheduler_, *B);
         //sourceNodes_.push_back(A);

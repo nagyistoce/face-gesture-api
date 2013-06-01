@@ -1,14 +1,15 @@
 #pragma once
 
 #include <string>
-#include "tbb/mutex.h"
-#include "tbb/flow_graph.h"
+#include <tbb/mutex.h>
+#include <tbb/flow_graph.h>
 #include <opencv2/core/core.hpp>
 
 #include "PortNameParser.h"
 #include "FaceDef.h"
 
 #define ModuleFactoryPtr ModuleFactory::GetInstance()
+
 
 class Message;
 class Source;
@@ -22,7 +23,7 @@ class ModuleFactory
 public:
     static ModuleFactory* GetInstance(void);
 
-    void CreateConnections(const ConnectionMap& sources, const ConnectionMap& modules);
+    void CreateConnections(const ConnectionMap& modules);
     void Start(void);
 
 

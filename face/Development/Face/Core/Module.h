@@ -7,6 +7,7 @@
 #include <opencv2/core/core.hpp>
 
 #include "FaceDef.h"
+#include "Timer.h"
 
 class Message;
 class Configuration;
@@ -22,6 +23,8 @@ class Configuration;
 class Module
 {
 public:
+    typedef Message* OutputType;
+
     //! Full name getter.
     const std::string& GetFullName(void) const;
 
@@ -32,10 +35,8 @@ public:
     const std::string& GetInstanceName(void) const;
 
     //!
-    LONGLONG GetTimeStamp(void) const;
+    unsigned int GetTimestamp(void) const;
 
-    //!
-    void SetTimeStamp(LONGLONG timeStamp);
 
 protected:
     //! Constructor.
@@ -44,9 +45,14 @@ protected:
     //! Destructor.
     virtual ~Module(void);
 
-    virtual void BeforeProcess(void) = 0;
+    virtual void BeforeProcess(void);
     virtual void Process(void) = 0;
-    virtual void AfterProcess(void) = 0;
+    virtual void AfterProcess(OutputType message);
+
+    void RefreshTimestamp(void);
+
+    //!
+    void SetTimestamp(unsigned int timestamp);
 
 
     //! Open the module configuration xml file.
@@ -64,7 +70,8 @@ private:
     std::string fullName_;          //!< Full name of the module: "ModuleName.instanceName".
     std::string moduleName_;        //!< Module name.
     std::string instanceName_;      //!< Instance name.
-    std::string configurationName_;	//!< Configuration name
-    LONGLONG timeStamp_;
+
+    unsigned int timestamp_;
     cv::FileStorage configurationFs_;
+    Timer timer_;
 };
