@@ -19,6 +19,9 @@
     <Filter Include="Modules\Source">
       <UniqueIdentifier>{74e04831-f478-4ee7-bcc5-8ae3638bb0d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Modules\Module\HaarDetector">
+      <UniqueIdentifier>{b664aec7-dbea-4ca4-9c24-4f18a20be455}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TestAlgorithm.cpp">
@@ -30,17 +33,20 @@
     <ClCompile Include="AlgorithmFactory.cpp">
       <Filter>Algorithms\Algorithm</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleFactory.cpp">
-      <Filter>Modules\Module</Filter>
-    </ClCompile>
     <ClCompile Include="Source.cpp">
       <Filter>Modules\Source</Filter>
     </ClCompile>
-    <ClCompile Include="Detector.cpp">
-      <Filter>Modules\Module</Filter>
-    </ClCompile>
     <ClCompile Include="ImageWrapper.cpp">
       <Filter>Modules\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="HaarDetector.cpp">
+      <Filter>Modules\Module\HaarDetector</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleFactory.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="TbbNode.cpp">
+      <Filter>Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -53,17 +59,20 @@
     <ClInclude Include="AlgorithmFactory.h">
       <Filter>Algorithms\Algorithm</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleFactory.h">
-      <Filter>Modules\Module</Filter>
-    </ClInclude>
     <ClInclude Include="Source.h">
       <Filter>Modules\Source</Filter>
     </ClInclude>
-    <ClInclude Include="Detector.h">
-      <Filter>Modules\Module</Filter>
-    </ClInclude>
     <ClInclude Include="ImageWrapper.h">
       <Filter>Modules\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="HaarDetector.h">
+      <Filter>Modules\Module\HaarDetector</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleFactory.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="TbbNode.h">
+      <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

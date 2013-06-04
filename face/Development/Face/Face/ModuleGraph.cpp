@@ -51,7 +51,7 @@ void ModuleGraph::BuildFromFileNode(const FileNode& tasksNode)
     CheckModules();
 
     GarbageCollectorPtr->ParseConnectionMap(modules_);
-    ModuleFactoryPtr->CreateConnections(modules_);
+    ModuleFactoryPtr->CreateGraph(modules_);
 }
 
 

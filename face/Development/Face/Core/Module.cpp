@@ -9,9 +9,21 @@
 using namespace std;
 
 
-Module::Module(const string& moduleName, const string& instanceName)
-:	moduleName_(moduleName),
-    instanceName_(instanceName)
+//Module::ContinueNodeBody::ContinueNodeBody(void)
+//{
+//}
+//
+//
+//void Module::ContinueNodeBody::operator() (tbb::flow::continue_msg) const
+//{
+//}
+
+
+Module::Module(const ConnectionElement& connectionElement)
+:	moduleName_(connectionElement.first.GetModuleName()),
+    instanceName_(connectionElement.first.GetInstanceName()),
+    output_(NULL)/*,
+    continueNode_(NULL)*/
 {
     fullName_ = ((instanceName_ == "") ? moduleName_ : (moduleName_ + '.' + instanceName_));
 
@@ -24,13 +36,34 @@ Module::Module(const string& moduleName, const string& instanceName)
         std::cerr << "Warning: could not open module settings file, filename=\"" + configFileName + "\".\n";
     }
 
+    hasOutput_ = connectionElement.second.size() > 0 ? true : false;
     timestamp_ = unsigned int(timer_.GetElapsedTimeInMicroSec());
+}
+
+
+Module::Module(const Module& other)
+{
+    output_ = other.output_ ? new Message(*other.output_) : NULL;
+    //continueNode_ = other.continueNode_ ? new Module::ContinueNodeType(*other.continueNode_) : NULL;
+
+    if(!other.outputFrame_.empty())
+        other.outputFrame_.copyTo(outputFrame_);
+
+    fullName_ = other.fullName_;
+    moduleName_ = other.moduleName_;
+    instanceName_ = other.instanceName_;
+    hasOutput_ = other.hasOutput_;
+    timestamp_ = other.timestamp_;
+    configurationFs_ = other.configurationFs_;
+    portNameMap_ = other.portNameMap_;
 }
 
 
 Module::~Module(void)
 {
     configurationFs_.release();
+    delete output_;
+   // delete continueNode_;
 }
 
 
@@ -40,12 +73,69 @@ void Module::BeforeProcess(void)
 }
 
 
-void Module::AfterProcess(OutputType message)
+void Module::AfterProcess(void)
 {
-    if(message != NULL)
+    if(output_ != NULL)
     {
-        GarbageCollectorPtr->PushNewOutput(message, fullName_);
+        GarbageCollectorPtr->PushNewOutput(output_, fullName_);
     }
+
+    CheckInputMessages();
+}
+
+
+void Module::CheckInputMessages(void)
+{
+
+}
+
+
+void Module::CreateConnection(Module::PredecessorMap& predecessorMap)
+{
+    DefinePorts();
+    CheckPorts(predecessorMap);
+}
+
+
+void Module::CheckPorts(const Module::PredecessorMap& predecessorMap)
+{
+    for(Module::PredecessorMap::const_iterator itPred = predecessorMap.begin(); itPred != predecessorMap.end(); itPred++)
+    {
+        bool foundPredPort = false;
+        for(PortNameMap::const_iterator itPnm = portNameMap_.begin(); itPnm != portNameMap_.end(); itPnm++)
+        {
+            if(itPnm->second.empty())
+                continue;
+
+            if(itPred->first == itPnm->second)
+            {
+                foundPredPort = true;
+                break;
+            }
+        }
+
+        if(!foundPredPort)
+            CV_Error(-1, "Error: Use of undefined port in process.xml: " + GetFullName() + ":" + itPred->first + ".");
+    }
+
+    for(PortNameMap::const_iterator itPnm = portNameMap_.begin(); itPnm != portNameMap_.end(); itPnm++)
+    {
+        if(itPnm->second.empty())
+            continue;
+
+        bool foundPort = false;
+        for(Module::PredecessorMap::const_iterator itPred = predecessorMap.begin(); itPred != predecessorMap.end(); itPred++)
+        {
+            if(itPred->first == itPnm->second)
+            {
+                foundPort = true;
+                break;
+            }
+        }
+
+        if(!foundPort)
+            CV_Error(-1, "Error: Missing port connection in process.xml: " + GetFullName() + ":" + itPnm->second + ".");
+    }    
 }
 
 
@@ -70,6 +160,12 @@ const string& Module::GetInstanceName(void) const
 unsigned int Module::GetTimestamp(void) const
 {
     return timestamp_;
+}
+
+
+bool Module::HasOutput(void) const
+{
+    return hasOutput_;
 }
 
 

@@ -35,14 +35,19 @@ bool PortNameParser::operator== (const PortNameParser& other) const
 {
     return (GetFullName() == other.GetFullName() &&
         GetInstanceName() == other.GetInstanceName() &&
-        GetModuleName() == other.GetModuleName() &&
-        GetPort() == other.GetPort());
+        GetModuleName() == other.GetModuleName() /*&& GetPort() == other.GetPort()*/);
 }
 
 
 bool PortNameParser::operator!= (const PortNameParser& other) const
 {
     return !(*this == other);
+}
+
+
+bool PortNameParser::operator < (const PortNameParser& other) const
+{
+    return (GetFullName() < other.GetFullName());
 }
 
 

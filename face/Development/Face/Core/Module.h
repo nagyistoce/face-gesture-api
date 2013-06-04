@@ -4,10 +4,13 @@
 #include <vector>
 #include <string>
 #include <windows.h>
+#include <tbb/flow_graph.h>
 #include <opencv2/core/core.hpp>
+
 
 #include "FaceDef.h"
 #include "Timer.h"
+#include "PortNameParser.h"
 
 class Message;
 class Configuration;
@@ -23,7 +26,11 @@ class Configuration;
 class Module
 {
 public:
-    typedef Message* OutputType;
+    //typedef Message* OutputType;
+    typedef std::map<std::string, Module*> PredecessorMap;
+   // typedef tbb::flow::broadcast_node<tbb::flow::continue_msg> ContinueNodeType;
+
+    virtual void CreateConnection(PredecessorMap& predecessorMap);
 
     //! Full name getter.
     const std::string& GetFullName(void) const;
@@ -37,17 +44,37 @@ public:
     //!
     unsigned int GetTimestamp(void) const;
 
+    bool HasOutput(void) const;
+
+
+Module& operator=(const Module& /*other*/) {
+        return *this;
+    }
 
 protected:
+    typedef std::map<int, std::string> PortNameMap;
+
+    //struct ContinueNodeBody 
+    //{
+    //    ContinueNodeBody(void);
+    //    void operator() (tbb::flow::continue_msg) const;
+    //};
+
+
     //! Constructor.
-    Module(const std::string& moduleName, const std::string& instanceName);
+    Module(const ConnectionElement& connectionElement);
+    Module(const Module& other);
 
     //! Destructor.
     virtual ~Module(void);
 
+    virtual void DefinePorts(void) = 0;
     virtual void BeforeProcess(void);
     virtual void Process(void) = 0;
-    virtual void AfterProcess(OutputType message);
+    virtual void AfterProcess(void);
+    virtual void CheckInputMessages(void);
+    
+    virtual void CheckPorts(const PredecessorMap& predecessorMap);
 
     void RefreshTimestamp(void);
 
@@ -66,12 +93,20 @@ protected:
 	const cv::FileStorage& GetModulConfigurationFs(void) const;
 
 
-private:
     std::string fullName_;          //!< Full name of the module: "ModuleName.instanceName".
     std::string moduleName_;        //!< Module name.
     std::string instanceName_;      //!< Instance name.
 
+    Message* output_;
+    bool hasOutput_;
     unsigned int timestamp_;
     cv::FileStorage configurationFs_;
+    cv::Mat outputFrame_;
+    PortNameMap portNameMap_;
+    //tbb::flow::graph& graph_;
+    //ContinueNodeType* continueNode_;
+
+
+private: 
     Timer timer_;
 };

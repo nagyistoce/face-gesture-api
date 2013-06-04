@@ -47,7 +47,7 @@ void GarbageCollector::PushNewOutput(Message* newItem, const std::string& module
 }
 
 
-bool GarbageCollector::InputHasBeenProcessed(Message* input, const std::string& moduleFullName)
+bool GarbageCollector::InputHasBeenProcessed(Message* input)
 {
     {
         tbb::mutex::scoped_lock lock(mutex_);

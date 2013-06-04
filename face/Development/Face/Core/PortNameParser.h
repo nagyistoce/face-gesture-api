@@ -13,6 +13,7 @@ public:
 
     bool operator== (const PortNameParser& other) const;
     bool operator!= (const PortNameParser& other) const;
+    bool operator < (const PortNameParser& other) const;
 
     const std::string& GetFullName(void) const;
     const std::string& GetModuleName(void) const;
@@ -28,4 +29,5 @@ private:
 };
 
 typedef std::list<PortNameParser> ChildrenList;
+typedef std::pair<PortNameParser, ChildrenList> ConnectionElement;
 typedef std::vector<std::pair<PortNameParser, ChildrenList> > ConnectionMap;

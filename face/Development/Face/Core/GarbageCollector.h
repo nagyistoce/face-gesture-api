@@ -21,7 +21,7 @@ public:
 
     void ParseConnectionMap(const ConnectionMap& modules);
     void PushNewOutput(Message* newItem, const std::string& moduleFullName);
-    bool InputHasBeenProcessed(Message* input, const std::string& moduleFullName);
+    bool InputHasBeenProcessed(Message* input);
 
 
 private:
