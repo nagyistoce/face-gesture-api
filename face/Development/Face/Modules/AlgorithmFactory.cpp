@@ -43,7 +43,7 @@ void AlgorithmFactory::Push(const string& name, const string& config)
 }
 
 
-void AlgorithmFactory::Start(void)
+void AlgorithmFactory::Run(void)
 {
     broadcastNode_->try_put(continue_msg());
     graph_.wait_for_all();

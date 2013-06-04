@@ -31,5 +31,5 @@ private:
 	bool NodeAlreadyExists(const PortNameParser& name) const;
     void CheckModules(void);
 
-	ConnectionMap modules_;
+	VertexContainer modules_;
 };

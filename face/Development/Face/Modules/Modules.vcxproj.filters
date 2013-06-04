@@ -13,17 +13,14 @@
     <Filter Include="Modules">
       <UniqueIdentifier>{f0639ecb-ef13-4e99-9b4c-2766bbdb3fee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Modules\_Source">
-      <UniqueIdentifier>{74e04831-f478-4ee7-bcc5-8ae3638bb0d8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Modules\_Module">
-      <UniqueIdentifier>{ce8aedc2-3488-4cb5-9e2e-37f6d9f92265}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Modules\_Module\HaarDetector">
-      <UniqueIdentifier>{b664aec7-dbea-4ca4-9c24-4f18a20be455}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Modules\Source">
       <UniqueIdentifier>{41e4dfa0-bae4-471e-a7d9-e6254bc2e25f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\Module">
+      <UniqueIdentifier>{93a4fed8-37f1-4941-afdf-ea94b658d13a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\Module\HaarDetector">
+      <UniqueIdentifier>{7ab7c5db-5905-404f-9b9a-ae4a5e85c72a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -36,16 +33,7 @@
     <ClCompile Include="AlgorithmFactory.cpp">
       <Filter>Algorithms\Algorithm</Filter>
     </ClCompile>
-    <ClCompile Include="Source.cpp">
-      <Filter>Modules\_Source</Filter>
-    </ClCompile>
-    <ClCompile Include="HaarDetector.cpp">
-      <Filter>Modules\_Module\HaarDetector</Filter>
-    </ClCompile>
     <ClCompile Include="ModuleFactory.cpp">
-      <Filter>Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="TbbNode.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="SourceBody.cpp">
@@ -56,6 +44,12 @@
     </ClCompile>
     <ClCompile Include="SourceNode.cpp">
       <Filter>Modules\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="HaarDetectorBody.cpp">
+      <Filter>Modules\Module\HaarDetector</Filter>
+    </ClCompile>
+    <ClCompile Include="HaarDetectorNode.cpp">
+      <Filter>Modules\Module\HaarDetector</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -68,16 +62,7 @@
     <ClInclude Include="AlgorithmFactory.h">
       <Filter>Algorithms\Algorithm</Filter>
     </ClInclude>
-    <ClInclude Include="Source.h">
-      <Filter>Modules\_Source</Filter>
-    </ClInclude>
-    <ClInclude Include="HaarDetector.h">
-      <Filter>Modules\_Module\HaarDetector</Filter>
-    </ClInclude>
     <ClInclude Include="ModuleFactory.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="TbbNode.h">
       <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="SourceBody.h">
@@ -88,6 +73,12 @@
     </ClInclude>
     <ClInclude Include="SourceNode.h">
       <Filter>Modules\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="HaarDetectorBody.h">
+      <Filter>Modules\Module\HaarDetector</Filter>
+    </ClInclude>
+    <ClInclude Include="HaarDetectorNode.h">
+      <Filter>Modules\Module\HaarDetector</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

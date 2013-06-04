@@ -1,19 +1,14 @@
 #pragma once
 
-#include <map>
-#include <vector>
 #include <string>
-#include <windows.h>
-#include <tbb/flow_graph.h>
 #include <opencv2/core/core.hpp>
-
 
 #include "FaceDef.h"
 #include "Timer.h"
 #include "PortNameParser.h"
 
+
 class Message;
-class Configuration;
 
 //! Abstract class for handling algorithms.
 /*!
@@ -25,11 +20,12 @@ class Configuration;
 class Body
 {
 public:
-	typedef std::map<int, std::string> PortNameMap;
-	typedef std::map<std::string, Body*> PredecessorMap;
+    typedef Message* OutputType;
+    typedef Message* InputType1;
+
 
 	//! Constructor.
-	Body(const ConnectionElement& connectionElement);
+	Body(const VertexElement& vertexElement);
 	Body(const Body& other);
 
 	//! Destructor.
@@ -51,17 +47,11 @@ public:
 
 
 protected:
-    virtual void DefinePorts(void) = 0;
     virtual void BeforeProcess(void);
     virtual void Process(void) = 0;
     virtual void AfterProcess(void);
-    virtual void CheckPorts(const PredecessorMap& predecessorMap);
 
-	bool HasOutput(void) const;
-    void RefreshTimestamp(void);
-
-    //!
-    void SetTimestamp(unsigned int timestamp);
+	bool HasSuccessor(void) const;
 
     //! Open the module configuration xml file.
 	/*!
@@ -81,9 +71,8 @@ protected:
 	unsigned int timestamp_;
     OutputType output_;
 	cv::Mat outputFrame_;
-    bool hasOutput_;
+    bool hasSuccessor_;
 
-	PortNameMap portNameMap_;
     cv::FileStorage configurationFs_;
    
 

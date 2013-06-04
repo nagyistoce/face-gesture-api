@@ -19,7 +19,7 @@ class GarbageCollector
 public:
     static GarbageCollector* GetInstance(void);
 
-    void ParseConnectionMap(const ConnectionMap& modules);
+    void ParseConnectionMap(const VertexContainer& modules);
     void PushNewOutput(Message* newItem, const std::string& moduleFullName);
     bool InputHasBeenProcessed(Message* input);
 

@@ -17,7 +17,7 @@ public:
 	static AlgorithmFactory* GetInstance(void);
 
 	void Push(const std::string& name, const std::string& config);
-    void Start(void);
+    void Run(void);
 
 
 private:

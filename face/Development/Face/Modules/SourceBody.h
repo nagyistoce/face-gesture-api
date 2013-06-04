@@ -6,7 +6,7 @@
 #include "Body.h"
 #include "FaceDef.h"
 #include "PortNameParser.h"
-
+#include "Node.h"
 
 class MetaData;
 
@@ -19,14 +19,14 @@ public:
 		OUTPUT_DEFAULT = 0
 	};
 
-	SourceBody(const ConnectionElement& connectionElement);
+	SourceBody(const VertexElement& vertexElement);
 	SourceBody(const SourceBody& other);
 	virtual ~SourceBody(void);
 
-	bool operator() (OutputType& output);
+	bool operator() (Body::OutputType& output);
 	void operator= (const SourceBody& other);
 
-	void Start(void);
+	void Run(void);
 
 
 private:
@@ -36,7 +36,6 @@ private:
 		VIDEO_FILE
 	};
 
-	virtual void DefinePorts(void);
 	virtual void Process(void);
 
 	MetaData* metaData_;

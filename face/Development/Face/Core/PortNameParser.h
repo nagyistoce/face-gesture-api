@@ -29,5 +29,5 @@ private:
 };
 
 typedef std::list<PortNameParser> ChildrenList;
-typedef std::pair<PortNameParser, ChildrenList> ConnectionElement;
-typedef std::vector<std::pair<PortNameParser, ChildrenList> > ConnectionMap;
+typedef std::pair<PortNameParser, ChildrenList> VertexElement;
+typedef std::vector<VertexElement> VertexContainer;

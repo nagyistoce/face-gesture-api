@@ -89,12 +89,12 @@ bool ModuleGraph::NodeAlreadyExists(const PortNameParser& ppp) const
 
 void ModuleGraph::CheckModules(void)
 {
-    for(ConnectionMap::const_iterator itCpOut = modules_.begin(); itCpOut != modules_.end(); itCpOut++)
+    for(VertexContainer::const_iterator itCpOut = modules_.begin(); itCpOut != modules_.end(); itCpOut++)
     {
         for(ChildrenList::const_iterator itChild = itCpOut->second.begin(); itChild != itCpOut->second.end(); itChild++)
         {
             bool found = false;
-            for(ConnectionMap::const_iterator itCpIn = modules_.begin(); itCpIn != modules_.end(); itCpIn++)
+            for(VertexContainer::const_iterator itCpIn = modules_.begin(); itCpIn != modules_.end(); itCpIn++)
             {
                 if(itChild->GetFullName() == itCpIn->first.GetFullName())
                 {

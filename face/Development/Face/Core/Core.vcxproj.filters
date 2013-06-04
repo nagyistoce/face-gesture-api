@@ -24,9 +24,6 @@
     <ClInclude Include="FaceDef.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Module.h">
-      <Filter>Module</Filter>
-    </ClInclude>
     <ClInclude Include="Configuration.h">
       <Filter>Configuration</Filter>
     </ClInclude>
@@ -75,11 +72,11 @@
     <ClInclude Include="Body.h">
       <Filter>Module</Filter>
     </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Module</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Module.cpp">
-      <Filter>Module</Filter>
-    </ClCompile>
     <ClCompile Include="Configuration.cpp">
       <Filter>Configuration</Filter>
     </ClCompile>
@@ -126,6 +123,9 @@
       <Filter>Message</Filter>
     </ClCompile>
     <ClCompile Include="Body.cpp">
+      <Filter>Module</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
       <Filter>Module</Filter>
     </ClCompile>
   </ItemGroup>

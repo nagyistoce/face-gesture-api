@@ -6,8 +6,8 @@
 using namespace std;
 
 
-SourceBody::SourceBody(const ConnectionElement& connectionElement)
-:   Body(connectionElement),
+SourceBody::SourceBody(const VertexElement& vertexElement)
+:   Body(vertexElement),
 	metaData_(NULL),
 	sourceType_(SourceBody::CAMERA),
 	cameraId_(0),
@@ -24,9 +24,11 @@ SourceBody::SourceBody(const SourceBody& other)
 :   Body(other),
 	sourceType_(other.sourceType_),
 	cameraId_(other.cameraId_),
-	videoFilePath_(other.videoFilePath_)
+	videoFilePath_(other.videoFilePath_),
+    metaData_(NULL)
 {
-	metaData_ = new MetaData(*other.metaData_);
+    if(other.metaData_)
+	    metaData_ = new MetaData(*other.metaData_);
 }
 
 
@@ -36,9 +38,9 @@ SourceBody::~SourceBody(void)
 }
 
 
-bool SourceBody::operator() (OutputType& output)
+bool SourceBody::operator() (Body::OutputType& output)
 {
-	if(HasOutput() == false)
+	if(HasSuccessor() == false)
 		return false;
 
 	BeforeProcess();
@@ -57,12 +59,6 @@ void SourceBody::operator= (const SourceBody& other)
 }
 
 
-void SourceBody::DefinePorts(void)
-{
-	portNameMap_[OUTPUT_DEFAULT] = "";
-}
-
-
 void SourceBody::Process(void)
 {
 	metaData_->SetTimestamp(GetTimestamp());
@@ -77,13 +73,13 @@ void SourceBody::Process(void)
 }
 
 
-void SourceBody::Start(void)
+void SourceBody::Run(void)
 {
-	if(sourceType_ == SourceBody::CAMERA)
-		videoCapture_.open(cameraId_);
-	else
-		videoCapture_.open(videoFilePath_);
+    if(sourceType_ == SourceBody::CAMERA)
+        videoCapture_.open(cameraId_);
+    else
+        videoCapture_.open(videoFilePath_);
 
-	if(videoCapture_.isOpened() == false)
-		CV_Error(-1, "Could not opened video capture 0.");
+    if(videoCapture_.isOpened() == false)
+        CV_Error(-1, "Could not opened video capture 0.");
 }

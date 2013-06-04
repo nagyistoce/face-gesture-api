@@ -27,11 +27,11 @@ GarbageCollector::~GarbageCollector(void)
 }
 
 
-void GarbageCollector::ParseConnectionMap(const ConnectionMap& modules)
+void GarbageCollector::ParseConnectionMap(const VertexContainer& modules)
 {
     ASSERT(inputMap_.empty());
 
-    for(ConnectionMap::const_iterator it = modules.begin(); it != modules.end(); it++)
+    for(VertexContainer::const_iterator it = modules.begin(); it != modules.end(); it++)
     {
         inputMap_[it->first.GetFullName()] = it->second.size();
     }

@@ -9,9 +9,9 @@
 using namespace std;
 
 
-Body::Body(const ConnectionElement& connectionElement)
-:	moduleName_(connectionElement.first.GetModuleName()),
-    instanceName_(connectionElement.first.GetInstanceName()),
+Body::Body(const VertexElement& vertexElement)
+:	moduleName_(vertexElement.first.GetModuleName()),
+    instanceName_(vertexElement.first.GetInstanceName()),
     output_(NULL)
 {
     fullName_ = ((instanceName_ == "") ? moduleName_ : (moduleName_ + '.' + instanceName_));
@@ -25,7 +25,7 @@ Body::Body(const ConnectionElement& connectionElement)
         std::cerr << "Warning: could not open module settings file, filename=\"" + configFileName + "\".\n";
     }
 
-    hasOutput_ = connectionElement.second.size() > 0 ? true : false;
+    hasSuccessor_ = vertexElement.second.size() > 0 ? true : false;
     timestamp_ = unsigned int(timer_.GetElapsedTimeInMicroSec());
 }
 
@@ -34,11 +34,11 @@ Body::Body(const Body& other)
 :	moduleName_(other.GetModuleName()),
 	instanceName_(other.GetInstanceName()),
 	fullName_(other.GetFullName()),
-	hasOutput_(other.HasOutput()),
+	hasSuccessor_(other.HasSuccessor()),
 	timestamp_(other.GetTimestamp()),
 	output_(NULL)
 {
-	portNameMap_.insert(other.portNameMap_.begin(), other.portNameMap_.end());
+	//portNameMap_.insert(other.portNameMap_.begin(), other.portNameMap_.end());
 
     if(other.output_)
 	{
@@ -91,50 +91,6 @@ void Body::AfterProcess(void)
 }
 
 
-void Body::CheckPorts(const Body::PredecessorMap& predecessorMap)
-{
-	DefinePorts();
-
-    for(Body::PredecessorMap::const_iterator itPred = predecessorMap.begin(); itPred != predecessorMap.end(); itPred++)
-    {
-        bool foundPredPort = false;
-        for(PortNameMap::const_iterator itPnm = portNameMap_.begin(); itPnm != portNameMap_.end(); itPnm++)
-        {
-            if(itPnm->second.empty())
-                continue;
-
-            if(itPred->first == itPnm->second)
-            {
-                foundPredPort = true;
-                break;
-            }
-        }
-
-        if(!foundPredPort)
-            CV_Error(-1, "Error: Use of undefined port in process.xml: " + GetFullName() + ":" + itPred->first + ".");
-    }
-
-    for(PortNameMap::const_iterator itPnm = portNameMap_.begin(); itPnm != portNameMap_.end(); itPnm++)
-    {
-        if(itPnm->second.empty())
-            continue;
-
-        bool foundPort = false;
-        for(Body::PredecessorMap::const_iterator itPred = predecessorMap.begin(); itPred != predecessorMap.end(); itPred++)
-        {
-            if(itPred->first == itPnm->second)
-            {
-                foundPort = true;
-                break;
-            }
-        }
-
-        if(!foundPort)
-            CV_Error(-1, "Error: Missing port connection in process.xml: " + GetFullName() + ":" + itPnm->second + ".");
-    }    
-}
-
-
 const string& Body::GetFullName(void) const
 {
     return fullName_;
@@ -159,15 +115,9 @@ unsigned int Body::GetTimestamp(void) const
 }
 
 
-bool Body::HasOutput(void) const
+bool Body::HasSuccessor(void) const
 {
-    return hasOutput_;
-}
-
-
-void Body::SetTimestamp(unsigned int timestamp)
-{
-    timestamp_ = timestamp;
+    return hasSuccessor_;
 }
 
 

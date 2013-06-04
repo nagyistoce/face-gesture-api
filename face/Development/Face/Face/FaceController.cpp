@@ -69,7 +69,7 @@ void FaceController::BuildAlgorithmList(const FileStorage& fileStorage)
 void FaceController::ExecuteAlgorithmList(void)
 {
     LOG("::Start AlgorithmList::");
-    AlgorithmFactoryPtr->Start();
+    AlgorithmFactoryPtr->Run();
     LOG("::End AlgorithmList::");
 }
 
@@ -93,6 +93,6 @@ void FaceController::BuildModuleGraph(const FileStorage& fileStorage)
 void FaceController::ExecuteModuleGraph(void)
 {
     LOG("::Start ModuleGraph::");
-    ModuleFactoryPtr->Start();
+    ModuleFactoryPtr->Run();
     LOG("::End ModuleGraph::");
 }

@@ -2,6 +2,7 @@
 
 #include <tbb/flow_graph.h>
 
+#include "Node.h"
 #include "FaceDef.h"
 #include "PortNameParser.h"
 
@@ -9,18 +10,28 @@
 class SourceBody;
 
 class SourceNode
+:   public Node
 {
 public:
-	SourceNode(const ConnectionElement& connectionElement, tbb::flow::graph* graph);
-	~SourceNode(void);
+	SourceNode(const VertexElement& vertexElement);
+	virtual ~SourceNode(void);
 
-	void Start(void);
+    SourceNodeType* SourceNodeNode(void);
+    LimiterNodeType* GetLimiterNode(void);
 
 
 private:
-	tbb::flow::graph& graph_;
+    enum PortNames
+    {
+        OUTPUT_DEFAULT = 0
+    };
+
+    virtual void DefinePorts(void);
+    virtual void BuildNode(const VertexContainer& modules);
+    virtual void CreateEdge(void);
+    virtual void RunNode(void);
+
 	SourceBody* sourceBody_;
 	SourceNodeType* sourceNode_;
 	LimiterNodeType* limiterNode_;
 };
-
