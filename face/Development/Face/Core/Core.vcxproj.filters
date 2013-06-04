@@ -72,6 +72,9 @@
     <ClInclude Include="GarbageCollector.h">
       <Filter>Message</Filter>
     </ClInclude>
+    <ClInclude Include="Body.h">
+      <Filter>Module</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Module.cpp">
@@ -121,6 +124,9 @@
     </ClCompile>
     <ClCompile Include="GarbageCollector.cpp">
       <Filter>Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Body.cpp">
+      <Filter>Module</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

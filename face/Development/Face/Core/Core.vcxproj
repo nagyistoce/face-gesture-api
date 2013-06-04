@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Body.h" />
     <ClInclude Include="CallStackTrace.h" />
     <ClInclude Include="Configuration.h" />
     <ClInclude Include="ExceptionDescriptor.h" />
@@ -30,6 +31,7 @@
     <ClInclude Include="XmlReader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Body.cpp" />
     <ClCompile Include="CallStackTrace.cpp" />
     <ClCompile Include="Configuration.cpp" />
     <ClCompile Include="ExceptionDescriptor.cpp" />

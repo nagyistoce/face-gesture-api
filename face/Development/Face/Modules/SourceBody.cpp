@@ -1,0 +1,89 @@
+#include "SourceBody.h"
+#include "Tracer.h"
+#include "ImageWrapper.h"
+#include "MetaData.h"
+
+using namespace std;
+
+
+SourceBody::SourceBody(const ConnectionElement& connectionElement)
+:   Body(connectionElement),
+	metaData_(NULL),
+	sourceType_(SourceBody::CAMERA),
+	cameraId_(0),
+	videoFilePath_("")
+{
+	if(instanceName_ == "front")
+		metaData_ = new MetaData(MetaData::POSITION_FRONT, 0, 0);
+	else
+		metaData_ = new MetaData(MetaData::POSITION_UNDEFINED, 0, 0);
+}
+
+
+SourceBody::SourceBody(const SourceBody& other)
+:   Body(other),
+	sourceType_(other.sourceType_),
+	cameraId_(other.cameraId_),
+	videoFilePath_(other.videoFilePath_)
+{
+	metaData_ = new MetaData(*other.metaData_);
+}
+
+
+SourceBody::~SourceBody(void)
+{
+	delete metaData_;
+}
+
+
+bool SourceBody::operator() (OutputType& output)
+{
+	if(HasOutput() == false)
+		return false;
+
+	BeforeProcess();
+	Process();
+	AfterProcess();
+
+	output = output_;
+
+	return true;
+}
+
+
+void SourceBody::operator= (const SourceBody& other)
+{
+	return;
+}
+
+
+void SourceBody::DefinePorts(void)
+{
+	portNameMap_[OUTPUT_DEFAULT] = "";
+}
+
+
+void SourceBody::Process(void)
+{
+	metaData_->SetTimestamp(GetTimestamp());
+
+	videoCapture_ >> outputFrame_;
+
+	TRACE("Source: " + metaData_->GetFrameNumber());
+	IMSHOW(GetFullName(), outputFrame_);
+
+	output_ = new ImageWrapper(outputFrame_, *metaData_);
+	metaData_->IncrementFrameNumber();
+}
+
+
+void SourceBody::Start(void)
+{
+	if(sourceType_ == SourceBody::CAMERA)
+		videoCapture_.open(cameraId_);
+	else
+		videoCapture_.open(videoFilePath_);
+
+	if(videoCapture_.isOpened() == false)
+		CV_Error(-1, "Could not opened video capture 0.");
+}

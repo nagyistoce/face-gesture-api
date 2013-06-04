@@ -15,7 +15,6 @@
 class Message;
 class Configuration;
 
-
 //! Abstract class for handling algorithms.
 /*!
 	\ingroup Core
@@ -23,64 +22,46 @@ class Configuration;
 	Class for specific distinct algorithms of the input processing.
 	Each of them will be executed on independent threads.
 */
-class Module
+class Body
 {
 public:
-    //typedef Message* OutputType;
-    typedef std::map<std::string, Module*> PredecessorMap;
-   // typedef tbb::flow::broadcast_node<tbb::flow::continue_msg> ContinueNodeType;
+	typedef std::map<int, std::string> PortNameMap;
+	typedef std::map<std::string, Body*> PredecessorMap;
 
-    virtual void CreateConnection(PredecessorMap& predecessorMap);
+	//! Constructor.
+	Body(const ConnectionElement& connectionElement);
+	Body(const Body& other);
 
-    //! Full name getter.
-    const std::string& GetFullName(void) const;
+	//! Destructor.
+	virtual ~Body(void);
 
-    //! Module name getter.
-    const std::string& GetModuleName(void) const;
+	void operator= (const Body& other);
 
-    //! Instance name getter.
-    const std::string& GetInstanceName(void) const;
+	//! Full name getter.
+	const std::string& GetFullName(void) const;
 
-    //!
-    unsigned int GetTimestamp(void) const;
+	//! Module name getter.
+	const std::string& GetModuleName(void) const;
 
-    bool HasOutput(void) const;
+	//! Instance name getter.
+	const std::string& GetInstanceName(void) const;
 
+	//!
+	unsigned int GetTimestamp(void) const;
 
-Module& operator=(const Module& /*other*/) {
-        return *this;
-    }
 
 protected:
-    typedef std::map<int, std::string> PortNameMap;
-
-    //struct ContinueNodeBody 
-    //{
-    //    ContinueNodeBody(void);
-    //    void operator() (tbb::flow::continue_msg) const;
-    //};
-
-
-    //! Constructor.
-    Module(const ConnectionElement& connectionElement);
-    Module(const Module& other);
-
-    //! Destructor.
-    virtual ~Module(void);
-
     virtual void DefinePorts(void) = 0;
     virtual void BeforeProcess(void);
     virtual void Process(void) = 0;
     virtual void AfterProcess(void);
-    virtual void CheckInputMessages(void);
-    
     virtual void CheckPorts(const PredecessorMap& predecessorMap);
 
+	bool HasOutput(void) const;
     void RefreshTimestamp(void);
 
     //!
     void SetTimestamp(unsigned int timestamp);
-
 
     //! Open the module configuration xml file.
 	/*!
@@ -97,15 +78,14 @@ protected:
     std::string moduleName_;        //!< Module name.
     std::string instanceName_;      //!< Instance name.
 
-    Message* output_;
+	unsigned int timestamp_;
+    OutputType output_;
+	cv::Mat outputFrame_;
     bool hasOutput_;
-    unsigned int timestamp_;
-    cv::FileStorage configurationFs_;
-    cv::Mat outputFrame_;
-    PortNameMap portNameMap_;
-    //tbb::flow::graph& graph_;
-    //ContinueNodeType* continueNode_;
 
+	PortNameMap portNameMap_;
+    cv::FileStorage configurationFs_;
+   
 
 private: 
     Timer timer_;

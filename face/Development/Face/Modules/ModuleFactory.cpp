@@ -120,6 +120,7 @@ void ModuleFactory::CreateModules(const ConnectionMap& modules)
 
 //https://repo.anl-external.org/repos/BlueTBB/tbb40_258oss/examples/graph/dining_philosophers/src/dining_philosophers.cpp
 //https://akazarov.web.cern.ch/akazarov/cmt/releases/nightly/tbb/src/test/test_flow_graph.cpp
+//http://software.intel.com/sites/products/documentation/doclib/tbb_sa/help/reference/flow_graph.htm
 void ModuleFactory::CreateConnections(const ConnectionMap& modules)
 {
     for(ModuleMap::const_iterator it = moduleMap_.begin(); it != moduleMap_.end(); it++)

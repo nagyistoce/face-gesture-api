@@ -1,5 +1,5 @@
 #include <opencv2/core/core.hpp>
-#include "Module.h"
+#include "Body.h"
 #include "Message.h"
 #include "Tracer.h"
 #include "GlobalSettings.h"
@@ -9,21 +9,10 @@
 using namespace std;
 
 
-//Module::ContinueNodeBody::ContinueNodeBody(void)
-//{
-//}
-//
-//
-//void Module::ContinueNodeBody::operator() (tbb::flow::continue_msg) const
-//{
-//}
-
-
-Module::Module(const ConnectionElement& connectionElement)
+Body::Body(const ConnectionElement& connectionElement)
 :	moduleName_(connectionElement.first.GetModuleName()),
     instanceName_(connectionElement.first.GetInstanceName()),
-    output_(NULL)/*,
-    continueNode_(NULL)*/
+    output_(NULL)
 {
     fullName_ = ((instanceName_ == "") ? moduleName_ : (moduleName_ + '.' + instanceName_));
 
@@ -41,65 +30,72 @@ Module::Module(const ConnectionElement& connectionElement)
 }
 
 
-Module::Module(const Module& other)
+Body::Body(const Body& other)
+:	moduleName_(other.GetModuleName()),
+	instanceName_(other.GetInstanceName()),
+	fullName_(other.GetFullName()),
+	hasOutput_(other.HasOutput()),
+	timestamp_(other.GetTimestamp()),
+	output_(NULL)
 {
-    output_ = other.output_ ? new Message(*other.output_) : NULL;
-    //continueNode_ = other.continueNode_ ? new Module::ContinueNodeType(*other.continueNode_) : NULL;
+	portNameMap_.insert(other.portNameMap_.begin(), other.portNameMap_.end());
+
+    if(other.output_)
+	{
+		output_ = new Message(*other.output_);
+	}
 
     if(!other.outputFrame_.empty())
+	{
         other.outputFrame_.copyTo(outputFrame_);
+	}
 
-    fullName_ = other.fullName_;
-    moduleName_ = other.moduleName_;
-    instanceName_ = other.instanceName_;
-    hasOutput_ = other.hasOutput_;
-    timestamp_ = other.timestamp_;
-    configurationFs_ = other.configurationFs_;
-    portNameMap_ = other.portNameMap_;
+	string configFileName = GlobalSettingsConstPtr->GetDirectories().moduleSettings + "/" + moduleName_ + 
+		"/Settings." + instanceName_ + ".xml";
+
+	configurationFs_.open(configFileName, cv::FileStorage::READ, "UTF-8");
+	if(!configurationFs_.isOpened())
+	{
+		std::cerr << "Warning: could not open module settings file, filename=\"" + configFileName + "\".\n";
+	}
 }
 
 
-Module::~Module(void)
+Body::~Body(void)
 {
     configurationFs_.release();
     delete output_;
-   // delete continueNode_;
 }
 
 
-void Module::BeforeProcess(void)
+void Body::operator= (const Body& other) 
+{
+	return;
+}
+
+
+void Body::BeforeProcess(void)
 {
     timestamp_ = unsigned int(timer_.GetElapsedTimeInMicroSec());
 }
 
 
-void Module::AfterProcess(void)
+void Body::AfterProcess(void)
 {
     if(output_ != NULL)
     {
         GarbageCollectorPtr->PushNewOutput(output_, fullName_);
     }
 
-    CheckInputMessages();
+    //CheckInputMessages();
 }
 
 
-void Module::CheckInputMessages(void)
+void Body::CheckPorts(const Body::PredecessorMap& predecessorMap)
 {
+	DefinePorts();
 
-}
-
-
-void Module::CreateConnection(Module::PredecessorMap& predecessorMap)
-{
-    DefinePorts();
-    CheckPorts(predecessorMap);
-}
-
-
-void Module::CheckPorts(const Module::PredecessorMap& predecessorMap)
-{
-    for(Module::PredecessorMap::const_iterator itPred = predecessorMap.begin(); itPred != predecessorMap.end(); itPred++)
+    for(Body::PredecessorMap::const_iterator itPred = predecessorMap.begin(); itPred != predecessorMap.end(); itPred++)
     {
         bool foundPredPort = false;
         for(PortNameMap::const_iterator itPnm = portNameMap_.begin(); itPnm != portNameMap_.end(); itPnm++)
@@ -124,7 +120,7 @@ void Module::CheckPorts(const Module::PredecessorMap& predecessorMap)
             continue;
 
         bool foundPort = false;
-        for(Module::PredecessorMap::const_iterator itPred = predecessorMap.begin(); itPred != predecessorMap.end(); itPred++)
+        for(Body::PredecessorMap::const_iterator itPred = predecessorMap.begin(); itPred != predecessorMap.end(); itPred++)
         {
             if(itPred->first == itPnm->second)
             {
@@ -139,43 +135,43 @@ void Module::CheckPorts(const Module::PredecessorMap& predecessorMap)
 }
 
 
-const string& Module::GetFullName(void) const
+const string& Body::GetFullName(void) const
 {
     return fullName_;
 }
 
 
-const string& Module::GetModuleName(void) const
+const string& Body::GetModuleName(void) const
 {
     return moduleName_;
 }
 
 
-const string& Module::GetInstanceName(void) const
+const string& Body::GetInstanceName(void) const
 {
     return instanceName_;
 }
 
 
-unsigned int Module::GetTimestamp(void) const
+unsigned int Body::GetTimestamp(void) const
 {
     return timestamp_;
 }
 
 
-bool Module::HasOutput(void) const
+bool Body::HasOutput(void) const
 {
     return hasOutput_;
 }
 
 
-void Module::SetTimestamp(unsigned int timestamp)
+void Body::SetTimestamp(unsigned int timestamp)
 {
     timestamp_ = timestamp;
 }
 
 
-const cv::FileStorage& Module::GetModulConfigurationFs(void) const
+const cv::FileStorage& Body::GetModulConfigurationFs(void) const
 {
     ASSERT(configurationFs_.isOpened());
     return configurationFs_;
