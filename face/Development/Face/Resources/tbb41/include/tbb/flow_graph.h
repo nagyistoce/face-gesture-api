@@ -242,6 +242,7 @@ protected:
                 my_current_count = 0;
         }
         task * res = execute();
+		if(!res) return SUCCESSFULLY_ENQUEUED;
         return res;
     }
 
