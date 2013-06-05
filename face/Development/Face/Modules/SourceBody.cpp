@@ -17,6 +17,19 @@ SourceBody::SourceBody(const VertexElement& vertexElement)
 		metaData_ = new MetaData(MetaData::POSITION_FRONT, 0, 0);
 	else
 		metaData_ = new MetaData(MetaData::POSITION_UNDEFINED, 0, 0);
+
+    if(sourceType_ == SourceBody::CAMERA)
+    {
+        videoCapture_.open(cameraId_);
+        if(videoCapture_.isOpened() == false)
+            CV_Error(-1, "Could not opened video capture for camera: " + cameraId_);
+    }
+    else
+    {
+        videoCapture_.open(videoFilePath_);
+        if(videoCapture_.isOpened() == false)
+            CV_Error(-1, "Could not opened video capture for: " + videoFilePath_);
+    }
 }
 
 
@@ -25,6 +38,7 @@ SourceBody::SourceBody(const SourceBody& other)
 	sourceType_(other.sourceType_),
 	cameraId_(other.cameraId_),
 	videoFilePath_(other.videoFilePath_),
+    videoCapture_(other.videoCapture_),
     metaData_(NULL)
 {
     if(other.metaData_)
@@ -55,6 +69,7 @@ bool SourceBody::operator() (Body::OutputType& output)
 
 void SourceBody::operator= (const SourceBody& other)
 {
+    WARNING("Equality operator has been disabled.");
 	return;
 }
 
@@ -75,11 +90,5 @@ void SourceBody::Process(void)
 
 void SourceBody::Run(void)
 {
-    if(sourceType_ == SourceBody::CAMERA)
-        videoCapture_.open(cameraId_);
-    else
-        videoCapture_.open(videoFilePath_);
-
-    if(videoCapture_.isOpened() == false)
-        CV_Error(-1, "Could not opened video capture 0.");
+    
 }

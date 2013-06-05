@@ -42,6 +42,7 @@ Body::OutputType HaarDetectorBody::operator() (Body::InputType1 input)
 
 void HaarDetectorBody::operator= (const HaarDetectorBody& other)
 {
+    WARNING("Equality operator has been disabled.");
     return;
 }
 

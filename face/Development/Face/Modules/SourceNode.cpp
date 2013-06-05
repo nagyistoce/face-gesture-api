@@ -31,7 +31,7 @@ void SourceNode::BuildNode(const VertexContainer& modules)
     CheckPorts();
 
     sourceNode_ = new SourceNodeType(Node::graph, *sourceBody_, false);
-    limiterNode_ = new LimiterNodeType(Node::graph, 10, 0);
+    limiterNode_ = new LimiterNodeType(Node::graph, 100, 0);
 }
 
 

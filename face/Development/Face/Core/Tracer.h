@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <string>
-#include <opencv2//core/core.hpp>
+#include <opencv2/core/core.hpp>
 #include <tbb/mutex.h>
 
 #include "FaceDef.h"
