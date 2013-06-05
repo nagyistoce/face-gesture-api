@@ -31,7 +31,7 @@ void SourceNode::BuildNode(const VertexContainer& modules)
     CheckPorts();
 
     sourceNode_ = new SourceNodeType(Node::graph, *sourceBody_, false);
-    limiterNode_ = new LimiterNodeType(Node::graph, 100, 0);
+    limiterNode_ = new LimiterNodeType(Node::graph, 5/*, 0*/);
 }
 
 
@@ -43,18 +43,18 @@ void SourceNode::CreateEdge(void)
 
 void SourceNode::DefinePorts(void)
 {
-    portNameMap_[OUTPUT_DEFAULT] = "";
+    inputPortNameMap_[SourceBody::INPUT_LIMITER] = "limiter";
+    outputPortNameMap_[SourceBody::OUTPUT_DEFAULT] = "";
 }
 
 
 void SourceNode::RunNode(void)
 {
-	sourceBody_->Run();
     sourceNode_->activate();
 }
 
 
-Node::SourceNodeType* SourceNode::SourceNodeNode(void)
+Node::SourceNodeType* SourceNode::GetSourceNode(void)
 {
     return sourceNode_;
 }

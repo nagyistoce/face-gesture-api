@@ -11,12 +11,15 @@
 class Message;
 
 //http://software.intel.com/sites/products/documentation/doclib/tbb_sa/help/reference/flow_graph.htm
+//http://software.intel.com/en-us/forums/topic/282062
+//http://software.intel.com/en-us/blogs/2011/09/14/how-to-make-a-pipeline-with-an-intel-threading-building-blocks-flow-graph/
 class Node
 {
 public:
     typedef std::map<std::string, Node*> NodeMap;
+    typedef std::map<int, std::string> PortNameMap;
 
-    typedef tbb::flow::broadcast_node<tbb::flow::continue_msg> BroadcastContinueNodeType;
+    typedef tbb::flow::multifunction_node<Body::InputType1, Body::ContinueMessagePair> MultiNodeContinueType;
     typedef tbb::flow::source_node<Body::OutputType> SourceNodeType;
     typedef tbb::flow::limiter_node<Body::OutputType> LimiterNodeType;
     typedef tbb::flow::function_node<Body::InputType1, Body::OutputType> FunctionNode1Type;
@@ -54,6 +57,7 @@ protected:
     std::string moduleName_;        //!< Module name.
     std::string instanceName_;      //!< Instance name.
 
-    std::map<int, std::string> portNameMap_;
+    PortNameMap inputPortNameMap_;
+    PortNameMap outputPortNameMap_;
     NodeMap predecessorMap_;
 };

@@ -22,6 +22,15 @@
     <Filter Include="Modules\Module\HaarDetector">
       <UniqueIdentifier>{7ab7c5db-5905-404f-9b9a-ae4a5e85c72a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Modules\Message">
+      <UniqueIdentifier>{39839cfa-2cf9-4ebf-b4a1-d8ff96177aac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\Source\SingleSource">
+      <UniqueIdentifier>{51d87714-5fe6-4541-a2cc-df40a344c924}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\Source\SourceLimiter">
+      <UniqueIdentifier>{20c15cc0-381c-4b9a-9b5e-fe4d2d0788ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TestAlgorithm.cpp">
@@ -36,20 +45,26 @@
     <ClCompile Include="ModuleFactory.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="SourceBody.cpp">
-      <Filter>Modules\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageWrapper.cpp">
-      <Filter>Modules\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="SourceNode.cpp">
-      <Filter>Modules\Source</Filter>
-    </ClCompile>
     <ClCompile Include="HaarDetectorBody.cpp">
       <Filter>Modules\Module\HaarDetector</Filter>
     </ClCompile>
     <ClCompile Include="HaarDetectorNode.cpp">
       <Filter>Modules\Module\HaarDetector</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageWrapper.cpp">
+      <Filter>Modules\Message</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceBody.cpp">
+      <Filter>Modules\Source\SingleSource</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceNode.cpp">
+      <Filter>Modules\Source\SingleSource</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceLimiterBody.cpp">
+      <Filter>Modules\Source\SourceLimiter</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceLimiterNode.cpp">
+      <Filter>Modules\Source\SourceLimiter</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -65,20 +80,26 @@
     <ClInclude Include="ModuleFactory.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="SourceBody.h">
-      <Filter>Modules\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageWrapper.h">
-      <Filter>Modules\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceNode.h">
-      <Filter>Modules\Source</Filter>
-    </ClInclude>
     <ClInclude Include="HaarDetectorBody.h">
       <Filter>Modules\Module\HaarDetector</Filter>
     </ClInclude>
     <ClInclude Include="HaarDetectorNode.h">
       <Filter>Modules\Module\HaarDetector</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageWrapper.h">
+      <Filter>Modules\Message</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceNode.h">
+      <Filter>Modules\Source\SingleSource</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceBody.h">
+      <Filter>Modules\Source\SingleSource</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceLimiterNode.h">
+      <Filter>Modules\Source\SourceLimiter</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceLimiterBody.h">
+      <Filter>Modules\Source\SourceLimiter</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

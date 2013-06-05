@@ -18,6 +18,8 @@
     <ClCompile Include="ImageWrapper.cpp" />
     <ClCompile Include="ModuleFactory.cpp" />
     <ClCompile Include="SourceBody.cpp" />
+    <ClCompile Include="SourceLimiterBody.cpp" />
+    <ClCompile Include="SourceLimiterNode.cpp" />
     <ClCompile Include="SourceNode.cpp" />
     <ClCompile Include="TestAlgorithm.cpp" />
   </ItemGroup>
@@ -29,6 +31,8 @@
     <ClInclude Include="ImageWrapper.h" />
     <ClInclude Include="ModuleFactory.h" />
     <ClInclude Include="SourceBody.h" />
+    <ClInclude Include="SourceLimiterBody.h" />
+    <ClInclude Include="SourceLimiterNode.h" />
     <ClInclude Include="SourceNode.h" />
     <ClInclude Include="TestAlgorithm.h" />
   </ItemGroup>

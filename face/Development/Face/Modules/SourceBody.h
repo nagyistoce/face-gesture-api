@@ -6,7 +6,7 @@
 #include "Body.h"
 #include "FaceDef.h"
 #include "PortNameParser.h"
-#include "Node.h"
+
 
 class MetaData;
 
@@ -14,7 +14,12 @@ class SourceBody
 :   public Body
 {
 public:
-	enum PortNames
+    enum InputPortNames
+    {
+        INPUT_LIMITER = 0
+    };
+
+	enum OutputPortNames
 	{
 		OUTPUT_DEFAULT = 0
 	};
@@ -25,8 +30,6 @@ public:
 
 	bool operator() (Body::OutputType& output);
 	void operator= (const SourceBody& other);
-
-	void Run(void);
 
 
 private:

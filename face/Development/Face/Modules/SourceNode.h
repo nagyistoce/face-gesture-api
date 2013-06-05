@@ -16,16 +16,11 @@ public:
 	SourceNode(const VertexElement& vertexElement);
 	virtual ~SourceNode(void);
 
-    SourceNodeType* SourceNodeNode(void);
+    SourceNodeType* GetSourceNode(void);
     LimiterNodeType* GetLimiterNode(void);
 
 
 private:
-    enum PortNames
-    {
-        OUTPUT_DEFAULT = 0
-    };
-
     virtual void DefinePorts(void);
     virtual void BuildNode(const VertexContainer& modules);
     virtual void CreateEdge(void);

@@ -2,6 +2,7 @@
 
 #include <string>
 #include <opencv2/core/core.hpp>
+#include <tbb/flow_graph.h>
 
 #include "FaceDef.h"
 #include "Timer.h"
@@ -22,7 +23,8 @@ class Body
 public:
     typedef Message* OutputType;
     typedef Message* InputType1;
-
+    typedef tbb::flow::continue_msg ContinueMessage;
+    typedef std::tuple<ContinueMessage, ContinueMessage> ContinueMessagePair;
 
 	//! Constructor.
 	Body(const VertexElement& vertexElement);

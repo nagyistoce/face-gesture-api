@@ -3,7 +3,7 @@
 #include "Body.h"
 #include "FaceDef.h"
 #include "PortNameParser.h"
-#include "Node.h"
+
 
 class ImageWrapper;
 
@@ -11,7 +11,13 @@ class HaarDetectorBody
 :   public Body
 {
 public:
-    enum PortNames
+    enum InputPortNames
+    {
+        INPUT_IMAGE = 0,
+        INPUT_RECTANGLE
+    };
+
+    enum OutputPortNames
     {
         OUTPUT_DEFAULT = 0
     };

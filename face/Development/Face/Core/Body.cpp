@@ -36,6 +36,7 @@ Body::Body(const Body& other)
 	fullName_(other.GetFullName()),
 	hasSuccessor_(other.HasSuccessor()),
 	timestamp_(other.GetTimestamp()),
+    configurationFs_(other.configurationFs_),
 	output_(NULL)
 {
 	//portNameMap_.insert(other.portNameMap_.begin(), other.portNameMap_.end());
@@ -48,15 +49,6 @@ Body::Body(const Body& other)
     if(!other.outputFrame_.empty())
 	{
         other.outputFrame_.copyTo(outputFrame_);
-	}
-
-	string configFileName = GlobalSettingsConstPtr->GetDirectories().moduleSettings + "/" + moduleName_ + 
-		"/Settings." + instanceName_ + ".xml";
-
-	configurationFs_.open(configFileName, cv::FileStorage::READ, "UTF-8");
-	if(!configurationFs_.isOpened())
-	{
-		std::cerr << "Warning: could not open module settings file, filename=\"" + configFileName + "\".\n";
 	}
 }
 

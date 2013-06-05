@@ -61,7 +61,7 @@ void Node::CheckPorts(void)
     for(NodeMap::const_iterator itPred = predecessorMap_.begin(); itPred != predecessorMap_.end(); itPred++)
     {
         bool foundPredPort = false;
-        for(map<int, string>::const_iterator itPnm = portNameMap_.begin(); itPnm != portNameMap_.end(); itPnm++)
+        for(PortNameMap::const_iterator itPnm = inputPortNameMap_.begin(); itPnm != inputPortNameMap_.end(); itPnm++)
         {
             if(itPnm->second.empty())
                 continue;
@@ -77,11 +77,8 @@ void Node::CheckPorts(void)
             CV_Error(-1, "Error: Use of undefined port in process.xml: " + GetFullName() + ":" + itPred->first + ".");
     }
 
-    for(map<int, string>::const_iterator itPnm = portNameMap_.begin(); itPnm != portNameMap_.end(); itPnm++)
+    for(PortNameMap::const_iterator itPnm = inputPortNameMap_.begin(); itPnm != inputPortNameMap_.end(); itPnm++)
     {
-        if(itPnm->second.empty())
-            continue;
-
         bool foundPort = false;
         for(NodeMap::const_iterator itPred = predecessorMap_.begin(); itPred != predecessorMap_.end(); itPred++)
         {

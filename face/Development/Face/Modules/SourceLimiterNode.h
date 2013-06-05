@@ -7,21 +7,22 @@
 #include "PortNameParser.h"
 
 
-class HaarDetectorBody;
+class SourceLimiterBody;
 
-class HaarDetectorNode
+class SourceLimiterNode
 :   public Node
 {
 public:
-    HaarDetectorNode(const VertexElement& vertexElement);
-    virtual ~HaarDetectorNode(void);
+    SourceLimiterNode(const VertexElement& vertexElement);
+    virtual ~SourceLimiterNode(void);
 
+    MultiNodeContinueType* GetMultiNodeContinue(void);
 
 private:
     virtual void DefinePorts(void);
     virtual void BuildNode(const VertexContainer& modules);
     virtual void CreateEdge(void);
 
-    HaarDetectorBody* haarDetectorBody_;
-    FunctionNode1Type* functionNode_;
+    SourceLimiterBody* sourceLimiterBody_;
+    MultiNodeContinueType* multiNodeContinue_;
 };

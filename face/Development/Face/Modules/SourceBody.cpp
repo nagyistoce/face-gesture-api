@@ -86,9 +86,3 @@ void SourceBody::Process(void)
 	output_ = new ImageWrapper(outputFrame_, *metaData_);
 	metaData_->IncrementFrameNumber();
 }
-
-
-void SourceBody::Run(void)
-{
-    
-}

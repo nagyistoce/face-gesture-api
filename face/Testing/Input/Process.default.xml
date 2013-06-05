@@ -28,7 +28,13 @@
 				<_>Detector.rightEye:image</_>
 				<_>Detector.nose:image</_>
 				<_>Detector.mouth:image</_>
+				<_>SourceLimiter.front:image</_>
 			</to>
+		</_>
+		
+		<_>
+			<module>SourceLimiter.front</module>
+			<to>Source.front:limiter</to>
 		</_>
 		
 		<_>
