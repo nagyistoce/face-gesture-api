@@ -28,5 +28,5 @@ private:
 
 	SourceBody* sourceBody_;
 	SourceNodeType* sourceNode_;
-	LimiterNodeType* limiterNode_;
+	LimiterNodeType* limiterNode_; // elé kell egy queue node
 };
