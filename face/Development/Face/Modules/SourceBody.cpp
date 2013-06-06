@@ -54,9 +54,6 @@ SourceBody::~SourceBody(void)
 
 bool SourceBody::operator() (Body::OutputType& output)
 {
-	if(HasSuccessor() == false)
-		return false;
-
 	BeforeProcess();
 	Process();
 	AfterProcess();
@@ -80,9 +77,13 @@ void SourceBody::Process(void)
 
 	videoCapture_ >> outputFrame_;
 
-	TRACE("Source: " + metaData_->GetFrameNumber());
-	IMSHOW(GetFullName(), outputFrame_);
+	TRACE(GetFullName() + ": " + metaData_->GetFrameNumber());
+	//IMSHOW(GetFullName(), outputFrame_);
 
-	output_ = new ImageWrapper(outputFrame_, *metaData_);
+	if(HasSuccessor())
+	{
+		output_ = new ImageWrapper(outputFrame_, *metaData_);
+	}
+
 	metaData_->IncrementFrameNumber();
 }

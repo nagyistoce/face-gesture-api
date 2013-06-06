@@ -1,7 +1,7 @@
 #include "HaarDetectorNode.h"
 #include "Tracer.h"
 #include "HaarDetectorBody.h"
-#include "SourceNode.h"
+#include "SourceLimiterNode.h"
 
 using namespace std;
 using namespace tbb::flow;
@@ -33,7 +33,7 @@ void HaarDetectorNode::BuildNode(const VertexContainer& modules)
     DefinePorts();
     CheckPorts();
 
-    functionNode_ = new FunctionNode1Type(Node::graph, tbb::flow::serial, *haarDetectorBody_);
+    functionNode_ = new FunctionNode1Type(Node::graph, tbb::flow::unlimited, *haarDetectorBody_);
 }
 
 
@@ -41,12 +41,12 @@ void HaarDetectorNode::CreateEdge(void)
 {
     string portName = inputPortNameMap_[HaarDetectorBody::INPUT_IMAGE];
     ASSERT(predecessorMap_[portName]);
-    SourceNode* sourceIn = dynamic_cast<SourceNode*>(predecessorMap_[portName]);
-    ASSERT(sourceIn);
-    Node::LimiterNodeType* limiterNode = sourceIn->GetLimiterNode();
-    ASSERT(limiterNode);
+    SourceLimiterNode* sourceLimiterIn = dynamic_cast<SourceLimiterNode*>(predecessorMap_[portName]);
+    ASSERT(sourceLimiterIn);
+    Node::LimiterNodeType* tbbSourceLimiterIn = sourceLimiterIn->GetLimiterNode();
+    ASSERT(tbbSourceLimiterIn);
 
-    make_edge(*limiterNode, *functionNode_);
+    make_edge(*tbbSourceLimiterIn, *functionNode_);
     //make_edge(*limitDecrementer_, limiterNode->decrement);
 }
 

@@ -78,8 +78,6 @@ void Body::AfterProcess(void)
     {
         GarbageCollectorPtr->PushNewOutput(output_, fullName_);
     }
-
-    //CheckInputMessages();
 }
 
 

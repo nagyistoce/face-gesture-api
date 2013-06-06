@@ -2,6 +2,8 @@
 #include "Tracer.h"
 #include "ImageWrapper.h"
 #include "MetaData.h"
+#include "GarbageCollector.h"
+
 
 using namespace std;
 
@@ -30,11 +32,13 @@ HaarDetectorBody::~HaarDetectorBody(void)
 
 Body::OutputType HaarDetectorBody::operator() (Body::InputType1 input)
 {
-    if(HasSuccessor() == false)
-        return NULL;
+	imageWrapperIn_ = dynamic_cast<ImageWrapper*>(input);
 
-    imageWrapperIn_ = dynamic_cast<ImageWrapper*>(input);
-    output_ = new ImageWrapper(*imageWrapperIn_); 
+	BeforeProcess();
+	Process();
+	AfterProcess();
+
+	GarbageCollectorPtr->InputHasBeenProcessed(input);
 
     return output_;
 }
@@ -49,6 +53,8 @@ void HaarDetectorBody::operator= (const HaarDetectorBody& other)
 
 void HaarDetectorBody::Process(void)
 {
-    TRACE("HaarDetectorBody: " + imageWrapperIn_->GetMetaData().GetFrameNumber());
+    TRACE(GetFullName() + ": " + imageWrapperIn_->GetMetaData().GetFrameNumber());
     //IMSHOW(GetFullName(), outputFrame_);
+
+	output_ = /*HasSuccessor() ? new ImageWrapper(*imageWrapperIn_) :*/ NULL;
 }

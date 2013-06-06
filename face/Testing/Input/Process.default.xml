@@ -22,19 +22,18 @@
 	<tasks>
 		<_>
 			<module>Source.front</module>
+			<to>SourceLimiter.front:image</to>
+		</_>
+		
+		<_>
+			<module>SourceLimiter.front</module>
 			<to>
 				<_>Detector.face:image</_>
 				<_>Detector.leftEye:image</_>
 				<_>Detector.rightEye:image</_>
 				<_>Detector.nose:image</_>
 				<_>Detector.mouth:image</_>
-				<_>SourceLimiter.front:image</_>
 			</to>
-		</_>
-		
-		<_>
-			<module>SourceLimiter.front</module>
-			<to>Source.front:limiter</to>
 		</_>
 		
 		<_>

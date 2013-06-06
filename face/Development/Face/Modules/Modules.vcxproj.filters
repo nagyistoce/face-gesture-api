@@ -60,10 +60,10 @@
     <ClCompile Include="SourceNode.cpp">
       <Filter>Modules\Source\SingleSource</Filter>
     </ClCompile>
-    <ClCompile Include="SourceLimiterBody.cpp">
+    <ClCompile Include="SourceLimiterNode.cpp">
       <Filter>Modules\Source\SourceLimiter</Filter>
     </ClCompile>
-    <ClCompile Include="SourceLimiterNode.cpp">
+    <ClCompile Include="LimitDecrementerBody.cpp">
       <Filter>Modules\Source\SourceLimiter</Filter>
     </ClCompile>
   </ItemGroup>
@@ -98,7 +98,7 @@
     <ClInclude Include="SourceLimiterNode.h">
       <Filter>Modules\Source\SourceLimiter</Filter>
     </ClInclude>
-    <ClInclude Include="SourceLimiterBody.h">
+    <ClInclude Include="LimitDecrementerBody.h">
       <Filter>Modules\Source\SourceLimiter</Filter>
     </ClInclude>
   </ItemGroup>

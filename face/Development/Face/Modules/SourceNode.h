@@ -17,7 +17,6 @@ public:
 	virtual ~SourceNode(void);
 
     SourceNodeType* GetSourceNode(void);
-    LimiterNodeType* GetLimiterNode(void);
 
 
 private:
@@ -28,5 +27,4 @@ private:
 
 	SourceBody* sourceBody_;
 	SourceNodeType* sourceNode_;
-	LimiterNodeType* limiterNode_; // elé kell egy queue node
 };

@@ -16,7 +16,7 @@ class SourceBody
 public:
     enum InputPortNames
     {
-        INPUT_LIMITER = 0
+		NO_INPUT = 0
     };
 
 	enum OutputPortNames

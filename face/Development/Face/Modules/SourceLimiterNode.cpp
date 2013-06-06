@@ -1,6 +1,6 @@
 #include "SourceLimiterNode.h"
 #include "Tracer.h"
-#include "SourceLimiterBody.h"
+#include "LimitDecrementerBody.h"
 #include "SourceNode.h"
 
 using namespace std;
@@ -9,17 +9,19 @@ using namespace tbb::flow;
 
 SourceLimiterNode::SourceLimiterNode(const VertexElement& vertexElement)
 :	Node(vertexElement),
-    sourceLimiterBody_(NULL),
-    multiNodeContinue_(NULL)
+    limitDecrementerBody_(NULL),
+    limitDecrementerNode_(NULL),
+	limiterNode_(NULL)
 {
-    sourceLimiterBody_ = new SourceLimiterBody(vertexElement);
+    limitDecrementerBody_ = new LimitDecrementerBody(vertexElement);
 }
 
 
 SourceLimiterNode::~SourceLimiterNode(void)
 {
-    delete sourceLimiterBody_;
-    delete multiNodeContinue_;
+    delete limitDecrementerBody_;
+    delete limitDecrementerNode_;
+	delete limiterNode_;
 }
 
 
@@ -29,35 +31,42 @@ void SourceLimiterNode::BuildNode(const VertexContainer& modules)
     DefinePorts();
     CheckPorts();
 
-    multiNodeContinue_ = new MultiNodeContinueType(Node::graph, unlimited, *sourceLimiterBody_);
+    limitDecrementerNode_ = new MultiNodeContinueType(Node::graph, unlimited, *limitDecrementerBody_);
+	limiterNode_ = new LimiterNodeType(Node::graph, 30);
 }
 
 
 void SourceLimiterNode::CreateEdge(void)
 {
-    string portName = inputPortNameMap_[SourceLimiterBody::INPUT_IMAGE];
+    string portName = inputPortNameMap_[LimitDecrementerBody::INPUT_IMAGE];
     ASSERT(predecessorMap_[portName]);
-    SourceNode* sourceIn = dynamic_cast<SourceNode*>(predecessorMap_[portName]);
-    ASSERT(sourceIn);
-    Node::LimiterNodeType* limiterNode = sourceIn->GetLimiterNode();
-    ASSERT(limiterNode);
+    SourceNode* sourceNodeIn = dynamic_cast<SourceNode*>(predecessorMap_[portName]);
+    ASSERT(sourceNodeIn);
+	Node::SourceNodeType* tbbSourceNodeIn = sourceNodeIn->GetSourceNode();
+	ASSERT(tbbSourceNodeIn);
 
-    make_edge(output_port<SourceLimiterBody::OUTPUT_LIMITER>(*multiNodeContinue_), limiterNode->decrement);
-    make_edge(*limiterNode, *multiNodeContinue_);
-    //output_port<SourceLimiterBody::OUTPUT_LIMITER>(*multiNodeContinue_).register_successor(limiterNode->decrement);
-    
+	make_edge(*tbbSourceNodeIn, *limiterNode_);
+	make_edge(*limiterNode_, *limitDecrementerNode_);
+
+    make_edge(output_port<LimitDecrementerBody::OUTPUT_LIMITER>(*limitDecrementerNode_), limiterNode_->decrement);
 }
 
 
 void SourceLimiterNode::DefinePorts(void)
 {
-    inputPortNameMap_[SourceLimiterBody::INPUT_IMAGE] = "image";
-    outputPortNameMap_[SourceLimiterBody::OUTPUT_DEFAULT] = "";
-    outputPortNameMap_[SourceLimiterBody::OUTPUT_LIMITER] = "limiter";
+    inputPortNameMap_[LimitDecrementerBody::INPUT_IMAGE] = "image";
+    outputPortNameMap_[LimitDecrementerBody::OUTPUT_DEFAULT] = "";
+    outputPortNameMap_[LimitDecrementerBody::OUTPUT_LIMITER] = "limiter";
 }
 
 
-Node::MultiNodeContinueType* SourceLimiterNode::GetMultiNodeContinue(void)
+Node::LimiterNodeType* SourceLimiterNode::GetLimiterNode(void)
 {
-    return multiNodeContinue_;
+	return limiterNode_;
+}
+
+
+Node::MultiNodeContinueType* SourceLimiterNode::GetLimitDecrementerNode(void)
+{
+    return limitDecrementerNode_;
 }
