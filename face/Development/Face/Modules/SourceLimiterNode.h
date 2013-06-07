@@ -24,8 +24,9 @@ private:
     virtual void BuildNode(const VertexContainer& modules);
     virtual void CreateEdge(void);
 
-	LimiterNodeType* limiterNode_;
-
     LimitDecrementerBody* limitDecrementerBody_;
+
+    QueueNodeType* queueNode_;
+	LimiterNodeType* limiterNode_;
     MultiNodeContinueType* limitDecrementerNode_;
 };

@@ -78,7 +78,7 @@ void SourceBody::Process(void)
 	videoCapture_ >> outputFrame_;
 
 	TRACE(GetFullName() + ": " + metaData_->GetFrameNumber());
-	//IMSHOW(GetFullName(), outputFrame_);
+	IMSHOW(GetFullName(), outputFrame_);
 
 	if(HasSuccessor())
 	{

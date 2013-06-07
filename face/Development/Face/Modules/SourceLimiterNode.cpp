@@ -11,7 +11,8 @@ SourceLimiterNode::SourceLimiterNode(const VertexElement& vertexElement)
 :	Node(vertexElement),
     limitDecrementerBody_(NULL),
     limitDecrementerNode_(NULL),
-	limiterNode_(NULL)
+	limiterNode_(NULL),
+    queueNode_(NULL)
 {
     limitDecrementerBody_ = new LimitDecrementerBody(vertexElement);
 }
@@ -22,6 +23,7 @@ SourceLimiterNode::~SourceLimiterNode(void)
     delete limitDecrementerBody_;
     delete limitDecrementerNode_;
 	delete limiterNode_;
+    delete queueNode_;
 }
 
 
@@ -31,8 +33,9 @@ void SourceLimiterNode::BuildNode(const VertexContainer& modules)
     DefinePorts();
     CheckPorts();
 
-    limitDecrementerNode_ = new MultiNodeContinueType(Node::graph, unlimited, *limitDecrementerBody_);
+    limitDecrementerNode_ = new MultiNodeContinueType(Node::graph, serial, *limitDecrementerBody_);
 	limiterNode_ = new LimiterNodeType(Node::graph, 30);
+    queueNode_ = new QueueNodeType(Node::graph);
 }
 
 
@@ -45,7 +48,8 @@ void SourceLimiterNode::CreateEdge(void)
 	Node::SourceNodeType* tbbSourceNodeIn = sourceNodeIn->GetSourceNode();
 	ASSERT(tbbSourceNodeIn);
 
-	make_edge(*tbbSourceNodeIn, *limiterNode_);
+    make_edge(*tbbSourceNodeIn, *queueNode_);
+	make_edge(*queueNode_, *limiterNode_);
 	make_edge(*limiterNode_, *limitDecrementerNode_);
 
     make_edge(output_port<LimitDecrementerBody::OUTPUT_LIMITER>(*limitDecrementerNode_), limiterNode_->decrement);

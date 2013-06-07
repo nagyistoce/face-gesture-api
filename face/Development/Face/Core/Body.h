@@ -7,6 +7,7 @@
 #include "FaceDef.h"
 #include "Timer.h"
 #include "PortNameParser.h"
+#include "GarbageCollector.h"
 
 
 class Message;
