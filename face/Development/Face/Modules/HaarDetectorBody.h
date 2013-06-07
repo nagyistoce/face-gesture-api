@@ -35,12 +35,21 @@ private:
     virtual void Process(void);
 
     ImageWrapper* imageWrapperIn_;
+	ImageWrapper* prevImageWrapperIn_;
+
     cv::CascadeClassifier cascade_;
 
     std::string cascadeName_;
     double scaleFactor_;
+	double imgScaleFactor_;
+	double invImgScaleFactor_;
     int minNeighbors_;
     int flags_;
     cv::Size minSize_;
     cv::Size maxSize_;
+
+	cv::Mat grayFrame_; 
+	cv::Mat normalizedImage_;
+
+	std::vector<cv::Rect> objects_;
 };
