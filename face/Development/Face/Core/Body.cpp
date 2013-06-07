@@ -16,7 +16,7 @@ Body::Body(const VertexElement& vertexElement)
 {
     fullName_ = ((instanceName_ == "") ? moduleName_ : (moduleName_ + '.' + instanceName_));
 
-    string configFileName = GlobalSettingsConstPtr->GetDirectories().moduleSettings + "/" + moduleName_ + 
+    string configFileName = GlobalSettingsConstPtr->GetDirectories().moduleSettings + moduleName_ + 
         "/Settings." + instanceName_ + ".xml";
 
     configurationFs_.open(configFileName, cv::FileStorage::READ, "UTF-8");

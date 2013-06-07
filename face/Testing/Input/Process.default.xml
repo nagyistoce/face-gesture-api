@@ -28,27 +28,33 @@
 		<_>
 			<module>SourceLimiter.front</module>
 			<to>
-				<_>Detector.face:image</_>
-				<_>Detector.leftEye:image</_>
-				<_>Detector.rightEye:image</_>
-				<_>Detector.nose:image</_>
-				<_>Detector.mouth:image</_>
+				<_>HaarDetector.face:image</_>
+				<_>HaarDetector.leftEye:image</_>
+				<_>HaarDetector.rightEye:image</_>
+				<_>HaarDetector.nose:image</_>
+				<_>HaarDetector.mouth:image</_>
+				<_>Empty.face:image</_>
 			</to>
 		</_>
 		
 		<_>
-			<module>Detector.face</module>
+			<module>Empty.face</module>
+			<to>HaarDetector.face:rectangle</to>
+		</_>
+		
+		<_>
+			<module>HaarDetector.face</module>
 			<to>
-				<_>Detector.leftEye:rectangle</_>
-				<_>Detector.rightEye:rectangle</_>
-				<_>Detector.nose:rectangle</_>
-				<_>Detector.mouth:rectangle</_>
+				<_>HaarDetector.leftEye:rectangle</_>
+				<_>HaarDetector.rightEye:rectangle</_>
+				<_>HaarDetector.nose:rectangle</_>
+				<_>HaarDetector.mouth:rectangle</_>
 			</to>
 		</_>
 		
-		<_><module>Detector.leftEye</module></_>
-		<_><module>Detector.rightEye</module></_>
-		<_><module>Detector.nose</module></_>
-		<_><module>Detector.mouth</module></_>
+		<_><module>HaarDetector.leftEye</module></_>
+		<_><module>HaarDetector.rightEye</module></_>
+		<_><module>HaarDetector.nose</module></_>
+		<_><module>HaarDetector.mouth</module></_>
 	</tasks>
 </opencv_storage>

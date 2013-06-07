@@ -1,8 +1,0 @@
-<?xml version="1.0" ?>
-<opencv_storage>
-	<name>"face"</name>
-	<detectorFile>"haarcascade_frontalface_default.xml"</detectorFile>
-	
-	<!-- serial, ..., unlimited -->
-	<concurrency></concurrency>
-</opencv_storage>

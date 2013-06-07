@@ -1,5 +1,6 @@
 #pragma once
 
+#include <opencv2/objdetect/objdetect.hpp>
 #include "Body.h"
 #include "FaceDef.h"
 #include "PortNameParser.h"
@@ -26,7 +27,7 @@ public:
     HaarDetectorBody(const HaarDetectorBody& other);
     virtual ~HaarDetectorBody(void);
 
-    Body::OutputType operator() (Body::InputType1 input);
+    Body::OutputType operator() (Body::InputType2 input);
     void operator= (const HaarDetectorBody& other);
 
 
@@ -34,4 +35,12 @@ private:
     virtual void Process(void);
 
     ImageWrapper* imageWrapperIn_;
+    cv::CascadeClassifier cascade_;
+
+    std::string cascadeName_;
+    double scaleFactor_;
+    int minNeighbors_;
+    int flags_;
+    cv::Size minSize_;
+    cv::Size maxSize_;
 };

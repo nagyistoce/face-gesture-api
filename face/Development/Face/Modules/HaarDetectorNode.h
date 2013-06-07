@@ -16,6 +16,7 @@ public:
     HaarDetectorNode(const VertexElement& vertexElement);
     virtual ~HaarDetectorNode(void);
 
+    FunctionNode2Type* GetFunction2Node(void);
 
 private:
     virtual void DefinePorts(void);
@@ -23,5 +24,6 @@ private:
     virtual void CreateEdge(void);
 
     HaarDetectorBody* haarDetectorBody_;
-    FunctionNode1Type* functionNode_;
+    FunctionNode2Type* functionNode2_;
+    JoinNode2Type* joinNode2_;
 };

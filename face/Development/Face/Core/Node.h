@@ -23,7 +23,10 @@ public:
     typedef tbb::flow::limiter_node<Body::InputType1> LimiterNodeType;
     typedef tbb::flow::queue_node<Body::InputType1> QueueNodeType;
     typedef tbb::flow::function_node<Body::InputType1, Body::OutputType> FunctionNode1Type;
-    typedef tbb::flow::multifunction_node<Body::InputType1, Body::ContinueMessagePair> MultiNodeContinueType;
+    typedef tbb::flow::function_node<Body::InputType2, Body::OutputType> FunctionNode2Type;
+    typedef tbb::flow::multifunction_node<Body::InputType1, Body::ContinueMessagePair> MultiNodeContinueType;   
+    typedef tbb::flow::join_node<Body::InputType2> JoinNode2Type;
+
 
     static void Run(void);
     static void PushNode(Node* node);

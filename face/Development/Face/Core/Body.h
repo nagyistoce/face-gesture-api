@@ -26,6 +26,7 @@ public:
     typedef Message* InputType1;
     typedef tbb::flow::continue_msg ContinueMessage;
     typedef std::tuple<ContinueMessage, ContinueMessage> ContinueMessagePair;
+    typedef std::tuple<InputType1, InputType1> InputType2;
 
 	//! Constructor.
 	Body(const VertexElement& vertexElement);

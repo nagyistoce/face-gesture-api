@@ -31,6 +31,9 @@
     <Filter Include="Modules\Source\SourceLimiter">
       <UniqueIdentifier>{20c15cc0-381c-4b9a-9b5e-fe4d2d0788ea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Modules\Module\Empty">
+      <UniqueIdentifier>{4d5ce4d4-84ba-4b2c-ae7a-50f5880538a4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TestAlgorithm.cpp">
@@ -66,6 +69,15 @@
     <ClCompile Include="LimitDecrementerBody.cpp">
       <Filter>Modules\Source\SourceLimiter</Filter>
     </ClCompile>
+    <ClCompile Include="EmptyNode.cpp">
+      <Filter>Modules\Module\Empty</Filter>
+    </ClCompile>
+    <ClCompile Include="EmptyBody.cpp">
+      <Filter>Modules\Module\Empty</Filter>
+    </ClCompile>
+    <ClCompile Include="EmptyMessage.cpp">
+      <Filter>Modules\Message</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestAlgorithm.h">
@@ -100,6 +112,15 @@
     </ClInclude>
     <ClInclude Include="LimitDecrementerBody.h">
       <Filter>Modules\Source\SourceLimiter</Filter>
+    </ClInclude>
+    <ClInclude Include="EmptyNode.h">
+      <Filter>Modules\Module\Empty</Filter>
+    </ClInclude>
+    <ClInclude Include="EmptyBody.h">
+      <Filter>Modules\Module\Empty</Filter>
+    </ClInclude>
+    <ClInclude Include="EmptyMessage.h">
+      <Filter>Modules\Message</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

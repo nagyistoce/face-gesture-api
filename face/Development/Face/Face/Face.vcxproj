@@ -55,7 +55,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)\Resources\OpenCV.2.4.4\lib;$(SolutionDir)\Resources\tbb41\lib\ia32\vc10;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Core.lib;Modules.lib;opencv_core244d.lib;opencv_highgui244d.lib;tbb_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Core.lib;Modules.lib;opencv_core244d.lib;opencv_highgui244d.lib;opencv_objdetect244d.lib;opencv_imgproc244d.lib;tbb_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>"..\Resources\BuildEvents\Post_Build_Debug.bat"</Command>
@@ -76,7 +76,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>Core.lib;Modules.lib;opencv_core244.lib;opencv_highgui244.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Core.lib;Modules.lib;opencv_core244.lib;opencv_highgui244.lib;opencv_objdetect244.lib;opencv_imgproc244.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)\Resources\OpenCV.2.4.4\lib;$(SolutionDir)\Resources\tbb41\lib\ia32\vc10;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>

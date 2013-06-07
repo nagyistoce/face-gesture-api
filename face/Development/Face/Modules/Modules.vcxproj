@@ -13,6 +13,9 @@
   <ItemGroup>
     <ClCompile Include="Algorithm.cpp" />
     <ClCompile Include="AlgorithmFactory.cpp" />
+    <ClCompile Include="EmptyBody.cpp" />
+    <ClCompile Include="EmptyMessage.cpp" />
+    <ClCompile Include="EmptyNode.cpp" />
     <ClCompile Include="HaarDetectorBody.cpp" />
     <ClCompile Include="HaarDetectorNode.cpp" />
     <ClCompile Include="ImageWrapper.cpp" />
@@ -26,6 +29,9 @@
   <ItemGroup>
     <ClInclude Include="Algorithm.h" />
     <ClInclude Include="AlgorithmFactory.h" />
+    <ClInclude Include="EmptyBody.h" />
+    <ClInclude Include="EmptyMessage.h" />
+    <ClInclude Include="EmptyNode.h" />
     <ClInclude Include="HaarDetectorBody.h" />
     <ClInclude Include="HaarDetectorNode.h" />
     <ClInclude Include="ImageWrapper.h" />
