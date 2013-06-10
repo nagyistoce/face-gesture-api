@@ -128,7 +128,7 @@ Body::OutputType HaarDetectorBody::operator() (Body::InputType2 input)
 	AfterProcess();
 
 	if(prevImageWrapperIn_)
-		GarbageCollectorPtr->InputHasBeenProcessed(prevImageWrapperIn_);
+		GarbageCollectorPtr->SourceHasBeenProcessed(prevImageWrapperIn_);
 
 	prevImageWrapperIn_ = imageWrapperIn_;
 

@@ -38,7 +38,7 @@ Body::OutputType EmptyBody::operator() (Body::InputType1 input)
     Process();
     AfterProcess();
 
-    GarbageCollectorPtr->InputHasBeenProcessed(input);
+    GarbageCollectorPtr->SourceHasBeenProcessed(input);
 
     return output_;
 }

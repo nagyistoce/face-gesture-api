@@ -25,11 +25,14 @@ LimitDecrementerBody::~LimitDecrementerBody(void)
 
 void LimitDecrementerBody::operator() (const Body::InputType1& input, Node::MultiNodeContinueType::output_ports_type& output)
 {
+    ImageWrapper* imageWrapperIn = dynamic_cast<ImageWrapper*>(input);
+    TRACE(GetFullName() + ": " + imageWrapperIn->GetMetaData().GetFrameNumber());
+
     BeforeProcess();
     Process();
     AfterProcess();
     
-	GarbageCollectorPtr->InputHasBeenProcessed(input);
+	GarbageCollectorPtr->SourceHasBeenProcessed(input);
 
 	GarbageCollector::GarbageItem* garbageItem = GarbageCollectorPtr->GetGarbageItem(input);
 	while(garbageItem && !std::get<GarbageCollector::PRESENT>(*garbageItem)) 
@@ -39,12 +42,6 @@ void LimitDecrementerBody::operator() (const Body::InputType1& input, Node::Mult
 	}
 
 	GarbageCollectorPtr->EraseEntry(input);
-
-	ImageWrapper* imageWrapperIn = dynamic_cast<ImageWrapper*>(input);
-
-	TRACE(GetFullName() + ": " + imageWrapperIn->GetMetaData().GetFrameNumber());
-
-	delete imageWrapperIn;
 
     std::get<OUTPUT_LIMITER>(output).try_put(tbb::flow::continue_msg());
 }

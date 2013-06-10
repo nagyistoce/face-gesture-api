@@ -34,7 +34,8 @@ public:
     void ParseConnectionMap(const VertexContainer& modules);
     void PushNewOutput(Message* newOutput, const std::string& moduleFullName);
     
-	bool InputHasBeenProcessed(Message* input);
+	void InputHasBeenProcessed(Message* input);
+    void SourceHasBeenProcessed(Message* input);
 	void EraseEntry(Message* input);
 	GarbageItem* GetGarbageItem(Message* input);
 
