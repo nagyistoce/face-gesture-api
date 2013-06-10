@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <opencv_storage>
 	<cascadeName>"haarcascade_frontalface_alt.xml"</cascadeName>
-	<scaleFactor>1.2</scaleFactor>
+	<scaleFactor>1.1</scaleFactor>
 	<imgScaleFactor>0.5</imgScaleFactor>
 	<minNeighbors>2</minNeighbors>
 	

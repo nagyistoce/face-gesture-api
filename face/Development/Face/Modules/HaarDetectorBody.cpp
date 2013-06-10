@@ -157,7 +157,7 @@ void HaarDetectorBody::Process(void)
 
 	vector<Rect> prevObjects = objects_;
 
-	if(objects_.empty() || imageWrapperIn_->GetMetaData().GetFrameNumber() % 5 == 0)
+	if(objects_.empty() || imageWrapperIn_->GetMetaData().GetFrameNumber() % 30 == 0)
 	{
 		objects_.clear();
 		cascade_.detectMultiScale(normalizedImage_, objects_, scaleFactor_, minNeighbors_, flags_, minSize_, maxSize_);

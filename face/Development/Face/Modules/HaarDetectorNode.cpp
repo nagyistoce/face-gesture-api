@@ -66,7 +66,6 @@ void HaarDetectorNode::CreateEdge(void)
         ASSERT(haarDetectorIn);
         Node::FunctionNode2Type* tbbHaarDetectorIn = haarDetectorIn->GetFunction2Node();
         ASSERT(tbbHaarDetectorIn);
-
         make_edge(*tbbHaarDetectorIn, std::get<HaarDetectorBody::INPUT_RECTANGLE>(joinNode2_->input_ports()));
     }
 
