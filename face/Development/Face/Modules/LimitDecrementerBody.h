@@ -6,6 +6,8 @@
 #include "Node.h"
 
 
+class ImageMessage;
+
 class LimitDecrementerBody
 :   public Body
 {
@@ -30,4 +32,6 @@ public:
 
 private:
     virtual void Process(void);
+
+    ImageMessage* imageWrapperIn_;
 };

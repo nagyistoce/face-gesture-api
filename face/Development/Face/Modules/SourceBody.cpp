@@ -1,6 +1,6 @@
 #include "SourceBody.h"
 #include "Tracer.h"
-#include "ImageWrapper.h"
+#include "ImageMessage.h"
 #include "MetaData.h"
 
 using namespace std;
@@ -82,7 +82,7 @@ void SourceBody::Process(void)
 
 	if(HasSuccessor())
 	{
-		output_ = new ImageWrapper(outputFrame_, *metaData_);
+		output_ = new ImageMessage(outputFrame_, *metaData_);
 	}
 
 	metaData_->IncrementFrameNumber();

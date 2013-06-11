@@ -3,8 +3,8 @@
 
 #include "HaarDetectorBody.h"
 #include "Tracer.h"
-#include "ImageWrapper.h"
-#include "MetaData.h"
+#include "ImageMessage.h"
+#include "RectangleMessage.h"
 #include "GarbageCollector.h"
 #include "GlobalSettings.h"
 
@@ -15,7 +15,7 @@ using namespace std;
 HaarDetectorBody::HaarDetectorBody(const VertexElement& vertexElement)
 :   Body(vertexElement),
     imageWrapperIn_(NULL),
-	prevImageWrapperIn_(NULL),
+	prevImageMessageIn_(NULL),
     cascadeName_(""),
     scaleFactor_(1.2),
 	imgScaleFactor_(1.0),
@@ -87,7 +87,7 @@ HaarDetectorBody::HaarDetectorBody(const VertexElement& vertexElement)
 HaarDetectorBody::HaarDetectorBody(const HaarDetectorBody& other)
 :   Body(other),
     imageWrapperIn_(NULL),
-	prevImageWrapperIn_(NULL),
+	prevImageMessageIn_(NULL),
     cascade_(other.cascade_),
     cascadeName_(other.cascadeName_),
     scaleFactor_(other.scaleFactor_),
@@ -100,10 +100,10 @@ HaarDetectorBody::HaarDetectorBody(const HaarDetectorBody& other)
 	objects_(other.objects_)
 {
 	if(other.imageWrapperIn_)
-		imageWrapperIn_ = new ImageWrapper(*other.imageWrapperIn_);
+		imageWrapperIn_ = new ImageMessage(*other.imageWrapperIn_);
 
-	if(other.prevImageWrapperIn_)
-		prevImageWrapperIn_ = new ImageWrapper(*other.prevImageWrapperIn_);
+	if(other.prevImageMessageIn_)
+		prevImageMessageIn_ = new ImageMessage(*other.prevImageMessageIn_);
 
 	other.grayFrame_.copyTo(grayFrame_);
 	other.normalizedImage_.copyTo(normalizedImage_);
@@ -113,13 +113,13 @@ HaarDetectorBody::HaarDetectorBody(const HaarDetectorBody& other)
 HaarDetectorBody::~HaarDetectorBody(void)
 {
     delete imageWrapperIn_;
-	delete prevImageWrapperIn_;
+	delete prevImageMessageIn_;
 }
 
 
 Body::OutputType HaarDetectorBody::operator() (Body::InputType2 input)
 {
-	imageWrapperIn_ = dynamic_cast<ImageWrapper*>(std::get<INPUT_IMAGE>(input));
+	imageWrapperIn_ = dynamic_cast<ImageMessage*>(std::get<INPUT_IMAGE>(input));
 
 	TRACE(GetFullName() + ": " + imageWrapperIn_->GetMetaData().GetFrameNumber());
 
@@ -127,10 +127,10 @@ Body::OutputType HaarDetectorBody::operator() (Body::InputType2 input)
 	Process();
 	AfterProcess();
 
-	if(prevImageWrapperIn_)
-		GarbageCollectorPtr->SourceHasBeenProcessed(prevImageWrapperIn_);
+	if(prevImageMessageIn_)
+		GarbageCollectorPtr->InputHasBeenProcessed(prevImageMessageIn_, GarbageCollector::NOTIFY_IF_PROCESSED);
 
-	prevImageWrapperIn_ = imageWrapperIn_;
+	prevImageMessageIn_ = imageWrapperIn_;
 
     return output_;
 }
@@ -146,7 +146,7 @@ void HaarDetectorBody::operator= (const HaarDetectorBody& other)
 void HaarDetectorBody::Process(void)
 {
     const Mat& frameIn = imageWrapperIn_->Rgb();
-	const Mat& prevFrame = prevImageWrapperIn_->Rgb();
+	const Mat& prevFrame = prevImageMessageIn_->Rgb();
 
     outputFrame_ = frameIn.clone();
 
@@ -220,5 +220,6 @@ void HaarDetectorBody::Process(void)
 	}
 
     IMSHOW(GetFullName(), outputFrame_);
-	output_ = /*HasSuccessor() ? new ImageWrapper(*imageWrapperIn_) :*/ NULL;
+
+    output_ = HasSuccessor() ? new RectangleMessage(objects_) : NULL;
 }

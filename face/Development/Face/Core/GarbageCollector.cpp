@@ -72,45 +72,31 @@ void GarbageCollector::PushNewOutput(Message* newOutput, const std::string& modu
 }
 
 
-void GarbageCollector::SourceHasBeenProcessed(Message* input)
+void GarbageCollector::InputHasBeenProcessed(Message* input, int strategy)
 {
+    tbb::mutex::scoped_lock lock(mutex_);
+
+    if(!input || garbageContainer_.find(input) == garbageContainer_.end())
+        return;
+
+    GarbageItem& garbageItem = garbageContainer_[input];
+
+    std::get<REF_COUNT>(garbageItem) -= 1;
+    if(std::get<REF_COUNT>(garbageItem) <= 0)
     {
-        tbb::mutex::scoped_lock lock(mutex_);
-
-        if(!input || garbageContainer_.find(input) == garbageContainer_.end())
-            return;
-
-        GarbageItem& garbageItem = garbageContainer_[input];
-
-        std::get<REF_COUNT>(garbageItem) -= 1;
-        if(std::get<REF_COUNT>(garbageItem) <= 0)
-        {
-            std::unique_lock<tbb::mutex> uniqueLock(*std::get<MUTEX>(garbageItem));
-            std::get<PRESENT>(garbageItem) = true;
-            std::get<COND_VAR>(garbageItem)->notify_one();
-        }
-    }
-}
-
-
-void GarbageCollector::InputHasBeenProcessed(Message* input)
-{
-    {
-        tbb::mutex::scoped_lock lock(mutex_);
-
-		if(!input || garbageContainer_.find(input) == garbageContainer_.end())
-			return;
-
-		GarbageItem& garbageItem = garbageContainer_[input];
-
-		std::get<REF_COUNT>(garbageItem) -= 1;
-        if(std::get<REF_COUNT>(garbageItem) <= 0)
+        if(strategy == RELEASE_IF_PROCESSED)
         {
             delete std::get<COND_VAR>(garbageContainer_[input]);
             delete std::get<MUTEX>(garbageContainer_[input]);
 
             garbageContainer_.erase(input);
             delete input;
+        }
+        else
+        {
+            std::unique_lock<tbb::mutex> uniqueLock(*std::get<MUTEX>(garbageItem));
+            std::get<PRESENT>(garbageItem) = true;
+            std::get<COND_VAR>(garbageItem)->notify_one();
         }
     }
 }

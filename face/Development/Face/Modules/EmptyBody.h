@@ -5,7 +5,7 @@
 #include "PortNameParser.h"
 
 
-class ImageWrapper;
+class ImageMessage;
 
 class EmptyBody
 :   public Body
@@ -32,6 +32,6 @@ public:
 private:
     virtual void Process(void);
 
-    ImageWrapper* imageWrapperIn_;
+    ImageMessage* imageWrapperIn_;
 };
 

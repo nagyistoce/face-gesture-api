@@ -54,9 +54,6 @@
     <ClCompile Include="HaarDetectorNode.cpp">
       <Filter>Modules\Module\HaarDetector</Filter>
     </ClCompile>
-    <ClCompile Include="ImageWrapper.cpp">
-      <Filter>Modules\Message</Filter>
-    </ClCompile>
     <ClCompile Include="SourceBody.cpp">
       <Filter>Modules\Source\SingleSource</Filter>
     </ClCompile>
@@ -76,6 +73,12 @@
       <Filter>Modules\Module\Empty</Filter>
     </ClCompile>
     <ClCompile Include="EmptyMessage.cpp">
+      <Filter>Modules\Message</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageMessage.cpp">
+      <Filter>Modules\Message</Filter>
+    </ClCompile>
+    <ClCompile Include="RectangleMessage.cpp">
       <Filter>Modules\Message</Filter>
     </ClCompile>
   </ItemGroup>
@@ -98,9 +101,6 @@
     <ClInclude Include="HaarDetectorNode.h">
       <Filter>Modules\Module\HaarDetector</Filter>
     </ClInclude>
-    <ClInclude Include="ImageWrapper.h">
-      <Filter>Modules\Message</Filter>
-    </ClInclude>
     <ClInclude Include="SourceNode.h">
       <Filter>Modules\Source\SingleSource</Filter>
     </ClInclude>
@@ -120,6 +120,12 @@
       <Filter>Modules\Module\Empty</Filter>
     </ClInclude>
     <ClInclude Include="EmptyMessage.h">
+      <Filter>Modules\Message</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageMessage.h">
+      <Filter>Modules\Message</Filter>
+    </ClInclude>
+    <ClInclude Include="RectangleMessage.h">
       <Filter>Modules\Message</Filter>
     </ClInclude>
   </ItemGroup>

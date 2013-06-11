@@ -6,7 +6,7 @@
 #include "PortNameParser.h"
 
 
-class ImageWrapper;
+class ImageMessage;
 
 class HaarDetectorBody
 :   public Body
@@ -34,8 +34,8 @@ public:
 private:
     virtual void Process(void);
 
-    ImageWrapper* imageWrapperIn_;
-	ImageWrapper* prevImageWrapperIn_;
+    ImageMessage* imageWrapperIn_;
+	ImageMessage* prevImageMessageIn_;
 
     cv::CascadeClassifier cascade_;
 

@@ -1,7 +1,7 @@
 #include "EmptyBody.h"
 #include "Tracer.h"
 #include "GarbageCollector.h"
-#include "ImageWrapper.h"
+#include "ImageMessage.h"
 #include "EmptyMessage.h"
 
 using namespace cv;
@@ -20,7 +20,7 @@ EmptyBody::EmptyBody(const EmptyBody& other)
     imageWrapperIn_(NULL)
 {
     if(other.imageWrapperIn_)
-        imageWrapperIn_ = new ImageWrapper(*other.imageWrapperIn_);
+        imageWrapperIn_ = new ImageMessage(*other.imageWrapperIn_);
 }
 
 
@@ -32,13 +32,13 @@ EmptyBody::~EmptyBody(void)
 
 Body::OutputType EmptyBody::operator() (Body::InputType1 input)
 {
-    imageWrapperIn_ = dynamic_cast<ImageWrapper*>(input);
+    imageWrapperIn_ = dynamic_cast<ImageMessage*>(input);
 
     BeforeProcess();
     Process();
     AfterProcess();
 
-    GarbageCollectorPtr->SourceHasBeenProcessed(input);
+    GarbageCollectorPtr->InputHasBeenProcessed(input, GarbageCollector::NOTIFY_IF_PROCESSED);
 
     return output_;
 }

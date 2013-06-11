@@ -26,7 +26,7 @@ private:
 
     LimitDecrementerBody* limitDecrementerBody_;
 
-    QueueNodeType* queueNode_;
+    //QueueNodeType* queueNode_;
 	LimiterNodeType* limiterNode_;
     MultiNodeContinueType* limitDecrementerNode_;
 };

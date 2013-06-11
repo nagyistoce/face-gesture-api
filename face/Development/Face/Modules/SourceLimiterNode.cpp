@@ -11,8 +11,8 @@ SourceLimiterNode::SourceLimiterNode(const VertexElement& vertexElement)
 :	Node(vertexElement),
     limitDecrementerBody_(NULL),
     limitDecrementerNode_(NULL),
-	limiterNode_(NULL),
-    queueNode_(NULL)
+	limiterNode_(NULL)//,
+    //queueNode_(NULL)
 {
     limitDecrementerBody_ = new LimitDecrementerBody(vertexElement);
 }
@@ -23,7 +23,7 @@ SourceLimiterNode::~SourceLimiterNode(void)
     delete limitDecrementerBody_;
     delete limitDecrementerNode_;
 	delete limiterNode_;
-    delete queueNode_;
+    //delete queueNode_;
 }
 
 
@@ -35,7 +35,7 @@ void SourceLimiterNode::BuildNode(const VertexContainer& modules)
 
     limitDecrementerNode_ = new MultiNodeContinueType(Node::graph, serial, *limitDecrementerBody_);
 	limiterNode_ = new LimiterNodeType(Node::graph, 2);
-    queueNode_ = new QueueNodeType(Node::graph);
+    //queueNode_ = new QueueNodeType(Node::graph);
 }
 
 

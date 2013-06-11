@@ -29,13 +29,17 @@ public:
 		PRESENT
 	};
 
+    enum Strategy
+    {
+        NOTIFY_IF_PROCESSED = 0,
+        RELEASE_IF_PROCESSED
+    };
+
     static GarbageCollector* GetInstance(void);
 
     void ParseConnectionMap(const VertexContainer& modules);
     void PushNewOutput(Message* newOutput, const std::string& moduleFullName);
-    
-	void InputHasBeenProcessed(Message* input);
-    void SourceHasBeenProcessed(Message* input);
+    void InputHasBeenProcessed(Message* input, int strategy = RELEASE_IF_PROCESSED);
 	void EraseEntry(Message* input);
 	GarbageItem* GetGarbageItem(Message* input);
 

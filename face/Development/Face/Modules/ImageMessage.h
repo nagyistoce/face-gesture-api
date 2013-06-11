@@ -4,14 +4,14 @@
 #include "Message.h"
 #include "MetaData.h"
 
-class ImageWrapper
+class ImageMessage
 :   public Message
 {
 public:
-    ImageWrapper(void);
-    ImageWrapper(const cv::Mat& frame, const MetaData& metaData);
-    ImageWrapper(const ImageWrapper& other);
-    ~ImageWrapper(void);
+    ImageMessage(void);
+    ImageMessage(const cv::Mat& frame, const MetaData& metaData);
+    ImageMessage(const ImageMessage& other);
+    ~ImageMessage(void);
 
 	//! Const RGB frame getter.
 	/*!
@@ -21,11 +21,11 @@ public:
 
     const MetaData& GetMetaData(void) const;
 
-    ImageWrapper& operator=(ImageWrapper other);
+    ImageMessage& operator=(ImageMessage other);
 
 
 private:
-    friend void swap(ImageWrapper& first, ImageWrapper& second);
+    friend void swap(ImageMessage& first, ImageMessage& second);
 
     cv::Mat rgb_;   //!< RGB frame.
     MetaData metaData_;
