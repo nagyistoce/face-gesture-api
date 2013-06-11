@@ -24,10 +24,6 @@ SourceNode::~SourceNode(void)
 
 void SourceNode::BuildNode(const VertexContainer& modules)
 {
-    CollectPredecessors(modules);
-    DefinePorts();
-    CheckPorts();
-
     sourceNode_ = new SourceNodeType(Node::graph, *sourceBody_, false);
 }
 

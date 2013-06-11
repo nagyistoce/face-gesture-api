@@ -29,10 +29,6 @@ HaarDetectorNode::~HaarDetectorNode(void)
 
 void HaarDetectorNode::BuildNode(const VertexContainer& modules)
 {
-    CollectPredecessors(modules);
-    DefinePorts();
-    CheckPorts();
-
     functionNode2_ = new FunctionNode2Type(Node::graph, tbb::flow::serial, *haarDetectorBody_);
     joinNode2_ = new JoinNode2Type(Node::graph);
 }

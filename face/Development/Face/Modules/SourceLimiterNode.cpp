@@ -29,10 +29,6 @@ SourceLimiterNode::~SourceLimiterNode(void)
 
 void SourceLimiterNode::BuildNode(const VertexContainer& modules)
 {
-    CollectPredecessors(modules);
-    DefinePorts();
-    CheckPorts();
-
     limitDecrementerNode_ = new MultiNodeContinueType(Node::graph, serial, *limitDecrementerBody_);
 	limiterNode_ = new LimiterNodeType(Node::graph, 2);
     //queueNode_ = new QueueNodeType(Node::graph);

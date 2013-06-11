@@ -29,8 +29,8 @@
 			<module>SourceLimiter.front</module>
 			<to>
 				<_>HaarDetector.face:image</_>
-				<!--_>HaarDetector.leftEye:image</_>
-				<_>HaarDetector.rightEye:image</_>
+				<_>HaarDetector.leftEye:image</_>
+				<!--_>HaarDetector.rightEye:image</_>
 				<_>HaarDetector.nose:image</_>
 				<_>HaarDetector.mouth:image</_-->
 				<_>Empty.face:image</_>
@@ -44,16 +44,16 @@
 		
 		<_>
 			<module>HaarDetector.face</module>
-			<!--to>
+			<to>
 				<_>HaarDetector.leftEye:rectangle</_>
-				<_>HaarDetector.rightEye:rectangle</_>
+				<!--_>HaarDetector.rightEye:rectangle</_>
 				<_>HaarDetector.nose:rectangle</_>
-				<_>HaarDetector.mouth:rectangle</_>
-			</to-->
+				<_>HaarDetector.mouth:rectangle</_-->
+			</to>
 		</_>
 		
-		<!--_><module>HaarDetector.leftEye</module></_>
-		<_><module>HaarDetector.rightEye</module></_>
+		<_><module>HaarDetector.leftEye</module></_>
+		<!--_><module>HaarDetector.rightEye</module></_>
 		<_><module>HaarDetector.nose</module></_>
 		<_><module>HaarDetector.mouth</module></_-->
 	</tasks>

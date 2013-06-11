@@ -32,6 +32,6 @@ public:
 private:
     virtual void Process(void);
 
-    ImageMessage* imageWrapperIn_;
+    ImageMessage* imageMessageIn_;
 };
 

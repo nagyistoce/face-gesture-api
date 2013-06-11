@@ -81,6 +81,9 @@
     <ClCompile Include="RectangleMessage.cpp">
       <Filter>Modules\Message</Filter>
     </ClCompile>
+    <ClCompile Include="HaarDetectorParam.cpp">
+      <Filter>Modules\Module\HaarDetector</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestAlgorithm.h">
@@ -127,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="RectangleMessage.h">
       <Filter>Modules\Message</Filter>
+    </ClInclude>
+    <ClInclude Include="HaarDetectorParam.h">
+      <Filter>Modules\Module\HaarDetector</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

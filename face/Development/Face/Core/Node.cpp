@@ -30,10 +30,17 @@ void Node::PushNode(Node* node)
 void Node::CreateGraph(const VertexContainer& modules)
 {
     for(Node::NodeMap::iterator itNode = Node::nodeMap.begin(); itNode != Node::nodeMap.end(); itNode++)
+	{
+		itNode->second->CollectPredecessors(modules);
+		itNode->second->DefinePorts();
+		itNode->second->CheckPorts();
         itNode->second->BuildNode(modules);
+	}
 
     for(Node::NodeMap::iterator itNode = Node::nodeMap.begin(); itNode != Node::nodeMap.end(); itNode++)
+	{
         itNode->second->CreateEdge();
+	}
 }
 
 

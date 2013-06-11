@@ -7,6 +7,7 @@
 #include "RectangleMessage.h"
 #include "GarbageCollector.h"
 #include "GlobalSettings.h"
+#include "HaarDetectorParam.h"
 
 using namespace cv;
 using namespace std;
@@ -14,123 +15,70 @@ using namespace std;
 
 HaarDetectorBody::HaarDetectorBody(const VertexElement& vertexElement)
 :   Body(vertexElement),
-    imageWrapperIn_(NULL),
+    imageMessageIn_(NULL),
 	prevImageMessageIn_(NULL),
-    cascadeName_(""),
-    scaleFactor_(1.2),
-	imgScaleFactor_(1.0),
-	invImgScaleFactor_(1.0),
-    minNeighbors_(2),
-    flags_(0),
-    minSize_(Size()),
-    maxSize_(Size())
+	rectangleMessageIn_(NULL),
+	param_(NULL)
 {
-    const cv::FileStorage& configurationFs = GetModulConfigurationFs();
+	param_ = new HaarDetectorParam(GetModulConfigurationFs());
 
-    if(!configurationFs["cascadeName"].empty() && configurationFs["cascadeName"].isString())
+	if(!cascade_.load(GlobalSettingsConstPtr->GetDirectories().moduleSettings + GetModuleName() + "/" + param_->cascadeName))
 	{
-        configurationFs["cascadeName"] >> cascadeName_;
+		CV_Error(-1, "Could not load cascade classifier: " + param_->cascadeName + ".");
 	}
-
-	if(!cascade_.load(GlobalSettingsConstPtr->GetDirectories().moduleSettings + GetModuleName() + "/" + cascadeName_))
-	{
-		CV_Error(-1, "Could not load cascade classifier: " + cascadeName_ + ".");
-	}
-
-	if(!configurationFs["scaleFactor"].empty() && configurationFs["scaleFactor"].isReal())
-	{
-		configurationFs["scaleFactor"] >> scaleFactor_;
-	}
-
-	if(!configurationFs["imgScaleFactor"].empty() && configurationFs["imgScaleFactor"].isReal())
-	{
-		configurationFs["imgScaleFactor"] >> imgScaleFactor_;
-
-		if(imgScaleFactor_ >= 1.0)
-			imgScaleFactor_ = 1.0;
-		else if(imgScaleFactor_ <= 0.0)
-			imgScaleFactor_ = 0.1;
-
-		invImgScaleFactor_ = 1.0 / imgScaleFactor_;
-	}
-
-    if(!configurationFs["minNeighbors"].empty() && configurationFs["minNeighbors"].isInt())
-	{
-        configurationFs["minNeighbors"] >> minNeighbors_;
-	}
-
-    if(!configurationFs["flags"].empty() && configurationFs["flags"].isInt())
-	{
-        configurationFs["flags"] >> flags_;
-	}
-
-    if(!configurationFs["minWidth"].empty() && !configurationFs["minHeight"].empty() && 
-		configurationFs["minWidth"].isInt() && configurationFs["minHeight"].isInt())
-    {
-        int minWidth, minHeight;
-        configurationFs["minWidth"] >> minWidth;
-        configurationFs["minHeight"] >> minHeight;
-        minSize_ = Size(minWidth, minHeight);
-    }
-
-    if(!configurationFs["maxWidth"].empty() && !configurationFs["maxHeight"].empty() && 
-		configurationFs["maxWidth"].isInt() && configurationFs["maxHeight"].isInt())
-    {
-        int maxWidth, maxHeight;
-        configurationFs["maxWidth"] >> maxWidth;
-        configurationFs["maxHeight"] >> maxHeight;
-        maxSize_ = Size(maxWidth, maxHeight);
-    }
 }
 
 
 HaarDetectorBody::HaarDetectorBody(const HaarDetectorBody& other)
 :   Body(other),
-    imageWrapperIn_(NULL),
+    imageMessageIn_(NULL),
 	prevImageMessageIn_(NULL),
+	rectangleMessageIn_(NULL),
+	param_(NULL),
     cascade_(other.cascade_),
-    cascadeName_(other.cascadeName_),
-    scaleFactor_(other.scaleFactor_),
-	imgScaleFactor_(other.imgScaleFactor_),
-	invImgScaleFactor_(other.invImgScaleFactor_),
-    minNeighbors_(other.minNeighbors_),
-    flags_(other.flags_),
-    minSize_(other.minSize_),
-    maxSize_(other.maxSize_),
-	objects_(other.objects_)
+	objects_(other.objects_),
+	prevObjects_(other.prevObjects_)
 {
-	if(other.imageWrapperIn_)
-		imageWrapperIn_ = new ImageMessage(*other.imageWrapperIn_);
+	if(other.param_)
+		param_ = new HaarDetectorParam(*other.param_);
 
+	if(other.imageMessageIn_)
+		imageMessageIn_ = new ImageMessage(*other.imageMessageIn_);
 	if(other.prevImageMessageIn_)
 		prevImageMessageIn_ = new ImageMessage(*other.prevImageMessageIn_);
-
-	other.grayFrame_.copyTo(grayFrame_);
-	other.normalizedImage_.copyTo(normalizedImage_);
+	if(other.rectangleMessageIn_)
+		rectangleMessageIn_ = new RectangleMessage(*other.rectangleMessageIn_);
 }
 
 
 HaarDetectorBody::~HaarDetectorBody(void)
 {
-    delete imageWrapperIn_;
+    delete imageMessageIn_;
 	delete prevImageMessageIn_;
+	delete rectangleMessageIn_;
+	delete param_;
 }
 
 
 Body::OutputType HaarDetectorBody::operator() (Body::InputType2 input)
 {
-	imageWrapperIn_ = dynamic_cast<ImageMessage*>(std::get<INPUT_IMAGE>(input));
+	imageMessageIn_ = dynamic_cast<ImageMessage*>(std::get<INPUT_IMAGE>(input));
+	rectangleMessageIn_ = dynamic_cast<RectangleMessage*>(std::get<INPUT_RECTANGLE>(input));
 
-	TRACE(GetFullName() + ": " + imageWrapperIn_->GetMetaData().GetFrameNumber());
+	TRACE(GetFullName() + ": " + imageMessageIn_->GetMetaData().GetFrameNumber());
 
 	BeforeProcess();
 	Process();
 	AfterProcess();
 
-	if(prevImageMessageIn_)
-		GarbageCollectorPtr->InputHasBeenProcessed(prevImageMessageIn_, GarbageCollector::NOTIFY_IF_PROCESSED);
+	GarbageCollectorPtr->InputHasBeenProcessed(rectangleMessageIn_, GarbageCollector::RELEASE_IF_PROCESSED);
 
-	prevImageMessageIn_ = imageWrapperIn_;
+	if(prevImageMessageIn_)
+	{
+		GarbageCollectorPtr->InputHasBeenProcessed(prevImageMessageIn_, GarbageCollector::NOTIFY_IF_PROCESSED);
+	}
+
+	prevImageMessageIn_ = imageMessageIn_;
 
     return output_;
 }
@@ -145,59 +93,64 @@ void HaarDetectorBody::operator= (const HaarDetectorBody& other)
 
 void HaarDetectorBody::Process(void)
 {
-    const Mat& frameIn = imageWrapperIn_->Rgb();
-	const Mat& prevFrame = prevImageMessageIn_->Rgb();
+    const Mat& frameIn = imageMessageIn_->Normalized();
 
-    outputFrame_ = frameIn.clone();
+    outputFrame_ = imageMessageIn_->Rgb().clone();
+	prevObjects_ = objects_;
 
-	Mat grayFrameRes(cvRound(frameIn.rows * imgScaleFactor_), cvRound(frameIn.cols * imgScaleFactor_), CV_8UC1);
-    cvtColor(frameIn, grayFrame_, CV_BGR2GRAY);
-	resize(grayFrame_, grayFrameRes, grayFrameRes.size());
-    equalizeHist(grayFrameRes, normalizedImage_);
-
-	vector<Rect> prevObjects = objects_;
-
-	if(objects_.empty() || imageWrapperIn_->GetMetaData().GetFrameNumber() % 30 == 0)
+	if(objects_.empty() || imageMessageIn_->GetMetaData().GetFrameNumber() % 30 == 0)
 	{
+		const vector<Rect>& rectangles = rectangleMessageIn_->GetRectangles();
+		Rect firstRect(0, 0, frameIn.cols, frameIn.rows);
+
+		if(rectangles.size() > 0)
+		{
+			firstRect = rectangles[0];
+			//if(rectangle.x < 0) rectangle.x = 0;
+			//if(rectangle.y < 0) rectangle.y = 0;
+			//if(rectangle.x + rectangle.width > frameIn.cols) rectangle.width = 
+		}
+
+		Mat frameInRect = frameIn(firstRect);
+		Mat normalizedRes(cvRound(frameInRect.rows * param_->imgScaleFactor), cvRound(frameInRect.cols * param_->imgScaleFactor), CV_8UC1);
+		resize(frameInRect, normalizedRes, normalizedRes.size());
+
 		objects_.clear();
-		cascade_.detectMultiScale(normalizedImage_, objects_, scaleFactor_, minNeighbors_, flags_, minSize_, maxSize_);
+		cascade_.detectMultiScale(normalizedRes, objects_, param_->scaleFactor, 
+			param_->minNeighbors, param_->flags, param_->minSize, param_->maxSize
+		);
 
 		if(!objects_.empty())
 		{
 			for(vector<Rect>::iterator r = objects_.begin(); r != objects_.end(); r++)
 			{
-				r->x = cvRound(r->x * invImgScaleFactor_);
-				r->y = cvRound(r->y * invImgScaleFactor_);
-				r->width = cvRound(r->width * invImgScaleFactor_);
-				r->height = cvRound(r->height * invImgScaleFactor_);
+				r->x = cvRound(r->x * param_->invImgScaleFactor) + firstRect.x;
+				r->y = cvRound(r->y * param_->invImgScaleFactor) + firstRect.y;
+				r->width = cvRound(r->width * param_->invImgScaleFactor);
+				r->height = cvRound(r->height * param_->invImgScaleFactor);
 
-				rectangle(outputFrame_, Point(r->x, r->y), Point(r->x + r->width, r->y + r->height), Scalar(255, 0, 0), 2);
+				rectangle(outputFrame_, *r, Scalar(255, 0, 0), 2);
 			}
 		}
 	}
-
-	else if(/*objects_.empty() &&*/ !prevObjects.empty() && !prevFrame.empty())
+	else if(!prevObjects_.empty() && prevImageMessageIn_)
 	{
-		//objects_ = prevObjects;
+		const Mat& prevFrame = prevImageMessageIn_->Normalized();
 
 		vector<Point2f> prevPoints, nextPoints;
 		vector<Size> objSizes;
-		vector<uchar> status;
-		vector<float> err;
-		TermCriteria termcrit(CV_TERMCRIT_ITER | CV_TERMCRIT_EPS, 20, 0.03);
-		Size winSize(5, 5);
 
-		Mat grayPrevFrame;
-		cvtColor(prevFrame, grayPrevFrame, CV_BGR2GRAY);
-
-		for(vector<Rect>::const_iterator r = prevObjects.begin(); r != prevObjects.end(); r++)
+		for(vector<Rect>::const_iterator r = prevObjects_.begin(); r != prevObjects_.end(); r++)
 		{
-			Point center(cvRound(r->x + r->width * 0.5), cvRound(r->y + r->height * 0.5));
-			prevPoints.push_back(center);
-			objSizes.push_back(Size(r->width, r->height));
+			prevPoints.push_back(Point(cvRound(r->x + r->width * 0.5), cvRound(r->y + r->height * 0.5)));
+			objSizes.push_back(r->size());
 		}
 
-		calcOpticalFlowPyrLK(grayPrevFrame, grayFrame_, prevPoints, nextPoints, status, err, winSize, 3, termcrit, 0, 0.001);
+		vector<uchar> status;
+		vector<float> err;
+		calcOpticalFlowPyrLK(prevFrame, frameIn, prevPoints, nextPoints, status, err, 
+			param_->winSize, param_->maxLevel, param_->criteria, param_->LKflags, param_->minEigThreshold
+		);
 
 		if(prevPoints.size() == nextPoints.size())
 		{
@@ -206,16 +159,12 @@ void HaarDetectorBody::Process(void)
 				Point tl(cvRound(nextPoints[i].x - objSizes[i].width * 0.5), cvRound(nextPoints[i].y - objSizes[i].height * 0.5));
 				Point br(cvRound(nextPoints[i].x + objSizes[i].width * 0.5), cvRound(nextPoints[i].y + objSizes[i].height * 0.5));
 				objects_[i] = Rect(tl, br);
+				rectangle(outputFrame_, objects_[i], Scalar(0, 0, 255), 2);
 			}
 		}
 		else
 		{
 			objects_.clear();
-		}
-
-		for(vector<Rect>::iterator r = objects_.begin(); r != objects_.end(); r++)
-		{
-			rectangle(outputFrame_, Point(r->x, r->y), Point(r->x + r->width, r->y + r->height), Scalar(0, 0, 255), 2);
 		}
 	}
 
