@@ -4,6 +4,9 @@
 #include "Message.h"
 #include "MetaData.h"
 
+namespace face 
+{
+
 class ImageMessage
 :   public Message
 {
@@ -37,3 +40,5 @@ private:
 	cv::Mat normalized_;
     MetaData metaData_;
 };
+
+}

@@ -8,6 +8,8 @@
 using namespace cv;
 using namespace std;
 
+namespace face 
+{
 
 EmptyBody::EmptyBody(const VertexElement& vertexElement)
 :   Body(vertexElement),
@@ -67,4 +69,6 @@ void EmptyBody::Process(void)
 			output_ = new EmptyMessage();
 		}
     }
+}
+
 }

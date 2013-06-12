@@ -5,6 +5,8 @@
 
 using namespace std;
 
+namespace face 
+{
 
 LimitDecrementerBody::LimitDecrementerBody(const VertexElement& vertexElement)
 :   Body(vertexElement),
@@ -60,4 +62,6 @@ void LimitDecrementerBody::Process(void)
     }
 
     GarbageCollectorPtr->EraseEntry(imageWrapperIn_);
+}
+
 }

@@ -6,6 +6,8 @@
 
 using namespace std;
 
+namespace face 
+{
 
 // arbitrarily support nesting 34 deep for no particular reason
 string CallStackTrace::nest_ = "| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | ";
@@ -53,4 +55,6 @@ void CallStackTrace::LogMsg(int depth, int align, const string& fmt, va_list arg
     len += fwrite("\n", 1, 1, fp);
     fflush(fp);
     fclose(fp);
+}
+
 }

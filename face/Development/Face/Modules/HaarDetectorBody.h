@@ -5,6 +5,8 @@
 #include "FaceDef.h"
 #include "PortNameParser.h"
 
+namespace face 
+{
 
 class ImageMessage;
 class RectangleMessage;
@@ -44,3 +46,5 @@ private:
     cv::CascadeClassifier cascade_;
 	std::vector<cv::Rect> prevObjects_, objects_;
 };
+
+}

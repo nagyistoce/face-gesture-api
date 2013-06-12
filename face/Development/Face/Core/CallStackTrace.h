@@ -3,6 +3,9 @@
 #include <cstdarg>
 #include <string>
 
+namespace face 
+{
+
 #define CM_TRACE_FILE(trace_file) CallStackTrace::LogToFile(trace_file)
 #define CM_TRACE_FUNC(func_name) CallStackTrace __CM_TRACE__(func_name, "()")
 #define CM_TRACE_FUNC_ARG1(func_name, argfmt, arg) CallStackTrace __CM_TRACE__(func_name, argfmt, arg)
@@ -53,3 +56,5 @@ private:
     static std::string nest_;       //!< arbitrarily support nesting 34 deep for no particular reason
     static int depth_;              //!< function call stack depth
 };
+
+}

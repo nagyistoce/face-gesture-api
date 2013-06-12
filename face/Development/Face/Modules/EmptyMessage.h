@@ -2,6 +2,8 @@
 
 #include "Message.h"
 
+namespace face 
+{
 
 class EmptyMessage
 :   public Message
@@ -14,3 +16,4 @@ public:
     EmptyMessage& operator=(EmptyMessage other);
 };
 
+}

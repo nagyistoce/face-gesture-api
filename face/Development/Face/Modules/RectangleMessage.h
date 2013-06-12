@@ -4,6 +4,9 @@
 #include "Message.h"
 #include "MetaData.h"
 
+namespace face 
+{
+
 class RectangleMessage
 :   public Message
 {
@@ -22,3 +25,5 @@ private:
 
     std::vector<cv::Rect> rectangles_;
 };
+
+}

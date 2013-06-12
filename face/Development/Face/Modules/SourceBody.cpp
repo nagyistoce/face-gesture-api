@@ -1,54 +1,70 @@
+#include <opencv2/core/core.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+
 #include "SourceBody.h"
 #include "Tracer.h"
 #include "ImageMessage.h"
 #include "MetaData.h"
+#include "GlobalSettings.h"
+#include "SourceParam.h"
 
 using namespace std;
 
+namespace face 
+{
 
 SourceBody::SourceBody(const VertexElement& vertexElement)
 :   Body(vertexElement),
 	metaData_(NULL),
-	sourceType_(SourceBody::CAMERA),
-	cameraId_(0),
-	videoFilePath_("")
+	param_(NULL),
+	mediaEnd_(false)
 {
-	if(instanceName_ == "front")
-		metaData_ = new MetaData(MetaData::POSITION_FRONT, 0, 0);
-	else
-		metaData_ = new MetaData(MetaData::POSITION_UNDEFINED, 0, 0);
+	param_ = new SourceParam(GetModulConfigurationFs());
+	metaData_ = new MetaData();
 
-    if(sourceType_ == SourceBody::CAMERA)
+    if(GlobalSettingsPtr->GetValueAsString("live") == "true")
     {
-        videoCapture_.open(cameraId_);
+        videoCapture_.open(param_->cameraId);
         if(videoCapture_.isOpened() == false)
-            CV_Error(-1, "Could not opened video capture for camera: " + cameraId_);
+		{
+			stringstream ss;
+			ss << param_->cameraId;
+            CV_Error(-1, "Could not opened video capture for camera: " + ss.str());
+		}
     }
     else
     {
-        videoCapture_.open(videoFilePath_);
+		string fullPath = GlobalSettingsPtr->GetDirectories().videoInput + param_->videoFileName;
+        videoCapture_.open(fullPath);
         if(videoCapture_.isOpened() == false)
-            CV_Error(-1, "Could not opened video capture for: " + videoFilePath_);
+            CV_Error(-1, "Could not opened video capture for: " + fullPath);
     }
+
+	videoCapture_.set(CV_CAP_PROP_FRAME_WIDTH, param_->frameSize.width);
+	videoCapture_.set(CV_CAP_PROP_FRAME_HEIGHT, param_->frameSize.height);
+	videoCapture_.set(CV_CAP_PROP_FPS, param_->fps);
 }
 
 
 SourceBody::SourceBody(const SourceBody& other)
 :   Body(other),
-	sourceType_(other.sourceType_),
-	cameraId_(other.cameraId_),
-	videoFilePath_(other.videoFilePath_),
     videoCapture_(other.videoCapture_),
-    metaData_(NULL)
+    metaData_(NULL),
+	param_(NULL),
+	mediaEnd_(other.mediaEnd_)
 {
-    if(other.metaData_)
-	    metaData_ = new MetaData(*other.metaData_);
+	if(other.metaData_)
+		metaData_ = new MetaData(*other.metaData_);
+
+	if(other.param_)
+		param_ = new SourceParam(*other.param_);
 }
 
 
 SourceBody::~SourceBody(void)
 {
 	delete metaData_;
+	delete param_;
 }
 
 
@@ -60,7 +76,7 @@ bool SourceBody::operator() (Body::OutputType& output)
 
 	output = output_;
 
-	return true;
+	return !mediaEnd_;
 }
 
 
@@ -73,9 +89,16 @@ void SourceBody::operator= (const SourceBody& other)
 
 void SourceBody::Process(void)
 {
-	metaData_->SetTimestamp(GetTimestamp());
-
 	videoCapture_ >> outputFrame_;
+
+	if(outputFrame_.empty())
+	{
+		mediaEnd_ = true;
+		return;
+	}
+
+	metaData_->SetTimestamp(GetTimestamp());
+	resize(outputFrame_, outputFrame_, param_->frameSize);
 
 	TRACE(GetFullName() + ": " + metaData_->GetFrameNumber());
 	IMSHOW(GetFullName(), outputFrame_);
@@ -86,4 +109,6 @@ void SourceBody::Process(void)
 	}
 
 	metaData_->IncrementFrameNumber();
+}
+
 }

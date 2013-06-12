@@ -5,6 +5,8 @@
 using namespace std;
 using namespace cv;
 
+namespace face 
+{
 
 Configuration::Configuration(void)
 {
@@ -91,4 +93,6 @@ int Configuration::FindValueByName(const std::string& name) const
         if (values_[i].name == name)
             return i;
     return -1;
+}
+
 }

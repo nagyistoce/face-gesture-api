@@ -9,6 +9,8 @@
 #include "PortNameParser.h"
 #include "GarbageCollector.h"
 
+namespace face 
+{
 
 class Message;
 
@@ -83,3 +85,5 @@ protected:
 private: 
     Timer timer_;
 };
+
+}

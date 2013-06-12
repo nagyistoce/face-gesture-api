@@ -5,6 +5,9 @@
 #include <vector>
 #include <list>
 
+namespace face 
+{
+
 class PortNameParser
 {
 public:
@@ -31,3 +34,5 @@ private:
 typedef std::list<PortNameParser> ChildrenList;
 typedef std::pair<PortNameParser, ChildrenList> VertexElement;
 typedef std::vector<VertexElement> VertexContainer;
+
+}

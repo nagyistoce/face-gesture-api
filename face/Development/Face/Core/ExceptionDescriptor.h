@@ -7,6 +7,9 @@
 #include "FaceDef.h"
 #include "StringBuilder.h"
 
+namespace face 
+{
+
 //! Exception class.
 /*!
 	\ingroup Core
@@ -59,3 +62,5 @@ private:
 
 #define ExceptionError(message)   ExceptionDescriptor(std::string(StringBuilder() + message), std::string(__FILE__), std::string(__FUNCTION__), __LINE__, true)
 #define ExceptionWarning(message) ExceptionDescriptor(std::string(StringBuilder() + message), std::string(__FILE__), std::string(__FUNCTION__), __LINE__, false)
+
+}

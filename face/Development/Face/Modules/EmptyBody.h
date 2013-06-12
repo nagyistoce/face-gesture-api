@@ -4,6 +4,8 @@
 #include "FaceDef.h"
 #include "PortNameParser.h"
 
+namespace face 
+{
 
 class ImageMessage;
 
@@ -35,3 +37,4 @@ private:
     ImageMessage* imageMessageIn_;
 };
 
+}

@@ -3,6 +3,8 @@
 #include "TestAlgorithm.h"
 #include "Tracer.h"
 
+namespace face 
+{
 
 TestAlgorithm::TestAlgorithm(const std::string& name, const std::string& config)
 :	Algorithm(name, config)
@@ -27,4 +29,6 @@ void TestAlgorithm::operator() (tbb::flow::continue_msg) const
         else
             Sleep(2000);
     }
+}
+
 }

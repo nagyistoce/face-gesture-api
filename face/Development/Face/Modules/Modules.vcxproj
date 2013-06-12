@@ -26,6 +26,7 @@
     <ClCompile Include="LimitDecrementerBody.cpp" />
     <ClCompile Include="SourceLimiterNode.cpp" />
     <ClCompile Include="SourceNode.cpp" />
+    <ClCompile Include="SourceParam.cpp" />
     <ClCompile Include="TestAlgorithm.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -44,6 +45,7 @@
     <ClInclude Include="LimitDecrementerBody.h" />
     <ClInclude Include="SourceLimiterNode.h" />
     <ClInclude Include="SourceNode.h" />
+    <ClInclude Include="SourceParam.h" />
     <ClInclude Include="TestAlgorithm.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

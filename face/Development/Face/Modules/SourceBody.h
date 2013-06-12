@@ -1,14 +1,16 @@
 #pragma once
 
 #include <opencv2/highgui/highgui.hpp>
-#include <opencv2/core/core.hpp>
 
 #include "Body.h"
 #include "FaceDef.h"
 #include "PortNameParser.h"
 
+namespace face 
+{
 
 class MetaData;
+class SourceParam;
 
 class SourceBody
 :   public Body
@@ -33,17 +35,12 @@ public:
 
 
 private:
-	enum SourceType
-	{
-		CAMERA = 0,
-		VIDEO_FILE
-	};
-
 	virtual void Process(void);
 
-	MetaData* metaData_;
-	int sourceType_;
-	int cameraId_;
-	std::string videoFilePath_;
 	cv::VideoCapture videoCapture_;
+	MetaData* metaData_;
+	SourceParam* param_;
+	bool mediaEnd_;
 };
+
+}

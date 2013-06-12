@@ -1,37 +1,28 @@
 #include <algorithm>
 #include "MetaData.h"
 
+namespace face 
+{
 
 void swap(MetaData& first, MetaData& second)
 {
     using std::swap;
-    swap(first.position_, second.position_);
     swap(first.frameNumber_, second.frameNumber_);
     swap(first.timestamp_, second.timestamp_);
 }
 
 
 MetaData::MetaData(void)
-:   position_(POSITION_UNDEFINED),
-    frameNumber_(0),
+:   frameNumber_(0),
     timestamp_(0)
 {
 }
 
 
-MetaData::MetaData(const Position position, const int frameNumber, const unsigned int timestamp)
-:   position_(position),
-    frameNumber_(frameNumber),
-    timestamp_(timestamp)
-{
-}
-
-
 MetaData::MetaData(const MetaData& other)
+:   frameNumber_(other.frameNumber_),
+	timestamp_(other.timestamp_)
 {
-    position_ = other.position_;
-    frameNumber_ = other.frameNumber_;
-    timestamp_ = other.timestamp_;
 }
 
 
@@ -50,12 +41,6 @@ MetaData& MetaData::operator=(MetaData other)
 void MetaData::IncrementFrameNumber(void)
 {
     frameNumber_++;
-}
-
-
-MetaData::Position MetaData::GetPosition(void) const
-{
-    return position_;
 }
 
 
@@ -80,4 +65,6 @@ void MetaData::SetFrameNumber(int value)
 void MetaData::SetTimestamp(unsigned int value)
 {
     timestamp_ = value;
+}
+
 }

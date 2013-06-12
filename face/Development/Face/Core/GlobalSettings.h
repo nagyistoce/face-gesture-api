@@ -7,6 +7,9 @@
 #include "FaceDef.h"
 #include "Configuration.h"
 
+namespace face 
+{
+
 #define GlobalSettingsConstPtr GlobalSettings::GetConstInstance()
 #define GlobalSettingsPtr GlobalSettings::GetInstance()
 
@@ -31,6 +34,7 @@ public:
 		std::string output;
 		std::string source;
 		std::string moduleSettings;
+		std::string videoInput;
 	};
 
 	static GlobalSettings* GetInstance(void);
@@ -79,3 +83,5 @@ private:
 	Directories directories_;
     std::string processXml_;
 };
+
+}

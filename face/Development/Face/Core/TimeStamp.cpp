@@ -7,6 +7,8 @@
 
 using namespace std;
 
+namespace face 
+{
 
 TimeStamp::TimeStamp(void)
 {
@@ -101,4 +103,6 @@ void TimeStamp::LoadTime(time_t t)
 		time_ = 0;
 	else
 		time_= int(t);	
+}
+
 }

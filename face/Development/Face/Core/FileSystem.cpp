@@ -17,9 +17,13 @@
 using namespace std;
 
 
+namespace face 
+{
+
 FileSystem::FileSystem(void)
 {
 }
+
 
 FileSystem::~FileSystem(void)
 {
@@ -124,4 +128,6 @@ string FileSystem::WstringToString(const wstring& str)
 	for( size_t i=0 ; i<str.size() ; ++i )
 		stm << ctfacet.narrow( str[i], 0 ) ;
 	return stm.str() ;
+}
+
 }

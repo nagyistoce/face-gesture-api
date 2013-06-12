@@ -1,24 +1,19 @@
 #pragma once
 
+namespace face 
+{
+
 class MetaData
 {
 public:
-    enum Position
-    {
-        POSITION_FRONT = 0,
-        POSITION_UNDEFINED
-    };
-
     MetaData(void);
-    MetaData(const Position position, const int frameNumber, const unsigned int timestamp);
     MetaData(const MetaData& other);
     ~MetaData(void);
 
-    MetaData& operator=(MetaData other);
+    MetaData& operator= (MetaData other);
 
     void IncrementFrameNumber(void);
 
-    Position GetPosition(void) const;
     int GetFrameNumber(void) const;
     unsigned int GetTimestamp(void) const;
 
@@ -28,7 +23,8 @@ public:
 private:
     friend void swap(MetaData& first, MetaData& second);
 
-    Position position_;
     int frameNumber_;
     unsigned int timestamp_;
 };
+
+}

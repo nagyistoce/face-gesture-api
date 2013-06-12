@@ -12,6 +12,8 @@
 using namespace cv;
 using namespace std;
 
+namespace face 
+{
 
 HaarDetectorBody::HaarDetectorBody(const VertexElement& vertexElement)
 :   Body(vertexElement),
@@ -171,4 +173,6 @@ void HaarDetectorBody::Process(void)
     IMSHOW(GetFullName(), outputFrame_);
 
     output_ = HasSuccessor() ? new RectangleMessage(objects_) : NULL;
+}
+
 }

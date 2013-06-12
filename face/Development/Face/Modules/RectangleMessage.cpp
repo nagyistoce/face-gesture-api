@@ -3,6 +3,8 @@
 
 using namespace cv;
 
+namespace face 
+{
 
 void swap(RectangleMessage& first, RectangleMessage& second)
 {
@@ -43,4 +45,6 @@ RectangleMessage& RectangleMessage::operator=(RectangleMessage other)
 {
     swap(*this, other);
     return *this;
+}
+
 }

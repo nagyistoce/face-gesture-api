@@ -3,6 +3,8 @@
 
 using namespace std;
 
+namespace face 
+{
 
 StopwatchTimer* StopwatchTimer::instance_ = NULL;
 tbb::mutex StopwatchTimer::mutex_;
@@ -126,4 +128,6 @@ void StopwatchTimer::AddTimePeriod(StopwatchTimer::TimeInfo& timeInfo, float tim
 		timeInfo.min = timePeriod;
 	if (timeInfo.max < timePeriod)
 		timeInfo.max = timePeriod;
+}
+
 }

@@ -8,6 +8,9 @@
 #include "PortNameParser.h"
 #include "FaceDef.h"
 
+namespace face 
+{
+
 #define ModuleFactoryPtr ModuleFactory::GetInstance()
 
 
@@ -33,3 +36,5 @@ private:
     ModuleFactory(void);
     ~ModuleFactory(void);
 };
+
+}

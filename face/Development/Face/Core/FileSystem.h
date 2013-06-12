@@ -3,6 +3,8 @@
 #include <vector>
 #include "FaceDef.h"
 
+namespace face 
+{
 
 //! Static FileSystem class
 /*!
@@ -36,3 +38,5 @@ private:
     FileSystem(void);
     ~FileSystem(void);
 };
+
+}

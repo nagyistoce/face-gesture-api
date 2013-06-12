@@ -3,6 +3,9 @@
 #include <string>
 #include <opencv2/core/core.hpp>
 
+namespace face 
+{
+
 class HaarDetectorParam
 {
 public:
@@ -26,3 +29,4 @@ public:
 	double minEigThreshold;
 };
 
+}

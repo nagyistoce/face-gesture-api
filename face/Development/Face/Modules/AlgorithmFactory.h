@@ -6,6 +6,9 @@
 
 #include "FaceDef.h"
 
+namespace face 
+{
+
 #define AlgorithmFactoryPtr AlgorithmFactory::GetInstance()
 
 
@@ -35,3 +38,5 @@ private:
     BroadcastNode* broadcastNode_;
     std::vector<ContinueNode*> continueNodes_;
 };
+
+}

@@ -10,6 +10,8 @@
 using namespace std;
 using namespace tbb::flow;
 
+namespace face 
+{
 
 ModuleFactory* ModuleFactory::instance_ = NULL;
 tbb::mutex ModuleFactory::mutex_;
@@ -66,4 +68,6 @@ void ModuleFactory::CreateGraph(const VertexContainer& modules)
 void ModuleFactory::Run(void)
 {   
     Node::Run();
+}
+
 }

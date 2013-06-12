@@ -5,6 +5,8 @@
 using namespace std;
 using namespace tbb::flow;
 
+namespace face 
+{
 
 SourceNode::SourceNode(const VertexElement& vertexElement)
 :	Node(vertexElement),
@@ -48,4 +50,6 @@ void SourceNode::RunNode(void)
 Node::SourceNodeType* SourceNode::GetSourceNode(void)
 {
     return sourceNode_;
+}
+
 }

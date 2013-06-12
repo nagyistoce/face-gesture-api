@@ -1,20 +1,20 @@
 #include <fstream>
 #include <iostream>
-#include <opencv2//highgui/highgui.hpp>
+#include <opencv2/highgui/highgui.hpp>
 
 #include "Tracer.h"
 #include "StringBuilder.h"
 #include "TimeStamp.h"
 #include "FileSystem.h"
 
-
-Tracer* Tracer::instance_ = NULL;
-tbb::mutex Tracer::mutex_;
-
-
 using namespace std;
 using namespace cv;
 
+namespace face 
+{
+
+Tracer* Tracer::instance_ = NULL;
+tbb::mutex Tracer::mutex_;
 
 Tracer::Tracer(void)
 {
@@ -112,4 +112,6 @@ ofstream* Tracer::GetLogStream(const std::string& name)
 
 	*(logStream.stream) << logHeader_ << endl << endl;
 	return logStream.stream;
+}
+
 }

@@ -2,10 +2,13 @@
 #include "Tracer.h"
 #include "LimitDecrementerBody.h"
 #include "SourceNode.h"
+#include "GlobalSettings.h"
 
 using namespace std;
 using namespace tbb::flow;
 
+namespace face 
+{
 
 SourceLimiterNode::SourceLimiterNode(const VertexElement& vertexElement)
 :	Node(vertexElement),
@@ -30,7 +33,7 @@ SourceLimiterNode::~SourceLimiterNode(void)
 void SourceLimiterNode::BuildNode(const VertexContainer& modules)
 {
     limitDecrementerNode_ = new MultiNodeContinueType(Node::graph, serial, *limitDecrementerBody_);
-	limiterNode_ = new LimiterNodeType(Node::graph, 2);
+	limiterNode_ = new LimiterNodeType(Node::graph, GlobalSettingsPtr->GetValueAsInt("bufferSize", 2));
     //queueNode_ = new QueueNodeType(Node::graph);
 }
 
@@ -72,4 +75,6 @@ Node::LimiterNodeType* SourceLimiterNode::GetLimiterNode(void)
 Node::MultiNodeContinueType* SourceLimiterNode::GetLimitDecrementerNode(void)
 {
     return limitDecrementerNode_;
+}
+
 }

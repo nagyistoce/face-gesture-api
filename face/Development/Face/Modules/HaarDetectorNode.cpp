@@ -8,6 +8,8 @@
 using namespace std;
 using namespace tbb::flow;
 
+namespace face 
+{
 
 HaarDetectorNode::HaarDetectorNode(const VertexElement& vertexElement)
 :	Node(vertexElement),
@@ -80,4 +82,6 @@ void HaarDetectorNode::DefinePorts(void)
 Node::FunctionNode2Type* HaarDetectorNode::GetFunction2Node(void)
 {
     return functionNode2_;
+}
+
 }

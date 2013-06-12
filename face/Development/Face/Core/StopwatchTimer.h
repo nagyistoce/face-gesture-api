@@ -6,6 +6,9 @@
 #include "FaceDef.h"
 #include "Timer.h"
 
+namespace face 
+{
+
 #define StopwatchTimerPtr StopwatchTimer::GetInstance()
 
 
@@ -56,3 +59,5 @@ private:
 	bool running_;
 	Timer timer_;
 };
+
+}

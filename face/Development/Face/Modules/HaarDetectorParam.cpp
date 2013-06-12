@@ -1,5 +1,7 @@
 #include "HaarDetectorParam.h"
 
+namespace face 
+{
 
 HaarDetectorParam::HaarDetectorParam(const cv::FileStorage& configurationFs)
 :	cascadeName(""),
@@ -93,4 +95,6 @@ HaarDetectorParam::HaarDetectorParam(const HaarDetectorParam& other)
 
 HaarDetectorParam::~HaarDetectorParam(void)
 {
+}
+
 }

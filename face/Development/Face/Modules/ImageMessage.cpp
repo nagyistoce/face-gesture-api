@@ -4,6 +4,8 @@
 
 using namespace cv;
 
+namespace face 
+{
 
 void swap(ImageMessage& first, ImageMessage& second)
 {
@@ -84,4 +86,6 @@ ImageMessage& ImageMessage::operator=(ImageMessage other)
 {
     swap(*this, other);
     return *this;
+}
+
 }

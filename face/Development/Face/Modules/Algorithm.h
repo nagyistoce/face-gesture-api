@@ -6,6 +6,8 @@
 
 #include "FaceDef.h"
 
+namespace face 
+{
 
 //! Standalone executable algorithm
 /*!
@@ -30,3 +32,5 @@ private:
     std::string name_;
 	std::string config_;
 };
+
+}

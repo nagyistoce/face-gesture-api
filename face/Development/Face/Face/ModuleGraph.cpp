@@ -11,6 +11,8 @@
 using namespace std;
 using namespace cv;
 
+namespace face 
+{
 
 ModuleGraph::ModuleGraph(void)
 {
@@ -107,4 +109,6 @@ void ModuleGraph::CheckModules(void)
                 CV_Error(-1, "Use of undefined children module in process.xml: " + itCpOut->first.GetFullName() + " -> " + itChild->GetFullName());
         }
     }
+}
+
 }

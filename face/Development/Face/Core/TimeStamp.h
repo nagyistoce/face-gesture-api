@@ -2,6 +2,8 @@
 
 #include "FaceDef.h"
 
+namespace face 
+{
 
 class TimeStamp
 {
@@ -38,3 +40,5 @@ private:
 	errno_t err_;
 	struct tm details_;
 };
+
+}

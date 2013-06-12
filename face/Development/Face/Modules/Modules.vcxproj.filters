@@ -84,6 +84,9 @@
     <ClCompile Include="HaarDetectorParam.cpp">
       <Filter>Modules\Module\HaarDetector</Filter>
     </ClCompile>
+    <ClCompile Include="SourceParam.cpp">
+      <Filter>Modules\Source\SingleSource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestAlgorithm.h">
@@ -133,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="HaarDetectorParam.h">
       <Filter>Modules\Module\HaarDetector</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceParam.h">
+      <Filter>Modules\Source\SingleSource</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

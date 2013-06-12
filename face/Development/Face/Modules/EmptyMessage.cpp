@@ -1,5 +1,7 @@
 #include "EmptyMessage.h"
 
+namespace face 
+{
 
 EmptyMessage::EmptyMessage(void)
 {
@@ -20,4 +22,6 @@ EmptyMessage::~EmptyMessage(void)
 EmptyMessage& EmptyMessage::operator=(EmptyMessage other)
 {
     return *this;
+}
+
 }

@@ -18,6 +18,9 @@
 
 #include "FaceDef.h"
 
+namespace face 
+{
+
 timeval operator+(timeval T1, timeval T2);
 timeval operator-(timeval T1, timeval T2);
 timeval operator+(timeval T1, long usec);
@@ -55,3 +58,5 @@ private:
 #endif
 
 };
+
+}

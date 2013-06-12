@@ -2,6 +2,9 @@
 
 using namespace std;
 
+namespace face 
+{
+
 PortNameParser::PortNameParser(const string& uri)
 {
     string tmp = uri;
@@ -72,4 +75,6 @@ const string& PortNameParser::GetInstanceName(void) const
 const string& PortNameParser::GetPort(void) const
 {
     return port_;
+}
+
 }

@@ -1,12 +1,13 @@
 <?xml version="1.0" ?>
 <opencv_storage>
-	<suite>"bkornel_branch_test"</suite>
-	<live>true</live>
-	<pufferSize>10</pufferSize>
-  
 	<flags>
 		<_>PauseOnEnd</_>
 	</flags>
+	
+	<values>
+		<live>false</live>
+		<bufferSize>2</bufferSize>
+	</values>
 
 	<!-- algorithms>
 		<_>

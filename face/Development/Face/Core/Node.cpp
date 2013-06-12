@@ -4,6 +4,8 @@
 
 using namespace std;
 
+namespace face 
+{
 
 tbb::flow::graph Node::graph;
 Node::NodeMap Node::nodeMap;
@@ -130,4 +132,6 @@ const string& Node::GetModuleName(void) const
 const string& Node::GetInstanceName(void) const
 {
     return instanceName_;
+}
+
 }
