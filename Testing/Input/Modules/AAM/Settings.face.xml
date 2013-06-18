@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<opencv_storage>
+	<aamModelFileName>"01.imm.2012.05.31.aam_ic"</aamModelFileName>
+		
+	<minWidth>50</minWidth>
+	<minHeight>50</minHeight>
+		
+	<scale>1.4</scale>
+	<minNeighbors>2</minNeighbors>
+	
+	<heightShift>0.15</heightShift>
+	<widthShift>0.0</widthShift>
+		
+	<verticalShrink>0.65</verticalShrink>
+	<horizontalShrink>0.65</horizontalShrink>
+</opencv_storage>

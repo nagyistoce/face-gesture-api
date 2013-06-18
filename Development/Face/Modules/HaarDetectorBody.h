@@ -37,6 +37,7 @@ public:
 
 private:
     virtual void Process(void);
+    void PartitionateFace(const cv::Rect& fullRect, cv::Rect* partitionRect);
 
     ImageMessage* imageMessageIn_;
 	ImageMessage* prevImageMessageIn_;

@@ -106,20 +106,21 @@ void HaarDetectorBody::Process(void)
 		Rect firstRect(0, 0, frameIn.cols, frameIn.rows);
 
 		if(rectangles.size() > 0)
-		{
-			firstRect = rectangles[0];
-			//if(rectangle.x < 0) rectangle.x = 0;
-			//if(rectangle.y < 0) rectangle.y = 0;
-			//if(rectangle.x + rectangle.width > frameIn.cols) rectangle.width = 
-		}
+            PartitionateFace(rectangles[0], &firstRect);
 
 		Mat frameInRect = frameIn(firstRect);
 		Mat normalizedRes(cvRound(frameInRect.rows * param_->imgScaleFactor), cvRound(frameInRect.cols * param_->imgScaleFactor), CV_8UC1);
 		resize(frameInRect, normalizedRes, normalizedRes.size());
 
 		objects_.clear();
-		cascade_.detectMultiScale(normalizedRes, objects_, param_->scaleFactor, 
-			param_->minNeighbors, param_->flags, param_->minSize, param_->maxSize
+		cascade_.detectMultiScale(
+            normalizedRes, 
+            objects_, 
+            param_->scaleFactor, 
+			param_->minNeighbors, 
+            param_->flags, 
+            param_->minSize, 
+            param_->maxSize
 		);
 
 		if(!objects_.empty())
@@ -131,7 +132,8 @@ void HaarDetectorBody::Process(void)
 				r->width = cvRound(r->width * param_->invImgScaleFactor);
 				r->height = cvRound(r->height * param_->invImgScaleFactor);
 
-				rectangle(outputFrame_, *r, Scalar(255, 0, 0), 2);
+				rectangle(outputFrame_, *r, Scalar(255.0, 0.0, 0.0), 2);
+                putText(outputFrame_, GetFullName(), r->tl(), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(255.0, 0.0, 0.0));
 			}
 		}
 	}
@@ -139,40 +141,77 @@ void HaarDetectorBody::Process(void)
 	{
 		const Mat& prevFrame = prevImageMessageIn_->Normalized();
 
-		vector<Point2f> prevPoints, nextPoints;
-		vector<Size> objSizes;
+		param_->ClearLKVectors();
 
 		for(vector<Rect>::const_iterator r = prevObjects_.begin(); r != prevObjects_.end(); r++)
 		{
-			prevPoints.push_back(Point(cvRound(r->x + r->width * 0.5), cvRound(r->y + r->height * 0.5)));
-			objSizes.push_back(r->size());
+			param_->prevPoints.push_back(Point(cvRound(r->x + r->width * 0.5), cvRound(r->y + r->height * 0.5)));
+			param_->objSizes.push_back(r->size());
 		}
 
-		vector<uchar> status;
-		vector<float> err;
-		calcOpticalFlowPyrLK(prevFrame, frameIn, prevPoints, nextPoints, status, err, 
-			param_->winSize, param_->maxLevel, param_->criteria, param_->LKflags, param_->minEigThreshold
+		calcOpticalFlowPyrLK(
+            prevFrame, frameIn, 
+            param_->prevPoints, param_->nextPoints, 
+            param_->status, param_->error, 
+			param_->winSize, 
+            param_->maxLevel, 
+            param_->criteria, 
+            param_->LKflags, 
+            param_->minEigThreshold
 		);
 
-		if(prevPoints.size() == nextPoints.size())
-		{
-			for(size_t i = 0; i < nextPoints.size(); i++)
-			{
-				Point tl(cvRound(nextPoints[i].x - objSizes[i].width * 0.5), cvRound(nextPoints[i].y - objSizes[i].height * 0.5));
-				Point br(cvRound(nextPoints[i].x + objSizes[i].width * 0.5), cvRound(nextPoints[i].y + objSizes[i].height * 0.5));
-				objects_[i] = Rect(tl, br);
-				rectangle(outputFrame_, objects_[i], Scalar(0, 0, 255), 2);
-			}
-		}
-		else
-		{
-			objects_.clear();
-		}
+        const vector<Point2f>& actPoints = (param_->prevPoints.size() == param_->nextPoints.size() ? param_->nextPoints : param_->prevPoints);
+        for(size_t i = 0; i < actPoints.size(); i++)
+        {
+            Point tl(cvRound(actPoints[i].x - param_->objSizes[i].width * 0.5), cvRound(actPoints[i].y - param_->objSizes[i].height * 0.5));
+            Point br(cvRound(actPoints[i].x + param_->objSizes[i].width * 0.5), cvRound(actPoints[i].y + param_->objSizes[i].height * 0.5));
+            objects_[i] = Rect(tl, br);
+
+            rectangle(outputFrame_, objects_[i], Scalar(0.0, 0.0, 255.0), 2);
+            putText(outputFrame_, GetFullName(), tl, FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0.0, 0.0, 255.0));
+        }
 	}
 
     IMSHOW(GetFullName(), outputFrame_);
 
     output_ = HasSuccessor() ? new RectangleMessage(objects_) : NULL;
+}
+
+
+void HaarDetectorBody::PartitionateFace(const cv::Rect& fullRect, cv::Rect* partitionRect)
+{
+    if(GetInstanceName() == "leftEye")
+    {
+        partitionRect->x = cvRound(fullRect.x + fullRect.width * 0.5);
+        partitionRect->y = cvRound(fullRect.y + fullRect.height * 0.1);
+        partitionRect->width = cvRound(fullRect.width * 0.5);
+        partitionRect->height = cvRound(fullRect.height * 0.5);
+    }
+    else if(GetInstanceName() == "rightEye")
+    {
+        partitionRect->x = fullRect.x;
+        partitionRect->y = cvRound(fullRect.y + fullRect.height * 0.1);
+        partitionRect->width = cvRound(fullRect.width * 0.5);
+        partitionRect->height = cvRound(fullRect.height * 0.5);
+    }
+    else if(GetInstanceName() == "nose")
+    {
+        partitionRect->x = cvRound(fullRect.x + fullRect.width * 0.15);
+        partitionRect->y = cvRound(fullRect.y + fullRect.height * 0.35);
+        partitionRect->width = cvRound(fullRect.width * 0.60);
+        partitionRect->height = cvRound(fullRect.height * 0.45);
+    }
+    else if(GetInstanceName() == "mouth")
+    {
+        partitionRect->x = cvRound(fullRect.x + fullRect.width * 0.10);
+        partitionRect->y = cvRound(fullRect.y + fullRect.height * 0.65);
+        partitionRect->width = cvRound(fullRect.width * 0.8);
+        partitionRect->height = cvRound(fullRect.height * 0.3);
+    }
+    else
+    {
+        *partitionRect = fullRect;
+    }
 }
 
 }
