@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{7f420edb-93c5-4307-ae33-904dd9c5ac5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Module">
+      <UniqueIdentifier>{0d2260a5-70da-40da-b52c-ac1680ddec30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Configuration">
+      <UniqueIdentifier>{27a9ff42-4031-44d7-83af-cb5ab9588f6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Exception">
+      <UniqueIdentifier>{abc9e5b0-3f43-4fcc-bc56-ea4dca2d23f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Message">
+      <UniqueIdentifier>{caff4256-1905-4df6-8e6d-e86f0d9c322f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Time">
+      <UniqueIdentifier>{f4e13218-2045-485d-8cee-a4f924d735b0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FaceDef.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Configuration.h">
+      <Filter>Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="StringBuilder.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Tracer.h">
+      <Filter>Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="ExceptionDescriptor.h">
+      <Filter>Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalSettings.h">
+      <Filter>Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="CallStackTrace.h">
+      <Filter>Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="Message.h">
+      <Filter>Message</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlReader.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="PortNameParser.h">
+      <Filter>Message</Filter>
+    </ClInclude>
+    <ClInclude Include="MetaData.h">
+      <Filter>Message</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeStamp.h">
+      <Filter>Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Time</Filter>
+    </ClInclude>
+    <ClInclude Include="StopwatchTimer.h">
+      <Filter>Time</Filter>
+    </ClInclude>
+    <ClInclude Include="GarbageCollector.h">
+      <Filter>Message</Filter>
+    </ClInclude>
+    <ClInclude Include="Body.h">
+      <Filter>Module</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Module</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Configuration.cpp">
+      <Filter>Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="StringBuilder.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Tracer.cpp">
+      <Filter>Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="ExceptionDescriptor.cpp">
+      <Filter>Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalSettings.cpp">
+      <Filter>Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="CallStackTrace.cpp">
+      <Filter>Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="Message.cpp">
+      <Filter>Message</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlReader.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="PortNameParser.cpp">
+      <Filter>Message</Filter>
+    </ClCompile>
+    <ClCompile Include="MetaData.cpp">
+      <Filter>Message</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeStamp.cpp">
+      <Filter>Time</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Time</Filter>
+    </ClCompile>
+    <ClCompile Include="StopwatchTimer.cpp">
+      <Filter>Time</Filter>
+    </ClCompile>
+    <ClCompile Include="GarbageCollector.cpp">
+      <Filter>Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Body.cpp">
+      <Filter>Module</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>Module</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

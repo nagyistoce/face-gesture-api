@@ -1,0 +1,3 @@
+http://www.mathworks.com/matlabcentral/fileexchange/6516-dynamic-time-warping
+http://www.mathworks.com/matlabcentral/fileexchange/16350-continuous-dynamic-time-warping/content/dtw.m
+http://mirlab.org/jang/matlab/toolbox/machineLearning/help/dtw_help.html

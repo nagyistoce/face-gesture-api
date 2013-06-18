@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="FaceComponents">
+      <UniqueIdentifier>{3bd1e10f-aa50-465a-86b8-25a2f642b9ae}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AlgorithmList.cpp">
+      <Filter>FaceComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="FaceController.cpp">
+      <Filter>FaceComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleGraph.cpp">
+      <Filter>FaceComponents</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AlgorithmList.h">
+      <Filter>FaceComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="FaceController.h">
+      <Filter>FaceComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleGraph.h">
+      <Filter>FaceComponents</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,3 @@
+https://github.com/berak/facereco
+http://wiki.videolan.org/Libvlc
+http://www.codeproject.com/Articles/38952/VLCWrapper-A-Little-C-wrapper-Around-libvlc

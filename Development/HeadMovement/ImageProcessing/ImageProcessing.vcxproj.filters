@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\FastFeature.cpp">
+      <Filter>LocalFeatures</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LocalFeature.cpp">
+      <Filter>LocalFeatures</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MserFeature.cpp">
+      <Filter>LocalFeatures</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OrbFeature.cpp">
+      <Filter>LocalFeatures</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SiftFeature.cpp">
+      <Filter>LocalFeatures</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StarFeature.cpp">
+      <Filter>LocalFeatures</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SurfFeature.cpp">
+      <Filter>LocalFeatures</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GlobalFeature.cpp">
+      <Filter>GlobalFeatures</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LbpFeature.cpp">
+      <Filter>GlobalFeatures</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HaarDetector.cpp">
+      <Filter>Detector</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MotionHistory.cpp">
+      <Filter>Tracker</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PointTracker.cpp">
+      <Filter>Tracker</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DTW.cpp">
+      <Filter>DTW</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Similarity.cpp">
+      <Filter>DTW</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\FastFeature.h">
+      <Filter>LocalFeatures</Filter>
+    </ClInclude>
+    <ClInclude Include="include\LocalFeature.h">
+      <Filter>LocalFeatures</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MserFeature.h">
+      <Filter>LocalFeatures</Filter>
+    </ClInclude>
+    <ClInclude Include="include\OrbFeature.h">
+      <Filter>LocalFeatures</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SiftFeature.h">
+      <Filter>LocalFeatures</Filter>
+    </ClInclude>
+    <ClInclude Include="include\StarFeature.h">
+      <Filter>LocalFeatures</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SurfFeature.h">
+      <Filter>LocalFeatures</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GlobalFeature.h">
+      <Filter>GlobalFeatures</Filter>
+    </ClInclude>
+    <ClInclude Include="include\LbpFeature.h">
+      <Filter>GlobalFeatures</Filter>
+    </ClInclude>
+    <ClInclude Include="include\HaarDetector.h">
+      <Filter>Detector</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MotionHistory.h">
+      <Filter>Tracker</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PointTracker.h">
+      <Filter>Tracker</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DTW.h">
+      <Filter>DTW</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Similarity.h">
+      <Filter>DTW</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Detector">
+      <UniqueIdentifier>{76d660d1-df74-4232-80cd-05a29a504933}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tracker">
+      <UniqueIdentifier>{f8860d88-b60a-4009-8297-b38e8b9046ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GlobalFeatures">
+      <UniqueIdentifier>{a5d30407-3312-4cd2-ad85-852951c415d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LocalFeatures">
+      <UniqueIdentifier>{94f8dc7f-d742-4793-ada9-bb1468169318}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sequences">
+      <UniqueIdentifier>{0d5f255d-fb0f-4cfc-9c36-5efddd397827}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DTW">
+      <UniqueIdentifier>{a53b6358-2c30-48ff-a6ba-6085a99b9522}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

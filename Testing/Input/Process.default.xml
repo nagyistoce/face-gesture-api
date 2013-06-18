@@ -1,12 +1,13 @@
 <?xml version="1.0" ?>
 <opencv_storage>
-	<suite>"bkornel_branch_test"</suite>
-	<live>true</live>
-	<pufferSize>10</pufferSize>
-  
 	<flags>
 		<_>PauseOnEnd</_>
 	</flags>
+	
+	<values>
+		<live>false</live>
+		<bufferSize>2</bufferSize>
+	</values>
 
 	<!-- algorithms>
 		<_>
@@ -29,8 +30,8 @@
 			<module>SourceLimiter.front</module>
 			<to>
 				<_>HaarDetector.face:image</_>
-				<!--_>HaarDetector.leftEye:image</_>
-				<_>HaarDetector.rightEye:image</_>
+				<_>HaarDetector.leftEye:image</_>
+				<!--_>HaarDetector.rightEye:image</_>
 				<_>HaarDetector.nose:image</_>
 				<_>HaarDetector.mouth:image</_-->
 				<_>Empty.face:image</_>
@@ -44,16 +45,16 @@
 		
 		<_>
 			<module>HaarDetector.face</module>
-			<!--to>
+			<to>
 				<_>HaarDetector.leftEye:rectangle</_>
-				<_>HaarDetector.rightEye:rectangle</_>
+				<!--_>HaarDetector.rightEye:rectangle</_>
 				<_>HaarDetector.nose:rectangle</_>
-				<_>HaarDetector.mouth:rectangle</_>
-			</to-->
+				<_>HaarDetector.mouth:rectangle</_-->
+			</to>
 		</_>
 		
-		<!--_><module>HaarDetector.leftEye</module></_>
-		<_><module>HaarDetector.rightEye</module></_>
+		<_><module>HaarDetector.leftEye</module></_>
+		<!--_><module>HaarDetector.rightEye</module></_>
 		<_><module>HaarDetector.nose</module></_>
 		<_><module>HaarDetector.mouth</module></_-->
 	</tasks>
