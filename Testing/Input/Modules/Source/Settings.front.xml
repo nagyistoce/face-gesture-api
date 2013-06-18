@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<opencv_storage>
+	<name>"front"</name>
+	<type>"cameraFront"</type>
+	<width>1280</width>
+	<height>720</height>
+	<fps>30</fps>
+</opencv_storage>

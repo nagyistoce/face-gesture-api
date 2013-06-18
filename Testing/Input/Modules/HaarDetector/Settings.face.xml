@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<opencv_storage>
+	<cascadeName>"haarcascade_frontalface_alt.xml"</cascadeName>
+	<scaleFactor>1.1</scaleFactor>
+	<imgScaleFactor>0.5</imgScaleFactor>
+	<minNeighbors>2</minNeighbors>
+	
+<!-- 
+CV_HAAR_DO_CANNY_PRUNING: 		1
+CV_HAAR_SCALE_IMAGE: 			2
+CV_HAAR_FIND_BIGGEST_OBJECT: 	4
+CV_HAAR_DO_ROUGH_SEARCH: 		8
+-->
+	<flags>16</flags>
+	
+	<minWidth>50</minWidth>
+	<minHeight>50</minHeight>
+	
+	<!--maxWidth>500</maxWidth>
+	<maxHeight>500</maxHeight-->
+</opencv_storage>
