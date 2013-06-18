@@ -2,8 +2,6 @@
 
 using namespace std;
 
-namespace face 
-{
 
 ExceptionDescriptor::ExceptionDescriptor(
 	const string& error,
@@ -58,6 +56,4 @@ void ExceptionDescriptor::TraceError(void) throw()
 		cerr << "  Line number     : " << line_     << endl; 
 		cerr << "  Warning Message : " << error_    << endl; 
 	}
-}
-
 }

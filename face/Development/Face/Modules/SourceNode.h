@@ -6,8 +6,6 @@
 #include "FaceDef.h"
 #include "PortNameParser.h"
 
-namespace face 
-{
 
 class SourceBody;
 
@@ -30,5 +28,3 @@ private:
 	SourceBody* sourceBody_;
 	SourceNodeType* sourceNode_;
 };
-
-}

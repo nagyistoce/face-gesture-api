@@ -2,8 +2,6 @@
 
 #include "FaceDef.h"
 
-namespace face 
-{
 
 //! Abstract class for passing messages from Publisher to Subscriber objects.
 /*!
@@ -19,5 +17,3 @@ public:
 	//! Destructor.
 	virtual ~Message(void);
 };
-
-}

@@ -17,9 +17,6 @@ using namespace std;
 using namespace cv;
 
 
-namespace face 
-{
-
 FaceController::FaceController(void)
 {
 }
@@ -45,7 +42,7 @@ void FaceController::LoadFromProcessXml(void)
 
 void FaceController::LoadDefaultSettings(const FileStorage& fileStorage) 
 {
-    //bool live = XmlReader::ReadBool(fileStorage.root(), "live", true);
+    bool live = XmlReader::ReadBool(fileStorage.root(), "live", true);
     //SuitePtr->SetMode(live, record);
 
     GlobalSettingsPtr->LoadFlags(fileStorage["flags"]);
@@ -55,7 +52,10 @@ void FaceController::LoadDefaultSettings(const FileStorage& fileStorage)
     if(suiteName.isNone() == false)
     {
         ASSERT(string(suiteName).empty() == false);
+        //SuitePtr->LoadSuiteFromXml(GlobalConfigPtr->GetDirectories().inputOutput + string(suiteName) + "/");
     }
+
+    //GlobalSettingsPtr->GetEditableProcessXml().dolMehaBufferSize = XmlReader::ReadInt(fileStorage.root(), "dolMehaBufferSize", 10);
 }
 
 
@@ -95,6 +95,4 @@ void FaceController::ExecuteModuleGraph(void)
     LOG("::Start ModuleGraph::");
     ModuleFactoryPtr->Run();
     LOG("::End ModuleGraph::");
-}
-
 }

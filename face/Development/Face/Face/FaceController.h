@@ -6,8 +6,6 @@
 #include "ModuleGraph.h"
 #include "AlgorithmList.h"
 
-namespace face 
-{
 
 class FaceController
 {
@@ -42,5 +40,3 @@ private:
 	ModuleGraph moduleGraph_; //!< Module graph.
 	AlgorithmList algorithmList_; //!< Preprocessor object
 };
-
-}

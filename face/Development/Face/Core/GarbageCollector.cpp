@@ -2,9 +2,6 @@
 #include "Tracer.h"
 #include "Message.h"
 
-namespace face 
-{
-
 GarbageCollector* GarbageCollector::instance_ = NULL;
 tbb::mutex GarbageCollector::mutex_;
 
@@ -127,6 +124,4 @@ void GarbageCollector::EraseEntry(Message* input)
 
 	garbageContainer_.erase(input);
     delete input;
-}
-
 }

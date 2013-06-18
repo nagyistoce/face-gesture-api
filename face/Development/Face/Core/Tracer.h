@@ -9,9 +9,6 @@
 #include "ExceptionDescriptor.h"
 #include "CallStackTrace.h"
 
-namespace face 
-{
-
 #define LOG(message) static_cast<void>(Tracer::GetInstance()->Log((StringBuilder() + message), __FILE__, __FUNCTION__, __LINE__))
 #define ASSERT(object) static_cast<void>(!(object) ? (Tracer::GetInstance()->Log(("Assertion failed: " #object), __FILE__, __FUNCTION__, __LINE__), throw (ExceptionError("Assertion failed: '" #object "'!"))) : 0)
 #define IMSHOW(windowName, image) static_cast<void>(Tracer::GetInstance()->ImShow(windowName, image))
@@ -87,5 +84,3 @@ private:
 	std::string logHeader_;
 	std::vector<LogStream> logs_;
 };
-
-}

@@ -5,8 +5,6 @@
 
 #include "FaceDef.h"
 
-namespace face 
-{
 
 //! Simple templated string concatenator.
 /*!
@@ -45,5 +43,3 @@ public:
 private:
 	std::ostringstream stream_;
 };
-
-}

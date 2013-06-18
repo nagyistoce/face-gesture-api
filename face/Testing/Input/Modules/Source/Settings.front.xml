@@ -1,12 +1,8 @@
 <?xml version="1.0" ?>
 <opencv_storage>
-	<name>logitechFront</name>
-	<position>front</position>
-
-	<cameraId>0</cameraId>
-	<videoFileName>test.01.avi</videoFileName>
-	
-	<width>640.0</width>
-	<height>480.0</height>
-	<fps>30.0</fps>
+	<name>"front"</name>
+	<type>"cameraFront"</type>
+	<width>1280</width>
+	<height>720</height>
+	<fps>30</fps>
 </opencv_storage>

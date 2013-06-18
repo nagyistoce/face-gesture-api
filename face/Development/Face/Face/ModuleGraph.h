@@ -4,9 +4,6 @@
 
 #include "PortNameParser.h"
 
-namespace face 
-{
-
 //! Module graph
 /*!
 	\ingroup ControlLayer
@@ -36,5 +33,3 @@ private:
 
 	VertexContainer modules_;
 };
-
-}

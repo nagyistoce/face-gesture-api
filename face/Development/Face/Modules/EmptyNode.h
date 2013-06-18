@@ -6,8 +6,6 @@
 #include "FaceDef.h"
 #include "PortNameParser.h"
 
-namespace face 
-{
 
 class EmptyBody;
 
@@ -28,5 +26,3 @@ private:
     EmptyBody* emptyBody_; 
     FunctionNode1Type* functionNode_; 
 };
-
-}

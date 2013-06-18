@@ -8,8 +8,6 @@
 
 using namespace std;
 
-namespace face 
-{
 
 AlgorithmList::AlgorithmList(void)
 {
@@ -33,6 +31,4 @@ void AlgorithmList::BuildFromFileNode(const cv::FileNode& node)
 
         AlgorithmFactoryPtr->Push(details.name, details.config);
 	}
-}
-
 }

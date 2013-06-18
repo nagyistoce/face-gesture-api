@@ -6,8 +6,6 @@
 #include "FaceDef.h"
 #include "PortNameParser.h"
 
-namespace face 
-{
 
 class HaarDetectorBody;
 
@@ -29,5 +27,3 @@ private:
     FunctionNode2Type* functionNode2_;
     JoinNode2Type* joinNode2_;
 };
-
-}

@@ -6,9 +6,6 @@
 using namespace std;
 using namespace tbb::flow;
 
-namespace face 
-{
-
 AlgorithmFactory* AlgorithmFactory::instance_ = NULL;
 tbb::mutex AlgorithmFactory::mutex_;
 
@@ -60,6 +57,4 @@ void AlgorithmFactory::Release(void)
 
     for(int i = 0; i < int(continueNodes_.size()); i++)
         delete continueNodes_[i];
-}
-
 }

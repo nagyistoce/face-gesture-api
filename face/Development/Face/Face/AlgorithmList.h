@@ -4,9 +4,6 @@
 #include <vector>
 #include <opencv2/core/core.hpp>
 
-namespace face 
-{
-
 //! Algorithm list
 /*!
 	\ingroup ControlLayer
@@ -33,5 +30,3 @@ protected:
 
 	std::vector<Details> algorithmList_;
 };
-
-}

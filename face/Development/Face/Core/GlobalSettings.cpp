@@ -6,13 +6,12 @@
 #include "ExceptionDescriptor.h"
 #include "Tracer.h"
 
-using namespace std;
-
-namespace face 
-{
 
 GlobalSettings* GlobalSettings::instance_ = NULL;
 tbb::mutex GlobalSettings::mutex_;
+
+
+using namespace std;
 
 
 GlobalSettings::GlobalSettings(void)
@@ -73,7 +72,6 @@ void GlobalSettings::SetLocalSettingsFilePath(const string& filePath)
     directories_.resource = directories_.data + "Resources/";
     directories_.source = directories_.input + "Source/";
     directories_.moduleSettings = directories_.input + "Modules/";
-	directories_.videoInput = directories_.input + "Videos/";
 
     Tracer::GetInstance()->SetOutputDirectory(directories_.output);
 }
@@ -82,6 +80,4 @@ void GlobalSettings::SetLocalSettingsFilePath(const string& filePath)
 void GlobalSettings::SetProcessXml(const std::string& processXml)
 {
     processXml_ = directories_.input + processXml;
-}
-
 }

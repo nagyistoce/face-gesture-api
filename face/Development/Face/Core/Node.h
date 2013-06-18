@@ -7,8 +7,6 @@
 #include "Body.h"
 #include "PortNameParser.h"
 
-namespace face 
-{
 
 class Message;
 
@@ -67,5 +65,3 @@ protected:
     PortNameMap outputPortNameMap_;
     NodeMap predecessorMap_;
 };
-
-}

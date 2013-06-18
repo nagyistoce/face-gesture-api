@@ -5,8 +5,6 @@
 #include "PortNameParser.h"
 #include "Node.h"
 
-namespace face 
-{
 
 class ImageMessage;
 
@@ -37,5 +35,3 @@ private:
 
     ImageMessage* imageWrapperIn_;
 };
-
-}

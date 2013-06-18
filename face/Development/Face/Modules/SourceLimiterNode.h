@@ -6,8 +6,6 @@
 #include "FaceDef.h"
 #include "PortNameParser.h"
 
-namespace face 
-{
 
 class LimitDecrementerBody;
 
@@ -32,5 +30,3 @@ private:
 	LimiterNodeType* limiterNode_;
     MultiNodeContinueType* limitDecrementerNode_;
 };
-
-}

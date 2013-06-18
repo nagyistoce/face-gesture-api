@@ -18,7 +18,6 @@
     <ClCompile Include="EmptyNode.cpp" />
     <ClCompile Include="HaarDetectorBody.cpp" />
     <ClCompile Include="HaarDetectorNode.cpp" />
-    <ClCompile Include="HaarDetectorParam.cpp" />
     <ClCompile Include="ImageMessage.cpp" />
     <ClCompile Include="ModuleFactory.cpp" />
     <ClCompile Include="RectangleMessage.cpp" />
@@ -26,7 +25,6 @@
     <ClCompile Include="LimitDecrementerBody.cpp" />
     <ClCompile Include="SourceLimiterNode.cpp" />
     <ClCompile Include="SourceNode.cpp" />
-    <ClCompile Include="SourceParam.cpp" />
     <ClCompile Include="TestAlgorithm.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -37,7 +35,6 @@
     <ClInclude Include="EmptyNode.h" />
     <ClInclude Include="HaarDetectorBody.h" />
     <ClInclude Include="HaarDetectorNode.h" />
-    <ClInclude Include="HaarDetectorParam.h" />
     <ClInclude Include="ImageMessage.h" />
     <ClInclude Include="ModuleFactory.h" />
     <ClInclude Include="RectangleMessage.h" />
@@ -45,7 +42,6 @@
     <ClInclude Include="LimitDecrementerBody.h" />
     <ClInclude Include="SourceLimiterNode.h" />
     <ClInclude Include="SourceNode.h" />
-    <ClInclude Include="SourceParam.h" />
     <ClInclude Include="TestAlgorithm.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

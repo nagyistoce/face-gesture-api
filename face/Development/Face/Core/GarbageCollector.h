@@ -8,9 +8,6 @@
 
 #include "PortNameParser.h"
 
-namespace face 
-{
-
 #define GarbageCollectorPtr GarbageCollector::GetInstance()
 
 
@@ -57,5 +54,3 @@ private:
     InputMap inputMap_;
     GarbageContainer garbageContainer_;
 };
-
-}

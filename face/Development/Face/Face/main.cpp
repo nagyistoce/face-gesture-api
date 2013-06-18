@@ -9,7 +9,6 @@
 
 using namespace std;
 using namespace cv;
-using namespace face;
 
 
 int main(int argc, char** argv)

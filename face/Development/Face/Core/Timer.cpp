@@ -12,13 +12,12 @@
 // Copyright (c) 2003 Song Ho Ahn
 //////////////////////////////////////////////////////////////////////////////
 
+#define WIN32 1
+
 #include <cstdlib>
 #include <cmath>
 #include "Timer.h"
 
-namespace face 
-{
-#define WIN32 1
 
 ///////////////////////////////////////////////////////////////////////////////
 // constructor
@@ -195,6 +194,4 @@ timeval operator-(timeval T1, long usec)
 	tvTempTime.tv_usec = usec - 1000 * tvTempTime.tv_sec;
 
 	return T1 - tvTempTime;
-}
-
 }

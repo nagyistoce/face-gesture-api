@@ -6,8 +6,6 @@
 using namespace std;
 using namespace tbb::flow;
 
-namespace face 
-{
 
 EmptyNode::EmptyNode(const VertexElement& vertexElement)
 :	Node(vertexElement),
@@ -58,6 +56,4 @@ void EmptyNode::DefinePorts(void)
 Node::FunctionNode1Type* EmptyNode::GetFunctionNode(void)
 {
     return functionNode_;
-}
-
 }

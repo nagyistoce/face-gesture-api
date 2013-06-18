@@ -5,12 +5,8 @@
 #include "FaceDef.h"
 #include "PortNameParser.h"
 
-namespace face 
-{
 
 class ImageMessage;
-class RectangleMessage;
-class HaarDetectorParam;
 
 class HaarDetectorBody
 :   public Body
@@ -38,13 +34,22 @@ public:
 private:
     virtual void Process(void);
 
-    ImageMessage* imageMessageIn_;
+    ImageMessage* imageWrapperIn_;
 	ImageMessage* prevImageMessageIn_;
-	RectangleMessage* rectangleMessageIn_;
-	HaarDetectorParam* param_;
 
     cv::CascadeClassifier cascade_;
-	std::vector<cv::Rect> prevObjects_, objects_;
-};
 
-}
+    std::string cascadeName_;
+    double scaleFactor_;
+	double imgScaleFactor_;
+	double invImgScaleFactor_;
+    int minNeighbors_;
+    int flags_;
+    cv::Size minSize_;
+    cv::Size maxSize_;
+
+	cv::Mat grayFrame_; 
+	cv::Mat normalizedImage_;
+
+	std::vector<cv::Rect> objects_;
+};

@@ -13,9 +13,6 @@ namespace cv
 }
 
 
-namespace face 
-{
-
 //! Xml Reader
 /*!
 	Wraps and extends the functionality of cv::FileStorage.
@@ -61,5 +58,3 @@ private:
 	std::string errorMsg_;
 	bool onErrorTerminate_;
 };
-
-}

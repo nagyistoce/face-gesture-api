@@ -10,9 +10,6 @@ namespace cv
 	class FileNode;
 }
 
-namespace face 
-{
-
 //! Configuration storage
 /*!
 	Provides configuration-like accessible storage functionality
@@ -61,5 +58,3 @@ private:
 	std::vector<std::string> flags_;
 	std::vector<ValueDetails> values_;
 };
-
-}

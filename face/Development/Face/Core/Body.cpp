@@ -8,8 +8,6 @@
 
 using namespace std;
 
-namespace face 
-{
 
 Body::Body(const VertexElement& vertexElement)
 :	moduleName_(vertexElement.first.GetModuleName()),
@@ -117,6 +115,4 @@ const cv::FileStorage& Body::GetModulConfigurationFs(void) const
 {
     ASSERT(configurationFs_.isOpened());
     return configurationFs_;
-}
-
 }

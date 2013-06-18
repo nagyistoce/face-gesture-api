@@ -8,8 +8,6 @@
 using namespace std;
 using namespace tbb::flow;
 
-namespace face 
-{
 
 HaarDetectorNode::HaarDetectorNode(const VertexElement& vertexElement)
 :	Node(vertexElement),
@@ -31,6 +29,10 @@ HaarDetectorNode::~HaarDetectorNode(void)
 
 void HaarDetectorNode::BuildNode(const VertexContainer& modules)
 {
+    CollectPredecessors(modules);
+    DefinePorts();
+    CheckPorts();
+
     functionNode2_ = new FunctionNode2Type(Node::graph, tbb::flow::serial, *haarDetectorBody_);
     joinNode2_ = new JoinNode2Type(Node::graph);
 }
@@ -82,6 +84,4 @@ void HaarDetectorNode::DefinePorts(void)
 Node::FunctionNode2Type* HaarDetectorNode::GetFunction2Node(void)
 {
     return functionNode2_;
-}
-
 }

@@ -1,7 +1,5 @@
 #include "Algorithm.h"
 
-namespace face 
-{
 
 Algorithm::Algorithm(const std::string& name, const std::string& config)
 :   name_(name),	
@@ -24,6 +22,4 @@ const std::string& Algorithm::GetName(void) const
 const std::string& Algorithm::GetConfig(void) const
 {
 	return config_;
-}
-
 }

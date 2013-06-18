@@ -6,8 +6,6 @@
 #include "FaceDef.h"
 #include "Algorithm.h"
 
-namespace face 
-{
 
 class TestAlgorithm 
 :	public Algorithm
@@ -18,5 +16,3 @@ public:
 
     void operator() (tbb::flow::continue_msg) const;
 };
-
-}

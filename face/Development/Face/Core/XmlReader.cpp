@@ -11,8 +11,6 @@
 using namespace std;
 using namespace cv;
 
-namespace face 
-{
 
 XmlReader::XmlReader(const string& filePath, bool onErrorTerminate)
 :	valid_(false),
@@ -232,6 +230,4 @@ void XmlReader::OnValidationFinished(void)
 		throw ExceptionError(message);
 	else
 		LOG("Warning - " + message);
-}
-
 }
