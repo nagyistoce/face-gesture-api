@@ -122,14 +122,14 @@ namespace face
     void AAMBody::Process(void)
     {
         const vector<Rect>& rectangles = rectangleMessageIn_->GetRectangles();
-        outputFrame_ = imageMessageIn_->Gray().clone();
+        outputFrame_ = imageMessageIn_->Rgb().clone();
 
         if(rectangles.size() > 0)
         {
             param_->boundingBox = rectangles[0];
 
-            if(param_->prevBoundingBox != Rect())
-                SmoothBoundingBox();
+            //if(param_->prevBoundingBox != Rect())
+            //    SmoothBoundingBox();
 
             Fit();
 
@@ -176,14 +176,27 @@ namespace face
 
     AAM_Shape AAMBody::InitShape(const AAM_Shape& pMeanShape)
     {
+        cv::Size imgSize = imageMessageIn_->GetSize();
         AAM_Shape detShape;
         AAM_Shape startShape;
 
         detShape.resize(2);
-        detShape[0].x = param_->boundingBox.x;
-        detShape[0].y = param_->boundingBox.y;
+
+        detShape[0].x = param_->boundingBox.x < 0 ? 0 : param_->boundingBox.x;
+        detShape[0].y = param_->boundingBox.y < 0 ? 0 : param_->boundingBox.y;
+        if(detShape[0].x > imgSize.width)
+            detShape[0].x = imgSize.width - param_->boundingBox.width;
+        if(detShape[0].y > imgSize.height)
+            detShape[0].y = imgSize.height - param_->boundingBox.height;
+
+
         detShape[1].x = detShape[0].x + param_->boundingBox.width;
         detShape[1].y = detShape[0].y + param_->boundingBox.height;
+        if(detShape[1].x > imgSize.width)
+            detShape[1].x = imgSize.width - param_->boundingBox.width;
+        if(detShape[1].y > imgSize.height)
+            detShape[1].y = imgSize.height - param_->boundingBox.height;
+
 
         AdjustShape(detShape);
         AlignShape(startShape, detShape, pMeanShape);

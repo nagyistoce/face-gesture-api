@@ -70,6 +70,12 @@ const MetaData& ImageMessage::GetMetaData(void) const
 }
 
 
+cv::Size ImageMessage::GetSize(void) const
+{
+    return rgb_.size();
+}
+
+
 int ImageMessage::GetWidth(void) const
 {
 	return rgb_.cols;

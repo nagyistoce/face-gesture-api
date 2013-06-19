@@ -63,7 +63,7 @@ void AAM_IC::Fit(const IplImage* image, AAM_Shape& Shape, int max_iter, bool sho
 
 			Shape.Mat2Point(__current_s);
 			Draw(Drawimg, 2);
-			sprintf(filename, "result/Iter-%02d.jpg", iter);
+			sprintf(filename, "Iter-%02d.jpg", iter);
 
 			cvSaveImage(filename, Drawimg);
 			cvReleaseImage(&Drawimg);
@@ -116,8 +116,11 @@ void AAM_IC::Fit(const IplImage* image, AAM_Shape& Shape, int max_iter, bool sho
 	Shape.Point2Mat(__current_s);
 	t = curtime - t;
 
-	cout << "AAM-IC Fitting time cost: " << t << " millisec." << endl;
-	cout << "Number of iterations: " << iter << "." << endl;
+    if(showprocess)
+    {
+	    cout << "AAM-IC Fitting time cost: " << t << " milliseconds." << endl;
+	    cout << "Number of iterations: " << iter << "." << endl;
+    }
 }
 
 void AAM_IC::SetAllParamsZero()

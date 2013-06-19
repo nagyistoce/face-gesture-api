@@ -5,7 +5,7 @@
 	</flags>
 	
 	<values>
-		<live>false</live>
+		<live>true</live>
 		<bufferSize>2</bufferSize>
 	</values>
 
@@ -30,10 +30,10 @@
 			<module>SourceLimiter.front</module>
 			<to>
 				<_>HaarDetector.face:image</_>
-				<_>HaarDetector.leftEye:image</_>
+				<!--_>HaarDetector.leftEye:image</_>
 				<_>HaarDetector.rightEye:image</_>
 				<_>HaarDetector.nose:image</_>
-				<_>HaarDetector.mouth:image</_>
+				<_>HaarDetector.mouth:image</_-->
 				<_>Empty.face:image</_>
 				<_>AAM.face:image</_>
 			</to>
@@ -47,18 +47,18 @@
 		<_>
 			<module>HaarDetector.face</module>
 			<to>
-				<_>HaarDetector.leftEye:rectangle</_>
+				<!--_>HaarDetector.leftEye:rectangle</_>
 				<_>HaarDetector.rightEye:rectangle</_>
 				<_>HaarDetector.nose:rectangle</_>
-				<_>HaarDetector.mouth:rectangle</_>
+				<_>HaarDetector.mouth:rectangle</_-->
 				<_>AAM.face:rectangle</_>
 			</to>
 		</_>
 		
-		<_><module>HaarDetector.leftEye</module></_>
+		<!--_><module>HaarDetector.leftEye</module></_>
 		<_><module>HaarDetector.rightEye</module></_>
 		<_><module>HaarDetector.nose</module></_>
-		<_><module>HaarDetector.mouth</module></_>
+		<_><module>HaarDetector.mouth</module></_-->
 		
 		<_><module>AAM.face</module></_>
 	</tasks>

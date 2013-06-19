@@ -26,6 +26,7 @@ public:
 
     const MetaData& GetMetaData(void) const;
 
+    cv::Size GetSize(void) const;
 	int GetWidth(void) const;
 	int GetHeight(void) const;
 
