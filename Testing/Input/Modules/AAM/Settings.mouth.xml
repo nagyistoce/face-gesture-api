@@ -2,15 +2,12 @@
 <opencv_storage>
 	<aamModelFileName>"04.mouth.color.2012.01.10.aam_basic"</aamModelFileName>
 		
-	<minWidth>5</minWidth>
-	<minHeight>5</minHeight>
-		
-	<scale>1.1</scale>
-	<minNeighbors>7</minNeighbors>
-		
 	<heightShift>0.1</heightShift>
 	<widthShift>0.0</widthShift>
 		
 	<verticalShrink>0.8</verticalShrink>
 	<horizontalShrink>1.0</horizontalShrink>
+	
+	<!-- DRAW_POINT, DRAW_TRIANGLE, DRAW_APPEARANCE -->
+	<drawStyle>"DRAW_POINT"</drawStyle>
 </opencv_storage>

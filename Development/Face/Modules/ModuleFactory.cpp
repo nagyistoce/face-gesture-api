@@ -6,6 +6,7 @@
 #include "HaarDetectorNode.h"
 #include "SourceLimiterNode.h"
 #include "EmptyNode.h"
+#include "AAMNode.h"
 
 using namespace std;
 using namespace tbb::flow;
@@ -42,6 +43,7 @@ ModuleFactory::~ModuleFactory(void)
 
 void ModuleFactory::CreateGraph(const VertexContainer& modules)
 {
+
     for(VertexContainer::const_iterator it = modules.begin(); it != modules.end(); it++)
     {
         const string& moduleName = it->first.GetModuleName();
@@ -55,6 +57,8 @@ void ModuleFactory::CreateGraph(const VertexContainer& modules)
             node = new SourceLimiterNode(*it);
         else if(moduleName == "Empty")
             node = new EmptyNode(*it);
+        else if(moduleName == "AAM")
+            node = new AAMNode(*it);
         else
             CV_Error(-1, "Undefined module name in process.xml: " + moduleName + ".");
 

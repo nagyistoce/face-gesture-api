@@ -34,6 +34,9 @@
     <Filter Include="Modules\Module\Empty">
       <UniqueIdentifier>{4d5ce4d4-84ba-4b2c-ae7a-50f5880538a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Modules\Module\AAM">
+      <UniqueIdentifier>{a29b3bbc-0a2f-4d8d-a6ec-12e0a8c81792}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TestAlgorithm.cpp">
@@ -87,6 +90,15 @@
     <ClCompile Include="SourceParam.cpp">
       <Filter>Modules\Source\SingleSource</Filter>
     </ClCompile>
+    <ClCompile Include="AAMNode.cpp">
+      <Filter>Modules\Module\AAM</Filter>
+    </ClCompile>
+    <ClCompile Include="AAMBody.cpp">
+      <Filter>Modules\Module\AAM</Filter>
+    </ClCompile>
+    <ClCompile Include="AAMParam.cpp">
+      <Filter>Modules\Module\AAM</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestAlgorithm.h">
@@ -139,6 +151,15 @@
     </ClInclude>
     <ClInclude Include="SourceParam.h">
       <Filter>Modules\Source\SingleSource</Filter>
+    </ClInclude>
+    <ClInclude Include="AAMNode.h">
+      <Filter>Modules\Module\AAM</Filter>
+    </ClInclude>
+    <ClInclude Include="AAMBody.h">
+      <Filter>Modules\Module\AAM</Filter>
+    </ClInclude>
+    <ClInclude Include="AAMParam.h">
+      <Filter>Modules\Module\AAM</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

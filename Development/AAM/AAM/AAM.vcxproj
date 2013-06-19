@@ -11,18 +11,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{410D0F43-08BF-4FBA-8BF4-663C02BC09F0}</ProjectGuid>
+    <ProjectGuid>{3D96E962-9873-468B-ADE3-43D6B35ECB4F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Face</RootNamespace>
+    <RootNamespace>AAM</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
@@ -39,60 +39,66 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <TargetName>$(ProjectName)d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Core;$(SolutionDir)\Modules;$(SolutionDir)\Resources\OpenCV.2.4.4\include;$(SolutionDir)\Resources\tbb41\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Face\Resources\OpenCV.2.4.4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)\Resources\OpenCV.2.4.4\lib;$(SolutionDir)\Resources\tbb41\lib\ia32\vc10;$(SolutionDir)\Resources\AAM\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Core.lib;Modules.lib;opencv_core244d.lib;opencv_highgui244d.lib;opencv_objdetect244d.lib;opencv_imgproc244d.lib;opencv_video244d.lib;tbb_debug.lib;AAMd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\Face\Resources\OpenCV.2.4.4\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_core244d.lib;opencv_imgproc244d.lib;opencv_highgui244d.lib;opencv_legacy244d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>"..\Resources\BuildEvents\Post_Build_Debug.bat"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Core;$(SolutionDir)\Modules;$(SolutionDir)\Resources\OpenCV.2.4.4\include;$(SolutionDir)\Resources\tbb41\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Face\Resources\OpenCV.2.4.4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>Core.lib;Modules.lib;opencv_core244.lib;opencv_highgui244.lib;opencv_objdetect244.lib;opencv_imgproc244.lib;opencv_video244.lib;AAM.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)\Resources\OpenCV.2.4.4\lib;$(SolutionDir)\Resources\tbb41\lib\ia32\vc10;$(SolutionDir)\Resources\AAM\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\Face\Resources\OpenCV.2.4.4\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_core244.lib;opencv_imgproc244.lib;opencv_highgui244.lib;opencv_legacy244.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>"..\Resources\BuildEvents\Post_Build_Release.bat"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AlgorithmList.cpp" />
-    <ClCompile Include="FaceController.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="ModuleGraph.cpp" />
+    <ClCompile Include="AAM_Basic.cpp" />
+    <ClCompile Include="AAM_CAM.cpp" />
+    <ClCompile Include="AAM_IC.cpp" />
+    <ClCompile Include="AAM_PAW.cpp" />
+    <ClCompile Include="AAM_PDM.cpp" />
+    <ClCompile Include="AAM_Shape.cpp" />
+    <ClCompile Include="AAM_TDM.cpp" />
+    <ClCompile Include="AAM_Util.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AlgorithmList.h" />
-    <ClInclude Include="FaceController.h" />
-    <ClInclude Include="ModuleGraph.h" />
+    <ClInclude Include="AAM_Basic.h" />
+    <ClInclude Include="AAM_CAM.h" />
+    <ClInclude Include="AAM_IC.h" />
+    <ClInclude Include="AAM_PAW.h" />
+    <ClInclude Include="AAM_PDM.h" />
+    <ClInclude Include="AAM_Shape.h" />
+    <ClInclude Include="AAM_TDM.h" />
+    <ClInclude Include="AAM_Util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

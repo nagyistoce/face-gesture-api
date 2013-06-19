@@ -11,6 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AAMBody.cpp" />
+    <ClCompile Include="AAMNode.cpp" />
+    <ClCompile Include="AAMParam.cpp" />
     <ClCompile Include="Algorithm.cpp" />
     <ClCompile Include="AlgorithmFactory.cpp" />
     <ClCompile Include="EmptyBody.cpp" />
@@ -30,6 +33,9 @@
     <ClCompile Include="TestAlgorithm.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AAMBody.h" />
+    <ClInclude Include="AAMNode.h" />
+    <ClInclude Include="AAMParam.h" />
     <ClInclude Include="Algorithm.h" />
     <ClInclude Include="AlgorithmFactory.h" />
     <ClInclude Include="EmptyBody.h" />
@@ -82,7 +88,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Core;$(SolutionDir)\Resources\OpenCV.2.4.4\include;$(SolutionDir)\Resources\tbb41\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Core;$(SolutionDir)\Resources\OpenCV.2.4.4\include;$(SolutionDir)\Resources\tbb41\include;$(SolutionDir)\Resources\AAM\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -97,7 +103,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Core;$(SolutionDir)\Resources\OpenCV.2.4.4\include;$(SolutionDir)\Resources\tbb41\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Core;$(SolutionDir)\Resources\OpenCV.2.4.4\include;$(SolutionDir)\Resources\tbb41\include;$(SolutionDir)\Resources\AAM\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
