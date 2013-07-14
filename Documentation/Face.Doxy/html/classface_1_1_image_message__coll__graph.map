@@ -1,0 +1,4 @@
+<map id="face::ImageMessage" name="face::ImageMessage">
+<area shape="rect" id="node2" href="$classface_1_1_message.html" title="Abstract class for passing messages from Publisher to Subscriber objects. " alt="" coords="5,65,112,157"/>
+<area shape="rect" id="node4" href="$classface_1_1_meta_data.html" title="{face::MetaData\n|&#45; frameNumber_\l&#45; timestamp_\l|+ MetaData()\l+ MetaData()\l+ ~MetaData()\l+ operator=()\l+ IncrementFrameNumber()\l+ GetFrameNumber()\l+ GetTimestamp()\l+ SetFrameNumber()\l+ SetTimestamp()\l}" alt="" coords="136,6,317,215"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classface_1_1_body.html" title="Abstract class for handling algorithms. " alt="" coords="6,107,90,133"/>
+<area shape="rect" id="node3" href="$classface_1_1_a_a_m_body.html" title="face::AAMBody" alt="" coords="175,5,289,32"/>
+<area shape="rect" id="node5" href="$classface_1_1_empty_body.html" title="face::EmptyBody" alt="" coords="171,56,293,83"/>
+<area shape="rect" id="node7" href="$classface_1_1_haar_detector_body.html" title="face::HaarDetectorBody" alt="" coords="152,107,312,133"/>
+<area shape="rect" id="node9" href="$classface_1_1_limit_decrementer_body.html" title="face::LimitDecrementerBody" alt="" coords="139,157,325,184"/>
+<area shape="rect" id="node11" href="$classface_1_1_source_body.html" title="face::SourceBody" alt="" coords="169,208,295,235"/>
+</map>

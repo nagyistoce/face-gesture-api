@@ -1,0 +1,9 @@
+<map id="face::SourceLimiterNode" name="face::SourceLimiterNode">
+<area shape="rect" id="node2" href="$classface_1_1_node.html" title="{face::Node\n|+ graph\l+ nodeMap\l# fullName_\l# moduleName_\l# instanceName_\l# inputPortNameMap_\l# outputPortNameMap_\l# predecessorMap_\l|+ GetFullName()\l+ GetModuleName()\l+ GetInstanceName()\l+ Run()\l+ PushNode()\l+ CreateGraph()\l# Node()\l# ~Node()\l# BuildNode()\l# CreateEdge()\l# DefinePorts()\l# RunNode()\l# CollectPredecessors()\l# CheckPorts()\l}" alt="" coords="5,728,165,1099"/>
+<area shape="rect" id="node4" href="$classface_1_1_limit_decrementer_body.html" title="{face::LimitDecrementerBody\n||+ LimitDecrementerBody()\l+ LimitDecrementerBody()\l+ ~LimitDecrementerBody()\l+ operator()()\l+ operator=()\l&#45; Process()\l}" alt="" coords="191,838,377,989"/>
+<area shape="rect" id="node6" href="$classface_1_1_body.html" title="Abstract class for handling algorithms. " alt="" coords="79,323,265,664"/>
+<area shape="rect" id="node8" href="$classface_1_1_message.html" title="Abstract class for passing messages from Publisher to Subscriber objects. " alt="" coords="249,86,356,178"/>
+<area shape="rect" id="node12" href="$classface_1_1_image_message.html" title="{face::ImageMessage\n|&#45; rgb_\l&#45; gray_\l&#45; normalized_\l|+ ImageMessage()\l+ ImageMessage()\l+ ImageMessage()\l+ ~ImageMessage()\l+ Rgb()\l+ Gray()\l+ Normalized()\l+ GetMetaData()\l+ GetSize()\l+ GetWidth()\l+ GetHeight()\l+ operator=()\l}" alt="" coords="290,359,432,627"/>
+<area shape="rect" id="node10" href="$classface_1_1_timer.html" title="Class for measuring time. " alt="" coords="23,5,225,259"/>
+<area shape="rect" id="node15" href="$classface_1_1_meta_data.html" title="{face::MetaData\n|&#45; frameNumber_\l&#45; timestamp_\l|+ MetaData()\l+ MetaData()\l+ ~MetaData()\l+ operator=()\l+ IncrementFrameNumber()\l+ GetFrameNumber()\l+ GetTimestamp()\l+ SetFrameNumber()\l+ SetTimestamp()\l}" alt="" coords="380,27,561,237"/>
+</map>

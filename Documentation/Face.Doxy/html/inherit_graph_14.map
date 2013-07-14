@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classface_1_1_message.html" title="Abstract class for passing messages from Publisher to Subscriber objects. " alt="" coords="5,56,112,83"/>
+<area shape="rect" id="node3" href="$classface_1_1_empty_message.html" title="face::EmptyMessage" alt="" coords="170,5,315,32"/>
+<area shape="rect" id="node5" href="$classface_1_1_image_message.html" title="face::ImageMessage" alt="" coords="171,56,314,83"/>
+<area shape="rect" id="node7" href="$classface_1_1_rectangle_message.html" title="face::RectangleMessage" alt="" coords="160,107,325,133"/>
+</map>

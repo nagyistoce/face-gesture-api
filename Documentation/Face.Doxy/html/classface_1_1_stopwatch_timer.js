@@ -1,0 +1,26 @@
+var classface_1_1_stopwatch_timer =
+[
+    [ "TimeInfo", "structface_1_1_stopwatch_timer_1_1_time_info.html", "structface_1_1_stopwatch_timer_1_1_time_info" ],
+    [ "StopwatchTimer", "classface_1_1_stopwatch_timer.html#a0d71a4e1aeb6186748290848df0f67ff", null ],
+    [ "~StopwatchTimer", "classface_1_1_stopwatch_timer.html#ad368fada95490803eb310a0854541898", null ],
+    [ "AddTimePeriod", "classface_1_1_stopwatch_timer.html#a5912ca4ccf397afde058722e1754a264", null ],
+    [ "GetAverageFps", "classface_1_1_stopwatch_timer.html#abad3b9b1e55b590daa157b4167acc623", null ],
+    [ "GetEffective", "classface_1_1_stopwatch_timer.html#af477f67e8c3e3af1ed597864f3f55e15", null ],
+    [ "GetEstimatedFps", "classface_1_1_stopwatch_timer.html#afb97bebab4b76e4d3eb546e27e985903", null ],
+    [ "GetFpsFromPeriodTime", "classface_1_1_stopwatch_timer.html#a1dbca085748f2b2047d32a9c26a5a70a", null ],
+    [ "GetInstance", "classface_1_1_stopwatch_timer.html#a4736de100b55c01c61f2eb4ced2c4149", null ],
+    [ "GetIntensity", "classface_1_1_stopwatch_timer.html#a6e09b571cf36ed92d6e7991e292de4ee", null ],
+    [ "GetRunCount", "classface_1_1_stopwatch_timer.html#a86b7267296f54a47aa66f4805b2be7e3", null ],
+    [ "HasRun", "classface_1_1_stopwatch_timer.html#add7641beb1bfa21f2a0c51cd8f863f54", null ],
+    [ "ResetTimeInfo", "classface_1_1_stopwatch_timer.html#aa81e33fe72bfa13876ecf85c01ae87a7", null ],
+    [ "StartMeasure", "classface_1_1_stopwatch_timer.html#a919cd75ced04b9b44099ef33feb1db13", null ],
+    [ "StopMeasure", "classface_1_1_stopwatch_timer.html#aa78ce6e9801ec00f14761cf54b259c48", null ],
+    [ "effective_", "classface_1_1_stopwatch_timer.html#a878c06ddf6a3b42f0f7a68c802948b2e", null ],
+    [ "instance_", "classface_1_1_stopwatch_timer.html#a47c3097b5130485245aff021e596fcd0", null ],
+    [ "intensity_", "classface_1_1_stopwatch_timer.html#a42372dd6af6d05c987ea7a4e2939df30", null ],
+    [ "MAX_FPS", "classface_1_1_stopwatch_timer.html#a1354e97fecfc860970a28e0685e8c082", null ],
+    [ "mutex_", "classface_1_1_stopwatch_timer.html#a9166cf638d80f84742c59a535ec29a42", null ],
+    [ "runCount_", "classface_1_1_stopwatch_timer.html#aea006c3e55050589c1fd6754b09b91e8", null ],
+    [ "running_", "classface_1_1_stopwatch_timer.html#a897e3237e2251bed1e181489df954cdb", null ],
+    [ "timer_", "classface_1_1_stopwatch_timer.html#aeda4021e20106bed6bb7460ddfe5f50f", null ]
+];

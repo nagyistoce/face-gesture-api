@@ -7,43 +7,47 @@
 
 namespace face 
 {
+	//! Simple templated string concatenator.
+	/*!
+		\ingroup Core
 
-//! Simple templated string concatenator.
-/*!
-	\ingroup Others
-
-	The + (addition) operator of the class is used as the << operator of the std::ostringstream class.
-*/
-class StringBuilder
-{
-public:
-	//! Constructor.
-	StringBuilder(void);
-
-	//! Destructor.
-	~StringBuilder(void);
-
-	//! Addition operator.
-	template <typename T>
-	StringBuilder& operator +(const T& t)
+		The + (addition) operator of the class is used as the << operator of the std::ostringstream class.
+	*/
+	class StringBuilder
 	{
-		stream_ << t;
-		return *this;
-	}
+	public:
+		//! Constructor.
+		StringBuilder(void);
 
-	//! Addition operator.
-	template <typename T>
-	StringBuilder& operator +=(const T& t)
-	{
-		stream_ << t;
-		return *this;
-	}
 
-	//! String conversion.
-	operator std::string();
+		//! Destructor.
+		~StringBuilder(void);
 
-private:
-	std::ostringstream stream_;
-};
+
+		//! Addition operator.
+		template <typename T>
+		StringBuilder& operator +(const T& t)
+		{
+			stream_ << t;
+			return *this;
+		}
+
+
+		//! Addition operator.
+		template <typename T>
+		StringBuilder& operator +=(const T& t)
+		{
+			stream_ << t;
+			return *this;
+		}
+
+
+		//! String conversion.
+		operator std::string();
+
+
+	private:
+		std::ostringstream stream_; //!< Output stream for manipulation.
+	};
 
 }

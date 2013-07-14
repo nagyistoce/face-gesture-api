@@ -7,7 +7,7 @@
 
 #include "FaceDef.h"
 #include "ExceptionDescriptor.h"
-#include "CallStackTrace.h"
+
 
 namespace face 
 {

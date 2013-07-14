@@ -1,0 +1,7 @@
+<map id="face::LimitDecrementerBody" name="face::LimitDecrementerBody">
+<area shape="rect" id="node2" href="$classface_1_1_body.html" title="Abstract class for handling algorithms. " alt="" coords="61,323,248,664"/>
+<area shape="rect" id="node4" href="$classface_1_1_message.html" title="Abstract class for passing messages from Publisher to Subscriber objects. " alt="" coords="232,86,339,178"/>
+<area shape="rect" id="node8" href="$classface_1_1_image_message.html" title="{face::ImageMessage\n|&#45; rgb_\l&#45; gray_\l&#45; normalized_\l|+ ImageMessage()\l+ ImageMessage()\l+ ImageMessage()\l+ ~ImageMessage()\l+ Rgb()\l+ Gray()\l+ Normalized()\l+ GetMetaData()\l+ GetSize()\l+ GetWidth()\l+ GetHeight()\l+ operator=()\l}" alt="" coords="273,359,415,627"/>
+<area shape="rect" id="node6" href="$classface_1_1_timer.html" title="Class for measuring time. " alt="" coords="5,5,208,259"/>
+<area shape="rect" id="node11" href="$classface_1_1_meta_data.html" title="{face::MetaData\n|&#45; frameNumber_\l&#45; timestamp_\l|+ MetaData()\l+ MetaData()\l+ ~MetaData()\l+ operator=()\l+ IncrementFrameNumber()\l+ GetFrameNumber()\l+ GetTimestamp()\l+ SetFrameNumber()\l+ SetTimestamp()\l}" alt="" coords="363,27,544,237"/>
+</map>

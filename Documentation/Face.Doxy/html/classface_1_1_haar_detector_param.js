@@ -1,0 +1,25 @@
+var classface_1_1_haar_detector_param =
+[
+    [ "HaarDetectorParam", "classface_1_1_haar_detector_param.html#abe108e72901be95d0b93b26e5de212ba", null ],
+    [ "HaarDetectorParam", "classface_1_1_haar_detector_param.html#ab5a09b2c6452394a63c5834e34d1c4cb", null ],
+    [ "~HaarDetectorParam", "classface_1_1_haar_detector_param.html#a0d2142394d4e8836deff737caaec82b9", null ],
+    [ "ClearLKVectors", "classface_1_1_haar_detector_param.html#a1dbf3ce0a43c17dd0a3bc870df2531d2", null ],
+    [ "cascadeName", "classface_1_1_haar_detector_param.html#a808569cb6117be7cbe8821893d533689", null ],
+    [ "criteria", "classface_1_1_haar_detector_param.html#afbfae206453734ff327dcaaccc6c2a75", null ],
+    [ "error", "classface_1_1_haar_detector_param.html#a6033f7e4290ccf195a577540ecd0590c", null ],
+    [ "flags", "classface_1_1_haar_detector_param.html#adf497f6a72883ef51ef8e57c5236efd1", null ],
+    [ "imgScaleFactor", "classface_1_1_haar_detector_param.html#af8dd86afcf8ad670ecf52099df7876b0", null ],
+    [ "invImgScaleFactor", "classface_1_1_haar_detector_param.html#a4adb8f87e055505c931f9a3988487b6c", null ],
+    [ "LKflags", "classface_1_1_haar_detector_param.html#a5e2c16bc56376fb4daef9e98f12bdc32", null ],
+    [ "maxLevel", "classface_1_1_haar_detector_param.html#a43310a2e9d525070e8ba65575ca93523", null ],
+    [ "maxSize", "classface_1_1_haar_detector_param.html#a83de6dc6248989a32f0bd60d83614655", null ],
+    [ "minEigThreshold", "classface_1_1_haar_detector_param.html#a2092cc99641667ed1e12039a9a4fa3f0", null ],
+    [ "minNeighbors", "classface_1_1_haar_detector_param.html#ac3a22f47b54ac2407747bf4360e9660c", null ],
+    [ "minSize", "classface_1_1_haar_detector_param.html#a2d20a4ceb0f582f6e73747f3facd8d46", null ],
+    [ "nextPoints", "classface_1_1_haar_detector_param.html#a4c8607d523b035abad5ef46c87c37776", null ],
+    [ "objSizes", "classface_1_1_haar_detector_param.html#a50dc44cc01880fd13a98d67bf8aca0a7", null ],
+    [ "prevPoints", "classface_1_1_haar_detector_param.html#a9b414040d3ea8e42e17a1704d9e84c51", null ],
+    [ "scaleFactor", "classface_1_1_haar_detector_param.html#a02fbc4845ff004f19e5b491c519d7e40", null ],
+    [ "status", "classface_1_1_haar_detector_param.html#ad75229145d6d0fc1d0e83386051f47c0", null ],
+    [ "winSize", "classface_1_1_haar_detector_param.html#a339d7f5fa3ea522df638431832b1b70a", null ]
+];

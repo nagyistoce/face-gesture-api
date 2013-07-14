@@ -38,7 +38,6 @@ private:
 	void BuildModuleGraph(const cv::FileStorage& fileStorage); 
 
 
-    bool mediaStreamStarted_; //!< DolMeHa started or not.
 	ModuleGraph moduleGraph_; //!< Module graph.
 	AlgorithmList algorithmList_; //!< Preprocessor object
 };

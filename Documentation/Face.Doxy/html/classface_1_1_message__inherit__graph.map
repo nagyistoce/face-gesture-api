@@ -1,0 +1,5 @@
+<map id="face::Message" name="face::Message">
+<area shape="rect" id="node3" href="$classface_1_1_empty_message.html" title="{face::EmptyMessage\n||+ EmptyMessage()\l+ EmptyMessage()\l+ ~EmptyMessage()\l+ operator=()\l}" alt="" coords="5,227,149,349"/>
+<area shape="rect" id="node5" href="$classface_1_1_image_message.html" title="{face::ImageMessage\n|&#45; rgb_\l&#45; gray_\l&#45; normalized_\l&#45; metaData_\l|+ ImageMessage()\l+ ImageMessage()\l+ ImageMessage()\l+ ~ImageMessage()\l+ Rgb()\l+ Gray()\l+ Normalized()\l+ GetMetaData()\l+ GetSize()\l+ GetWidth()\l+ GetHeight()\l+ operator=()\l}" alt="" coords="174,147,316,429"/>
+<area shape="rect" id="node7" href="$classface_1_1_rectangle_message.html" title="{face::RectangleMessage\n|&#45; rectangles_\l|+ RectangleMessage()\l+ RectangleMessage()\l+ RectangleMessage()\l+ ~RectangleMessage()\l+ operator=()\l+ GetRectangles()\l}" alt="" coords="341,213,507,363"/>
+</map>

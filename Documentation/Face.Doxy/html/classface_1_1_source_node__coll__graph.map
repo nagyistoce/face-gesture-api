@@ -1,0 +1,9 @@
+<map id="face::SourceNode" name="face::SourceNode">
+<area shape="rect" id="node2" href="$classface_1_1_node.html" title="{face::Node\n|+ graph\l+ nodeMap\l# fullName_\l# moduleName_\l# instanceName_\l# inputPortNameMap_\l# outputPortNameMap_\l# predecessorMap_\l|+ GetFullName()\l+ GetModuleName()\l+ GetInstanceName()\l+ Run()\l+ PushNode()\l+ CreateGraph()\l# Node()\l# ~Node()\l# BuildNode()\l# CreateEdge()\l# DefinePorts()\l# RunNode()\l# CollectPredecessors()\l# CheckPorts()\l}" alt="" coords="83,728,244,1099"/>
+<area shape="rect" id="node4" href="$classface_1_1_source_body.html" title="{face::SourceBody\n|&#45; videoCapture_\l&#45; mediaEnd_\l|+ SourceBody()\l+ SourceBody()\l+ ~SourceBody()\l+ operator()()\l+ operator=()\l&#45; Process()\l}" alt="" coords="269,831,395,996"/>
+<area shape="rect" id="node6" href="$classface_1_1_body.html" title="Abstract class for handling algorithms. " alt="" coords="55,323,241,664"/>
+<area shape="rect" id="node8" href="$classface_1_1_message.html" title="Abstract class for passing messages from Publisher to Subscriber objects. " alt="" coords="5,86,112,178"/>
+<area shape="rect" id="node10" href="$classface_1_1_timer.html" title="Class for measuring time. " alt="" coords="136,5,339,259"/>
+<area shape="rect" id="node12" href="$classface_1_1_source_param.html" title="{face::SourceParam\n|+ videoFileName\l+ name\l+ frameSize\l+ position\l+ cameraId\l+ fps\l|+ SourceParam()\l+ SourceParam()\l+ ~SourceParam()\l}" alt="" coords="265,403,399,583"/>
+<area shape="rect" id="node14" href="$classface_1_1_meta_data.html" title="{face::MetaData\n|&#45; frameNumber_\l&#45; timestamp_\l|+ MetaData()\l+ MetaData()\l+ ~MetaData()\l+ operator=()\l+ IncrementFrameNumber()\l+ GetFrameNumber()\l+ GetTimestamp()\l+ SetFrameNumber()\l+ SetTimestamp()\l}" alt="" coords="423,389,604,598"/>
+</map>

@@ -42,9 +42,6 @@
     <ClInclude Include="GlobalSettings.h">
       <Filter>Configuration</Filter>
     </ClInclude>
-    <ClInclude Include="CallStackTrace.h">
-      <Filter>Exception</Filter>
-    </ClInclude>
     <ClInclude Include="Message.h">
       <Filter>Message</Filter>
     </ClInclude>
@@ -94,9 +91,6 @@
     </ClCompile>
     <ClCompile Include="GlobalSettings.cpp">
       <Filter>Configuration</Filter>
-    </ClCompile>
-    <ClCompile Include="CallStackTrace.cpp">
-      <Filter>Exception</Filter>
     </ClCompile>
     <ClCompile Include="Message.cpp">
       <Filter>Message</Filter>

@@ -1,0 +1,9 @@
+<map id="face::HaarDetectorBody" name="face::HaarDetectorBody">
+<area shape="rect" id="node2" href="$classface_1_1_body.html" title="Abstract class for handling algorithms. " alt="" coords="381,323,568,664"/>
+<area shape="rect" id="node4" href="$classface_1_1_message.html" title="Abstract class for passing messages from Publisher to Subscriber objects. " alt="" coords="221,86,328,178"/>
+<area shape="rect" id="node10" href="$classface_1_1_rectangle_message.html" title="{face::RectangleMessage\n|&#45; rectangles_\l|+ RectangleMessage()\l+ RectangleMessage()\l+ RectangleMessage()\l+ ~RectangleMessage()\l+ operator=()\l+ GetRectangles()\l}" alt="" coords="192,418,357,569"/>
+<area shape="rect" id="node13" href="$classface_1_1_image_message.html" title="{face::ImageMessage\n|&#45; rgb_\l&#45; gray_\l&#45; normalized_\l|+ ImageMessage()\l+ ImageMessage()\l+ ImageMessage()\l+ ~ImageMessage()\l+ Rgb()\l+ Gray()\l+ Normalized()\l+ GetMetaData()\l+ GetSize()\l+ GetWidth()\l+ GetHeight()\l+ operator=()\l}" alt="" coords="25,359,167,627"/>
+<area shape="rect" id="node6" href="$classface_1_1_timer.html" title="Class for measuring time. " alt="" coords="373,5,576,259"/>
+<area shape="rect" id="node8" href="$classface_1_1_haar_detector_param.html" title="{face::HaarDetectorParam\n|+ cascadeName\l+ scaleFactor\l+ imgScaleFactor\l+ invImgScaleFactor\l+ minNeighbors\l+ flags\l+ minSize\l+ maxSize\l+ winSize\l+ maxLevel\land 8 more...\l|+ HaarDetectorParam()\l+ HaarDetectorParam()\l+ ~HaarDetectorParam()\l+ ClearLKVectors()\l}" alt="" coords="592,359,760,627"/>
+<area shape="rect" id="node16" href="$classface_1_1_meta_data.html" title="{face::MetaData\n|&#45; frameNumber_\l&#45; timestamp_\l|+ MetaData()\l+ MetaData()\l+ ~MetaData()\l+ operator=()\l+ IncrementFrameNumber()\l+ GetFrameNumber()\l+ GetTimestamp()\l+ SetFrameNumber()\l+ SetTimestamp()\l}" alt="" coords="5,27,187,237"/>
+</map>
