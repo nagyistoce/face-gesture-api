@@ -87,30 +87,69 @@ int Tracker::Track(cv::Mat im,vector<int> &wSize, const int  fpd,
 		   const bool fcheck)
 { 
   assert(im.type() == CV_8U);
-  if(im.channels() == 1)gray_ = im;
-  else{
+
+  if(im.channels() == 1)
+  {
+	  gray_ = im;
+  }
+  else
+  {
     if((gray_.rows != im.rows) || (gray_.cols != im.cols))
       gray_.create(im.rows,im.cols,CV_8U);
+
     cv::cvtColor(im,gray_,CV_BGR2GRAY);
   }
+
   bool gen,rsize=true; cv::Rect R;
-  if((_frame < 0) || (fpd >= 0 && fpd < _frame)){
-    _frame = 0; R = _fdet.Detect(gray_); gen = true;
-  }else{R = this->ReDetect(gray_); gen = false;}
-  if((R.width == 0) || (R.height == 0)){_frame = -1; return -1;}
+
+  if((_frame < 0) || (fpd >= 0 && fpd < _frame))
+  {
+    _frame = 0; 
+	R = _fdet.Detect(gray_); 
+	gen = true;
+  }
+  else
+  {
+	  R = this->ReDetect(gray_); 
+	  gen = false;
+  }
+
+  if((R.width == 0) || (R.height == 0))
+  {
+	  _frame = -1; 
+	  return -1;
+  }
+
   _frame++;
-  if(gen){
+
+  if(gen)
+  {
     this->InitShape(R,_shape);
     _clm._pdm.CalcParams(_shape,_clm._plocal,_clm._pglobl);
-  }else{
-    double tx = R.x - _rect.x,ty = R.y - _rect.y;
-    _clm._pglobl.db(4,0) += tx; _clm._pglobl.db(5,0) += ty; rsize = false;
   }
+  else
+  {
+    double tx = R.x - _rect.x,ty = R.y - _rect.y;
+    _clm._pglobl.db(4,0) += tx; 
+	_clm._pglobl.db(5,0) += ty; 
+	rsize = false;
+  }
+
   _clm.Fit(gray_,wSize,nIter,clamp,fTol);
   _clm._pdm.CalcShape2D(_shape,_clm._plocal,_clm._pglobl);
-  if(fcheck){if(!_fcheck.Check(_clm.GetViewIdx(),gray_,_shape))return -1;}
+
+  if(fcheck)
+  {
+	  if(!_fcheck.Check(_clm.GetViewIdx(),gray_,_shape))
+		  return -1;
+  }
+
   _rect = this->UpdateTemplate(gray_,_shape,rsize); 
-  if((_rect.width == 0) || (_rect.height == 0))return -1; else return 0;
+
+  if((_rect.width == 0) || (_rect.height == 0))
+	  return -1; 
+  else 
+	  return 0;
 }
 //===========================================================================
 void Tracker::InitShape(cv::Rect &r,cv::Mat &shape)
