@@ -2,6 +2,7 @@
 #pragma warning(disable: 4251)
 
 #include "opencv2/opencv.hpp"
+#include "Stopwatch.h"
 
 extern "C++" class __declspec(dllexport) MotionHistory
 {
@@ -13,16 +14,27 @@ public:
 	void Visualize(void);
 
     const cv::Mat& GetMhi(void);
-    const cv::Mat& GetMask(void);
+    const cv::Mat& GetMotionMask(void);
+	const cv::Mat& GetMotionPicture() const;
 
 private:
+	double GetWeightedAngle(cv::Mat& mag, cv::Mat& ang);
+
     cv::Mat *buffer_;   // ring image buffer
     cv::Mat mhi_;       // MHI
-    cv::Mat mask_;      // valid orientation mask
+    cv::Mat motionMask_;      // valid orientation mask
     cv::Mat silh_;
+	cv::Mat orientation_;
+	cv::Mat motionPicture_;
+	cv::Mat magnitude_;
+	cv::Mat gradX;
+	cv::Mat gradY;
+	cv::Mat angle_;
 
     int lastId_;
-    double procTime_;	    //!< Processing time of the current feature extraction method.
+    double procFPS_;	    //!< Processing time of the current feature extraction method.
+	Stopwatch stopwatch_;
+	std::vector<cv::Mat> splitChannels_;
 
     const int bufferSize_;
     const int diffThreshold_;

@@ -1,6 +1,7 @@
 #include "Definitions.h"
 #include "LocalFeature.h"
 #include "Visualizer.h"
+#include <iomanip>
 
 using namespace std;
 using namespace cv;
@@ -8,7 +9,7 @@ using namespace cv;
 LocalFeature::LocalFeature(const string& name, const string& type)
 :	name_(name),
     type_(type),
-    procTime_(0.0),
+    procFps_(0.0),
     centerOfPts_(Point2f(0.0f, 0.0f))
 {
 }
@@ -28,7 +29,8 @@ void LocalFeature::SetFrame(const Mat& frame)
 
 void* LocalFeature::Run(void)
 {
-    procTime_ = (double)cvGetTickCount();
+	stopwatch_.Reset();
+    //procTime_ = (double)cvGetTickCount();
     centerOfPts_ = Point2f(0.0f, 0.0f);
 
     if(!frame_.empty())
@@ -48,7 +50,9 @@ void* LocalFeature::Run(void)
             centerOfPts_.y /= keyPoints.size();
         }
     }
-    procTime_ = (double)cvGetTickCount() - procTime_;
+
+	procFps_ = stopwatch_.GetFPS();
+    //procTime_ = (double)cvGetTickCount() - procTime_;
 
     return reinterpret_cast<void*>(0);
 }
@@ -58,7 +62,7 @@ void LocalFeature::Visualize(void)
 {
     stringstream ss;
 
-    ss << "Processing time: " << procTime_ / (cvGetTickFrequency() * 1000.0) << " ms.";
+    ss << name_ << ": " << cvRound(procFps_) << " FPS.";
     VisualizerPtr->PutText(frame_, ss.str(), Point(10, 20));
     ss.str("");
 
@@ -87,5 +91,5 @@ const string& LocalFeature::GetType(void)
 
 double LocalFeature::GetProcTime(void)
 {
-    return procTime_;
+    return procFps_;
 }

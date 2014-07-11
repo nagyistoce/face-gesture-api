@@ -161,21 +161,30 @@ int main(int argc, const char** argv)
 {
   //parse command line arguments
   char ftFile[256],conFile[256],triFile[256];
-  bool fcheck = false; double scale = 1; int fpd = -1; bool show = true;
+  bool fcheck = true; double scale = 1; int fpd = -1; bool show = true;
   if(parse_cmd(argc,argv,ftFile,conFile,triFile,fcheck,scale,fpd)<0)return 0;
 
   //set other tracking parameters
   std::vector<int> wSize1(1); wSize1[0] = 7;
-  std::vector<int> wSize2(3); wSize2[0] = 11; wSize2[1] = 9; wSize2[2] = 7;
-  int nIter = 5; double clamp=3,fTol=0.01; 
+  std::vector<int> wSize2(3); wSize2[0] = 21; wSize2[1] = 17; wSize2[2] = 15;
+  int nIter = 50; double clamp=30,fTol=0.01; 
   FACETRACKER::Tracker model(ftFile);
   cv::Mat tri=FACETRACKER::IO::LoadTri(triFile);
   cv::Mat con=FACETRACKER::IO::LoadCon(conFile);
   
   //initialize camera and display window
-  cv::Mat frame,gray,im; double fps=0; char sss[256]; std::string text; 
-  CvCapture* camera = cvCreateCameraCapture(CV_CAP_ANY); if(!camera)return -1;
-  int64 t1,t0 = cvGetTickCount(); int fnum=0;
+  cv::Mat frame,im; double fps=0; char sss[256]; std::string text; 
+
+  cv::VideoCapture videoCapture("econscan/frame.%01d.png");
+  if(!videoCapture.isOpened())
+  {
+	  std::cout << "Failed to open video capture." << std::endl;
+	  return 1;
+  }
+
+  //cv::VideoWriter videoWriter;
+
+  int64 t1,t0 = cvGetTickCount(); int fnum=0, fnumSave = 0;
   cvNamedWindow("Face Tracker",1);
   std::cout << "Hot keys: "        << std::endl
 	    << "\t ESC - quit"     << std::endl
@@ -184,15 +193,26 @@ int main(int argc, const char** argv)
   //loop until quit (i.e user presses ESC)
   bool failed = true;
   while(1){ 
+	  t0 = cv::getTickCount();
+	  failed = true;
+
     //grab image, resize and flip
-    IplImage* I = cvQueryFrame(camera); if(!I)continue; frame = I;
+    videoCapture >> frame;
+
+	if(frame.empty())
+	{
+		break;
+	}
+
     if(scale == 1)im = frame; 
     else cv::resize(frame,im,cv::Size(scale*frame.cols,scale*frame.rows));
-    cv::flip(im,im,1); cv::cvtColor(im,gray,CV_BGR2GRAY);
+
+    cv::flip(im,im,1); 
+	//cv::cvtColor(im,gray,CV_BGR2GRAY);
 
     //track this image
     std::vector<int> wSize; if(failed)wSize = wSize2; else wSize = wSize1; 
-    if(model.Track(gray,wSize,fpd,nIter,clamp,fTol,fcheck) == 0){
+    if(model.Track(im,wSize,fpd,nIter,clamp,fTol,fcheck) == 0){
       int idx = model._clm.GetViewIdx(); failed = false;
       Draw(im,model._shape,con,tri,model._clm._visi[idx]); 
     }else{
@@ -201,17 +221,40 @@ int main(int argc, const char** argv)
     }     
     //draw framerate on display image 
     if(fnum >= 9){      
-      t1 = cvGetTickCount();
-      fps = 10.0/((double(t1-t0)/cvGetTickFrequency())/1e+6); 
-      t0 = t1; fnum = 0;
+	  t1 = cv::getTickCount();
+	  double time = ((double)t1 - t0) * 1000.0 / cv::getTickFrequency();
+      fps = time;
+
+      fnum = 0;
     }else fnum += 1;
     if(show){
-      sprintf(sss,"%d frames/sec",cvRound(fps)); text = sss;
+      sprintf(sss,"%.2lf ms",fps); text = sss;
       cv::putText(im,text,cv::Point(10,20),
 		  CV_FONT_HERSHEY_SIMPLEX,0.5,CV_RGB(255,255,255));
     }
     //show image and check for user input
+    
+	std::stringstream ss;
+	ss << "output/frame." << fnumSave << ".jpg";
+	cv::imwrite(ss.str(), im);
+
+	//if (!videoWriter.isOpened())
+	//{
+	//	videoWriter.open("test.03.output.avi" , -1, 2, im.size(), true);
+	//	
+	//	if (!videoWriter.isOpened())
+	//	{
+	//		std::cout << "Unable to open video writer.";
+	//		break;
+	//	}
+	//}
+
+	//videoWriter << im;
+	fnumSave++;
+
+	cv::resize(im, im, cv::Size(640, 480));
     imshow("Face Tracker",im); 
+
     int c = cvWaitKey(10);
     if(c == 27)break; else if(char(c) == 'd')model.FrameReset();
   }return 0;

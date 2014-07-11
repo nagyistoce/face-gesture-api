@@ -9,6 +9,7 @@
 #include "opencv2/opencv.hpp"
 
 #include "Thread.h"
+#include "Stopwatch.h"
 
 //! Abstract class for global feature extraction.
 /*!
@@ -76,7 +77,8 @@ protected:
     std::string type_;	//!< Type of the current feature extraction procedure.
 	cv::Mat frame_;		//!< The current frame.
     cv::Mat outputFrame_;	//!< The current frame.
-	double procTime_;	//!< Processing time of the current feature extraction method.
+	double procFps_;	//!< Processing time of the current feature extraction method.
+	Stopwatch stopwatch_;
 
 private:
 	//! Implemented virtual method for the algorithm.

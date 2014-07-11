@@ -1,6 +1,7 @@
 #include "Definitions.h"
 #include "GlobalFeature.h"
 #include "Visualizer.h"
+#include <iomanip>
 
 using namespace std;
 using namespace cv;
@@ -8,7 +9,7 @@ using namespace cv;
 GlobalFeature::GlobalFeature(const string& name, const string& type)
 :	name_(name),
     type_(type),
-	procTime_(0.0)
+	procFps_(0.0)
 {
 }
 
@@ -28,14 +29,16 @@ void GlobalFeature::SetFrame(const Mat& frame)
 
 void* GlobalFeature::Run(void)
 {
-	procTime_ = (double)cvGetTickCount();
+	stopwatch_.Reset();
+	//procTime_ = (double)cvGetTickCount();
 	if(!frame_.empty())
 	{
         ProcessInit();
 		Process();
 		DrawFeatures();
 	}
-	procTime_ = (double)cvGetTickCount() - procTime_;
+	//procTime_ = (double)cvGetTickCount() - procTime_;
+	procFps_ = stopwatch_.GetFPS();
 
 	return reinterpret_cast<void*>(0);
 }
@@ -45,7 +48,7 @@ void GlobalFeature::Visualize(void)
 {
     stringstream ss;
 
-    ss << "Processing time: " << procTime_ / (cvGetTickFrequency() * 1000.0) << " ms.";
+    ss << name_ << ": " << cvRound(procFps_) << " FPS.";
     VisualizerPtr->PutText(frame_, ss.str(), Point(10, 20));
     ss.str("");
 
@@ -69,5 +72,5 @@ const string& GlobalFeature::GetType(void)
 
 double GlobalFeature::GetProcTime(void)
 {
-    return procTime_;
+    return procFps_;
 }

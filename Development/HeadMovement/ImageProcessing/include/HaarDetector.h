@@ -4,6 +4,7 @@
 #include "opencv2/opencv.hpp"
 
 #include "Thread.h"
+#include "Stopwatch.h"
 
 extern "C++" class __declspec(dllexport) HaarDetector : public Thread
 {
@@ -43,6 +44,7 @@ private:
 	std::string cascadeName_;
 	const std::string name_;
 	std::vector<cv::Rect> objects_;
+	Stopwatch stopwatch_;
 
     bool opticalFlow_;
 	double scaleFactor_;
@@ -50,5 +52,5 @@ private:
 	int flags_;
 	cv::Size minSize_;
 	cv::Size maxSize_;
-	double procTime_;
+	double procFps_;
 };

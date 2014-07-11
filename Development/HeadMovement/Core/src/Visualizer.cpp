@@ -36,8 +36,8 @@ void Visualizer::PutText(Mat& image, const string& text, Point& org)
     Scalar bgColor = (fontColor_ == Scalar::all(-1) ? Scalar::all(0) : 
         Scalar( int(fontColor_[0] + 255) % 255, int(fontColor_[1] + 255) % 255, int(fontColor_[2] + 255) % 255, 0));
 
-    putText(image, text, org, fontFace_, fontScale_, bgColor, fontThickness_ + 1);
-    putText(image, text, org, fontFace_, fontScale_, fgColor, fontThickness_);
+    putText(image, text, org, fontFace_, fontScale_, bgColor, fontThickness_ + 1, CV_AA);
+    putText(image, text, org, fontFace_, fontScale_, fgColor, fontThickness_, CV_AA);
 }
 
 void Visualizer::SetTextProperties(int fontFace, double fontScale, Scalar fontColor, int fontThickness)

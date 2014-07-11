@@ -4,6 +4,7 @@
 #include "HaarDetector.h"
 #include "LocalSettings.h"
 #include "Visualizer.h"
+#include <iomanip>
 
 using namespace std;
 using namespace cv;
@@ -16,7 +17,7 @@ HaarDetector::HaarDetector(const string& name)
 	flags_(0),
 	minSize_(Size()),
 	maxSize_(Size()),
-	procTime_(0.0),
+	procFps_(0.0),
     opticalFlow_(false)
 {
 	LoadSettingsFromFileStorage();
@@ -67,13 +68,14 @@ void HaarDetector::SetFrame(const Mat& frame, const cv::Mat& prevFrame)
 
 void* HaarDetector::Run(void)
 {
-	procTime_ = (double)cvGetTickCount();
+	stopwatch_.Reset();
+	//procTime_ = (double)cvGetTickCount();
     if(!frame_.empty())
 	{
         Process();
 		//Visualize();
 	}
-	procTime_ = (double)cvGetTickCount() - procTime_;
+	procFps_ = stopwatch_.GetFPS();
 
     return reinterpret_cast<void*>(0);
 }
@@ -147,7 +149,7 @@ void HaarDetector::Visualize(void)
 {
     stringstream ss;
 
-    ss << "Processing time: " << procTime_ / (cvGetTickFrequency() * 1000.0) << " ms.";
+    ss << "Processing time: " << cvRound(procFps_) << " FPS.";
     VisualizerPtr->PutText(frame_, ss.str(), Point(10, 20));
     ss.str("");
 
@@ -166,9 +168,9 @@ void HaarDetector::Visualize(void)
 	for(vector<Rect>::const_iterator r = objects_.begin(); r != objects_.end(); r++, i++)
 	{
         if(opticalFlow_)
-            rectangle(frame_, Point(r->x, r->y), Point(r->x + r->width, r->y + r->height), colors[(i+1) % 8], 2);
+            rectangle(frame_, Point(r->x, r->y), Point(r->x + r->width, r->y + r->height), colors[(i+1) % 8], 2, CV_AA);
         else
-            rectangle(frame_, Point(r->x, r->y), Point(r->x + r->width, r->y + r->height), colors[i % 8], 2);
+            rectangle(frame_, Point(r->x, r->y), Point(r->x + r->width, r->y + r->height), colors[i % 8], 2, CV_AA);
 	}
 
 	VisualizerPtr->ShowImage("Haar Detector - " + name_, frame_);

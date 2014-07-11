@@ -5,6 +5,7 @@
 
 #include "Visualizer.h"
 #include "LocalSettings.h"
+#include <iomanip>
 
 using namespace std;
 using namespace cv;
@@ -22,7 +23,7 @@ PointTracker::PointTracker(string name)
     polyN_(5),
     polySigma_(1.2),
     flags_(0),
-	procTime_(0.0),
+	procFps_(0.0),
 	showBgrFlow_(0),
 	angle_(0.0),
 	direction_(make_pair(Point2f(0.0f, 0.0f), Point2f(0.0f, 0.0f)))
@@ -58,7 +59,8 @@ void PointTracker::Process(const Mat& frame, const Mat& prevFrame, const Rect& r
 	CV_Assert(!frame.empty());
 	CV_Assert(!prevFrame.empty());
 
-	procTime_ = (double)cvGetTickCount();
+	stopwatch_.Reset();
+	//procTime_ = (double)cvGetTickCount();
 
 	cvtColor(frame, grayFrame_, CV_BGR2GRAY);
 	cvtColor(prevFrame, grayPrevFrame_, CV_BGR2GRAY);
@@ -109,10 +111,44 @@ void PointTracker::Process(const Mat& frame, const Mat& prevFrame, const Rect& r
     if(!motionPath_.empty())
     {
         Point2f tVec(motionPath_[motionPath_.size() - 1].x - direction_.first.x, motionPath_[motionPath_.size() - 1].y - direction_.first.y);
-        motionPath_.push_back(Point2f(direction_.second.x + tVec.x, direction_.second.y + tVec.y));
+		Point2f newPt(direction_.second.x + tVec.x, direction_.second.y + tVec.y);
+        motionPath_.push_back(newPt);
+
+		// Fill direction vector:
+		float dx = newPt.x - direction_.first.x;
+		float dy = newPt.y - direction_.first.y;
+
+		PointPair newDirection;
+		// start:
+		newDirection.first.x = direction_.first.x + dx;
+		newDirection.first.y = direction_.first.y + dy;
+
+		// end:
+		newDirection.second.x = direction_.second.x + dx;
+		newDirection.second.y = direction_.second.y + dy;
+
+		if(cvRound(newDirection.second.x) > cvRound(newPt.x))
+		{
+			newDirection.second.x += 10;
+		}
+		else if(cvRound(newDirection.second.x) < cvRound(newPt.x))
+		{
+			newDirection.second.x -= 10;
+		}
+
+		if(cvRound(newDirection.second.y) > cvRound(newPt.y))
+		{
+			newDirection.second.y += 10;
+		}
+		else if(cvRound(newDirection.second.y) < cvRound(newPt.y))
+		{
+			newDirection.second.y -= 10;
+		}
+
+		directionVector_.push_back(newDirection);
     }
 
-	procTime_ = (double)cvGetTickCount() - procTime_;
+	procFps_ = stopwatch_.GetFPS();
 
 	Visualize();
 }
@@ -122,6 +158,8 @@ void PointTracker::InitMotionPath(Point2f startPoint)
 {
     motionPath_.clear();
     motionPath_.push_back(startPoint);
+
+	directionVector_.clear();
 }
 
 
@@ -185,25 +223,26 @@ void PointTracker::Visualize(void)
 	//		line(flowMap, Point(x, y), Point(cvRound(x + fxy.x), cvRound(y + fxy.y)), Scalar(0, 255, 0));
 	//		circle(flowMap, Point(x, y), 2, Scalar(0, 255, 0), -1);
 	//	}
-
-	double dx = flowMap.cols / 2.0 - direction_.first.x;
-	double dy = flowMap.rows / 2.0 - direction_.first.y;
-    Point start(cvRound(direction_.first.x + dx), cvRound(direction_.first.y + dy));
-    Point end(cvRound(direction_.second.x + dx), cvRound(direction_.second.y + dy));
-
-    if(end.x > flowMap.cols / 2)
-        end.x += 10;
-    else if(end.x < flowMap.cols / 2)
-        end.x -= 10;
-
-    if(end.y > flowMap.rows / 2)
-        end.y += 10;
-    else if(end.y < flowMap.rows / 2)
-        end.y -= 10;
-
-	line(flowMap, start, end, Scalar(0, 255, 0));
-	circle(flowMap, start, 2, Scalar(0, 255, 0), -1);
-	ss << "Processing time: " << procTime_ / (cvGetTickFrequency() * 1000.0) << " ms.";
+	//	
+	//double dx = flowMap.cols / 2.0 - direction_.first.x;
+	//double dy = flowMap.rows / 2.0 - direction_.first.y;
+	//Point start(cvRound(direction_.first.x + dx), cvRound(direction_.first.y + dy));
+	//Point end(cvRound(direction_.second.x + dx), cvRound(direction_.second.y + dy));
+	// 
+	//if(end.x > flowMap.cols / 2)
+	//	end.x += 10;
+	//else if(end.x < flowMap.cols / 2)
+	//	end.x -= 10;
+	//	
+	//if(end.y > flowMap.rows / 2)
+	//	end.y += 10;
+	//else if(end.y < flowMap.rows / 2)
+	//	end.y -= 10;
+	//   
+	//line(flowMap, start, end, Scalar(0, 255, 0));
+	//circle(flowMap, start, 2, Scalar(0, 255, 0), -1);
+	
+	ss << "Head Movement: " << cvRound(procFps_) << " FPS.";
 	VisualizerPtr->PutText(flowMap, ss.str(), Point(10, 20));
 	ss.str("");
 
@@ -211,8 +250,20 @@ void PointTracker::Visualize(void)
 	VisualizerPtr->PutText(flowMap, ss.str(), Point(10, 40));
 	ss.str("");
 
-    for(int i = 0; i < int(motionPath_.size()) - 1; i++)
-        line(flowMap, motionPath_[i], motionPath_[i+1], Scalar(255, 255, 0), 2);
+	const int directionVectorSize = static_cast<int>(directionVector_.size());
+	double colorIncrement = directionVectorSize > 0 ? 255.0 / directionVectorSize : 0.0;
+	for(int i = 0; i < directionVectorSize; i++)
+	{
+		line(flowMap, directionVector_[i].first, directionVector_[i].second, Scalar(0, 200, 0), 1, CV_AA);
+	}
+
+	const int motionPathSize = static_cast<int>(motionPath_.size());
+	colorIncrement = motionPathSize > 0 ? 255.0 / motionPathSize : 0.0;
+    for(int i = 0; i < motionPathSize - 1; i++)
+	{
+		line(flowMap, motionPath_[i], motionPath_[i+1], Scalar((i+1) * colorIncrement, (i+1) * colorIncrement, 0), 3, CV_AA);
+        line(flowMap, motionPath_[i], motionPath_[i+1], Scalar(i * colorIncrement, i * colorIncrement, 0), 2, CV_AA);
+	}
 
 	//VisualizerPtr->ShowImage("KeyPointMask", keyPointMask_);
 	VisualizerPtr->ShowImage("Head Movement Trajectory", flowMap);

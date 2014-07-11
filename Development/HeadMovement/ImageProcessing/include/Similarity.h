@@ -7,6 +7,7 @@
 #include "opencv2/opencv.hpp"
 
 #include "DTW.h"
+#include "Stopwatch.h"
 
 typedef std::vector<double> Movement;
 typedef std::vector<Movement> MovementCluster;
@@ -39,12 +40,16 @@ private:
 	void WriteDatabase(void);
 	void ReadDatabase(void);
 
+	void VisualizeColumn();
+	void VisualizeRow();
+
 	MovementClusterBuffer movementClusterBuffer_;
 	std::string databaseName_;
 	DTW dtw_;
     std::vector<AvgDstElem> avgDistances_;
 
-    double procTime_;
+	Stopwatch stopwatch_;
+    double procFps_;
 	double minDst_;
 	double minErr_;
 	int clusterLabel_;

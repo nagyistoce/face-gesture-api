@@ -9,6 +9,7 @@
 #include "opencv2/opencv.hpp"
 
 #include "Thread.h"
+#include "Stopwatch.h"
 
 //! Abstract class for local feature extraction.
 /*!
@@ -72,8 +73,9 @@ protected:
 	std::string name_;	    //!< Name of the current feature extraction procedure.
     std::string type_;	    //!< Type of the current feature extraction procedure.
 	cv::Mat frame_;		    //!< The current frame.
-	double procTime_;	    //!< Processing time of the current feature extraction method.
+	double procFps_;	    //!< Processing time of the current feature extraction method.
     cv::Point2f centerOfPts_;
+	Stopwatch stopwatch_;
 
 private:
 	//! Implemented virtual method for the algorithm.

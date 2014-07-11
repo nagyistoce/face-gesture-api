@@ -102,17 +102,17 @@ int Tracker::Track(cv::Mat im,vector<int> &wSize, const int  fpd,
 
   bool gen,rsize=true; cv::Rect R;
 
-  if((_frame < 0) || (fpd >= 0 && fpd < _frame))
+  //if((_frame < 0) || (fpd >= 0 && fpd < _frame))
   {
     _frame = 0; 
 	R = _fdet.Detect(gray_); 
 	gen = true;
   }
-  else
-  {
-	  R = this->ReDetect(gray_); 
-	  gen = false;
-  }
+  //else
+  //{
+	 // R = this->ReDetect(gray_); 
+	 // gen = false;
+  //}
 
   if((R.width == 0) || (R.height == 0))
   {

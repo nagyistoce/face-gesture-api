@@ -186,7 +186,7 @@ void HeadMovementAlgorithm::Process(void)
                 Mat faceMask(frame_.size(), CV_8UC1, Scalar(0));
                 rectangle(faceMask, faces_[0], Scalar(255), -1);
 
-                Scalar s = mean(motionHistory_->GetMask(), faceMask);
+                Scalar s = mean(motionHistory_->GetMotionMask(), faceMask);
                 pointTracker_->Process(frame_, prevFrame_, faces_[0], keyPoints_);
 
                 if(motionStarted_ == false && motionEnded_ == false && s[0] > 10.0)
@@ -237,7 +237,7 @@ void HeadMovementAlgorithm::Process(void)
 
 void HeadMovementAlgorithm::StartFeatureExtractors(void)
 {
-    const Mat& motionMask = motionHistory_->GetMask();
+    const Mat& motionMask = motionHistory_->GetMotionMask();
     CV_Assert(!motionMask.empty());
 
     for(ThreadPool::iterator elem = threadPool_.begin(); elem != threadPool_.end(); elem++)

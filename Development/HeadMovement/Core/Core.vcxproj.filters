@@ -28,6 +28,7 @@
       <Filter>Visualizer</Filter>
     </ClInclude>
     <ClInclude Include="include\Definitions.h" />
+    <ClInclude Include="include\Stopwatch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\LocalSettings.cpp">
@@ -45,8 +46,6 @@
     <ClCompile Include="src\Visualizer.cpp">
       <Filter>Visualizer</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Core.cd" />
+    <ClCompile Include="src\Stopwatch.cpp" />
   </ItemGroup>
 </Project>

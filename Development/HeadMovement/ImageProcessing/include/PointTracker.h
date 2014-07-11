@@ -4,6 +4,7 @@
 #include <utility>
 
 #include "opencv2/opencv.hpp"
+#include "Stopwatch.h"
 
 typedef std::pair<cv::Point2f, cv::Point2f> PointPair;
 
@@ -35,12 +36,14 @@ private:
 	cv::Mat keyPointMask_;
 
     std::vector<cv::Point2f> motionPath_;
+	std::vector<PointPair> directionVector_;
 
 	PointPair direction_;
 	double angle_;
 
+	Stopwatch stopwatch_;
     std::string name_;
-	double procTime_;
+	double procFps_;
     double pyrScale_;
     int levels_;
     int winsize_;
