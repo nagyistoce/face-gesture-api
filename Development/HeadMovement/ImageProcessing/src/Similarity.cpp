@@ -4,6 +4,7 @@
 #include "Visualizer.h"
 #include "LocalSettings.h"
 #include <iomanip>
+#include <fstream>
 
 using namespace std;
 using namespace cv;
@@ -84,8 +85,8 @@ void Similarity::Predict(const vector<double>& seq)
 	if (minDst_ > 0.0 && minDst_ < diffThreshold_)
 	{
 		cout << "- DTW (" << clusterLabel_ << "): " << minDst_ << ", " << minErr_ << endl;
-		movementClusterBuffer_[clusterLabel_].push_back(seq);
-		WriteDatabase();
+		//movementClusterBuffer_[clusterLabel_].push_back(seq);
+		//WriteDatabase();
 	}
 	else
 	{
@@ -138,6 +139,7 @@ void Similarity::VisualizeColumn()
 	}
 
 	VisualizerPtr->ShowImage("DTW Distances", output);
+	//cv::waitKey(-1);
 }
 
 void Similarity::VisualizeRow()
@@ -158,6 +160,7 @@ void Similarity::VisualizeRow()
 	}
 
 	const int avgDistancesSize = static_cast<int>(avgDistances_.size());
+	std::ofstream resultFile("results.txt");
 	const int letterA = 'a';
 	cv::Scalar gridColor(0.0, 0.0, 0.0);
 
@@ -168,7 +171,14 @@ void Similarity::VisualizeRow()
 		{
 			maxVal = avgDistances_[k].second;
 		}
+
+		if(resultFile.is_open())
+		{
+			resultFile << avgDistances_[k].second << "\t";
+		}
 	}
+
+	resultFile.close();
 
 	// Táblázat színezése
 	for(int i = 0; i <= resolution[0]; i++)
@@ -225,9 +235,9 @@ void Similarity::VisualizeRow()
 			cv::line(output, ptCol1, ptCol2, gridColor, 1, CV_AA);
 		}
 	}
-
+	
 	VisualizerPtr->ShowImage("DTW Distances - Row", output);
-	cv::waitKey(-1);
+	//cv::waitKey(-1);
 }
 
 void Similarity::PrintSeq(const vector<double>& seq)

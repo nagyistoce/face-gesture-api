@@ -11,7 +11,7 @@
 	
 	<gesture>
 		<_>
-			<database>database.test.xml</database>
+			<database>database.coginfocom.2014.test.xml</database>
 			<diffThreshold>20</diffThreshold>
 		</_>
 	</gesture>
